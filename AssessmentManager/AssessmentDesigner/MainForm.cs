@@ -40,6 +40,7 @@ namespace AssessmentManager
         private bool publishPrepared = false;
         private Course courseRevertPoint;
         private CourseNode prevNode;
+        private AssessmentSession markSession = null;
 
         private DateTimePicker dtpPublishTimeStudent;
         private NumericUpDown nudAssessmentTimeStudent;
@@ -80,6 +81,9 @@ namespace AssessmentManager
 
             //Initialise publishing tab
             InitialisePublishTab();
+
+            //Initialise the mark tab
+            MarkSession = null;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -2120,11 +2124,30 @@ namespace AssessmentManager
         private void btnCourseClearStudents_Click(object sender, EventArgs e)
         {
             string m = "Are you sure you wish to clear all students?";
-            if(MessageBox.Show(m,"Confirm",MessageBoxButtons.YesNo)==DialogResult.Yes)
+            if (MessageBox.Show(m, "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 dgvCourseStudents.Rows.Clear();
                 CourseEdited = true;
             }
+        }
+
+        private void btnAssessmentMark_Click(object sender, EventArgs e)
+        {
+            //Load the assessment for marking
+            AssessmentSessionNode node = null;
+            if (tvCourses.SelectedNode is AssessmentSessionNode)
+                node = tvCourses.SelectedNode as AssessmentSessionNode;
+            if (node != null)
+            {
+                AssessmentSession session = node.Session;
+                if (session == null)
+                {
+                    MessageBox.Show("Unable to load session", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                MarkSession = session;
+            }
+            //Select the marking tab
+            tabControlMain.SelectedTab = tabPageMark;
         }
 
         #endregion
@@ -2818,5 +2841,42 @@ namespace AssessmentManager
 
         #endregion
 
+
+        #region Marking Tab
+
+        #region Properties
+
+        private AssessmentSession MarkSession
+        {
+            get
+            {
+                return markSession;
+            }
+            set
+            {
+                markSession = value;
+                InitialiseMarkTab(markSession);
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void InitialiseMarkTab(AssessmentSession session)
+        {
+            if (session == null)
+            {
+                //TODO:: Disable all items in this tab
+            }
+            else
+            {
+                //TODO:: Load all information for the session
+            }
+        }
+
+        #endregion
+
+        #endregion
     }
 }
