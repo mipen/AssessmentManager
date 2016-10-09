@@ -1,0 +1,18 @@
+﻿Feature: HAVE THIS ON COURSEMANAGER ASSESSMENT SESSION AS WELL AS ANYWHERE ELSE ITS NEEDED
+	- Ability to generate information hand out
+	- Print out temp username and password
+	- Include student name
+	- Have the rules and so on
+
+	- Autosave feature
+		- Will save to separate file
+		- When manually saved, delete autosave file
+		- Maybe set flag to determine whether to load autosave?
+
+	- Check for things that could be wrong when saving the exam
+		- Questions missing marks
+		- Multi choice answers missing answers
+		- Questions missing answers
+
+	- About window: display information for icons; licenses + links and acknowledgement. My information. Acknowledgement of original program. Acknowledge use of PdfSharp
+

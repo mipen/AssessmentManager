@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E213D0F1-3AEB-4F94-8418-B08374D20F8F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AssessmentManager</RootNamespace>
+    <AssemblyName>Assessment Designer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>designer_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssessmentInformationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssessmentInformationForm.Designer.cs">
+      <DependentUpon>AssessmentInformationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CourseContextMenuMode.cs" />
+    <Compile Include="CourseSelectorEventArgs.cs" />
+    <Compile Include="ImageSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageSelector.Designer.cs">
+      <DependentUpon>ImageSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportStudentsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportStudentsForm.Designer.cs">
+      <DependentUpon>ImportStudentsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewCourseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewCourseForm.Designer.cs">
+      <DependentUpon>NewCourseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="AssessmentInformationForm.resx">
+      <DependentUpon>AssessmentInformationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageSelector.resx">
+      <DependentUpon>ImageSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportStudentsForm.resx">
+      <DependentUpon>ImportStudentsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewCourseForm.resx">
+      <DependentUpon>NewCourseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignTableCellMiddleCenter.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignTableCellMiddleLeftJust.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AlignTableCellMiddleRight.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\format_Bold_16xMD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\format_Italics_16xMD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\format_Underline_16xMD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\List_Bullets.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AssessmentManagerLib\AssessmentManagerLib.csproj">
+      <Project>{e649487f-0cd0-4724-be2a-a21e92b3fa9c}</Project>
+      <Name>AssessmentManagerLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="designer_icon.ico" />
+    <Content Include="Notes.txt" />
+    <Content Include="Resources\designer_icon.ico" />
+    <Content Include="TODO.txt" />
+    <None Include="Resources\expand-all32.png" />
+    <None Include="Resources\collapse-all32.png" />
+    <None Include="Resources\arrow-up32.png" />
+    <None Include="Resources\arrow-down32.png" />
+    <None Include="Resources\arrow-down.png" />
+    <None Include="Resources\arrow-up1.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

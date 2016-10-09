@@ -1,0 +1,1 @@
+﻿Use DGVEDIT:: to find where a data grid view has had rows and cells assigned to.

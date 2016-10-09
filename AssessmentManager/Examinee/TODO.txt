@@ -1,0 +1,4 @@
+﻿- Controller for message area to display messages to the user (the 'motivational' label)
+	- 10 minutes remaining warning
+	- Reading time over message
+
