@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForQuestionsWithoutMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -292,6 +292,14 @@
             this.label37 = new System.Windows.Forms.Label();
             this.rtbMarkerResponse = new System.Windows.Forms.RichTextBox();
             this.rtbMarkStudentAnswer = new System.Windows.Forms.RichTextBox();
+            this.lblMarksMaximum = new System.Windows.Forms.Label();
+            this.nudMarkAssign = new System.Windows.Forms.NumericUpDown();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.btnMarkStudentPDF = new System.Windows.Forms.Button();
+            this.btnMarkEmailStudent = new System.Windows.Forms.Button();
+            this.btnMarkAllPDF = new System.Windows.Forms.Button();
+            this.btnMarkEmailAll = new System.Windows.Forms.Button();
             this.menuStripMain.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPageDesigner.SuspendLayout();
@@ -344,6 +352,7 @@
             this.panel2.SuspendLayout();
             this.pnlMarkStudentAnswerContainer.SuspendLayout();
             this.pnlMarkerResponseContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMarkAssign)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStripMain
@@ -1494,8 +1503,8 @@
             // 
             // colPublishStartTime
             // 
-            dataGridViewCellStyle1.Format = "hh:mm:ss tt";
-            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Format = "hh:mm:ss tt";
+            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle9;
             this.colPublishStartTime.HeaderText = "Start Time";
             this.colPublishStartTime.Name = "colPublishStartTime";
             this.colPublishStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -2562,8 +2571,8 @@
             // 
             // colSessionStartTime
             // 
-            dataGridViewCellStyle2.Format = "hh:mm:ss tt";
-            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Format = "hh:mm:ss tt";
+            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle10;
             this.colSessionStartTime.HeaderText = "Start Time";
             this.colSessionStartTime.Name = "colSessionStartTime";
             this.colSessionStartTime.ReadOnly = true;
@@ -2626,6 +2635,10 @@
             // 
             // tabPageMark
             // 
+            this.tabPageMark.Controls.Add(this.btnMarkEmailAll);
+            this.tabPageMark.Controls.Add(this.btnMarkAllPDF);
+            this.tabPageMark.Controls.Add(this.btnMarkEmailStudent);
+            this.tabPageMark.Controls.Add(this.btnMarkStudentPDF);
             this.tabPageMark.Controls.Add(this.tlpMarkContainer);
             this.tabPageMark.Controls.Add(this.cbMarkAssessmentVersion);
             this.tabPageMark.Controls.Add(this.btnMarkLoadAll);
@@ -2827,7 +2840,8 @@
             this.lbMarkStudents.Location = new System.Drawing.Point(3, 22);
             this.lbMarkStudents.Name = "lbMarkStudents";
             this.lbMarkStudents.Size = new System.Drawing.Size(120, 498);
-            this.lbMarkStudents.TabIndex = 0;
+            this.lbMarkStudents.TabIndex = 1;
+            this.lbMarkStudents.SelectedIndexChanged += new System.EventHandler(this.lbMarkStudents_SelectedIndexChanged);
             // 
             // label32
             // 
@@ -2855,7 +2869,7 @@
             this.lbMarkQuestions.Location = new System.Drawing.Point(129, 22);
             this.lbMarkQuestions.Name = "lbMarkQuestions";
             this.lbMarkQuestions.Size = new System.Drawing.Size(120, 498);
-            this.lbMarkQuestions.TabIndex = 3;
+            this.lbMarkQuestions.TabIndex = 2;
             // 
             // btnMarkLoadSel
             // 
@@ -2863,9 +2877,10 @@
             this.btnMarkLoadSel.Location = new System.Drawing.Point(3, 526);
             this.btnMarkLoadSel.Name = "btnMarkLoadSel";
             this.btnMarkLoadSel.Size = new System.Drawing.Size(120, 23);
-            this.btnMarkLoadSel.TabIndex = 4;
+            this.btnMarkLoadSel.TabIndex = 3;
             this.btnMarkLoadSel.Text = "Load Selected";
             this.btnMarkLoadSel.UseVisualStyleBackColor = true;
+            this.btnMarkLoadSel.Click += new System.EventHandler(this.btnMarkLoadSel_Click);
             // 
             // btnMarkLoadAll
             // 
@@ -2873,9 +2888,10 @@
             this.btnMarkLoadAll.Location = new System.Drawing.Point(3, 555);
             this.btnMarkLoadAll.Name = "btnMarkLoadAll";
             this.btnMarkLoadAll.Size = new System.Drawing.Size(120, 23);
-            this.btnMarkLoadAll.TabIndex = 5;
+            this.btnMarkLoadAll.TabIndex = 4;
             this.btnMarkLoadAll.Text = "Load All";
             this.btnMarkLoadAll.UseVisualStyleBackColor = true;
+            this.btnMarkLoadAll.Click += new System.EventHandler(this.btnMarkLoadAll_Click);
             // 
             // cbMarkAssessmentVersion
             // 
@@ -2885,7 +2901,7 @@
             this.cbMarkAssessmentVersion.Location = new System.Drawing.Point(129, 526);
             this.cbMarkAssessmentVersion.Name = "cbMarkAssessmentVersion";
             this.cbMarkAssessmentVersion.Size = new System.Drawing.Size(120, 21);
-            this.cbMarkAssessmentVersion.TabIndex = 6;
+            this.cbMarkAssessmentVersion.TabIndex = 5;
             // 
             // rtbMarkQuestionText
             // 
@@ -2894,8 +2910,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbMarkQuestionText.Location = new System.Drawing.Point(0, 19);
             this.rtbMarkQuestionText.Name = "rtbMarkQuestionText";
-            this.rtbMarkQuestionText.Size = new System.Drawing.Size(598, 56);
-            this.rtbMarkQuestionText.TabIndex = 7;
+            this.rtbMarkQuestionText.ReadOnly = true;
+            this.rtbMarkQuestionText.Size = new System.Drawing.Size(598, 101);
+            this.rtbMarkQuestionText.TabIndex = 6;
+            this.rtbMarkQuestionText.TabStop = false;
             this.rtbMarkQuestionText.Text = "";
             // 
             // label34
@@ -2922,8 +2940,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbMarkModelAnswer.Location = new System.Drawing.Point(0, 18);
             this.rtbMarkModelAnswer.Name = "rtbMarkModelAnswer";
+            this.rtbMarkModelAnswer.ReadOnly = true;
             this.rtbMarkModelAnswer.Size = new System.Drawing.Size(598, 76);
             this.rtbMarkModelAnswer.TabIndex = 10;
+            this.rtbMarkModelAnswer.TabStop = false;
             this.rtbMarkModelAnswer.Text = "";
             // 
             // tlpMarkContainer
@@ -2941,10 +2961,10 @@
             this.tlpMarkContainer.Name = "tlpMarkContainer";
             this.tlpMarkContainer.RowCount = 4;
             this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
-            this.tlpMarkContainer.Size = new System.Drawing.Size(604, 373);
+            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tlpMarkContainer.Size = new System.Drawing.Size(604, 520);
             this.tlpMarkContainer.TabIndex = 11;
             // 
             // pnlMarkQuestionTextContainer
@@ -2956,7 +2976,7 @@
             this.pnlMarkQuestionTextContainer.Controls.Add(this.rtbMarkQuestionText);
             this.pnlMarkQuestionTextContainer.Location = new System.Drawing.Point(3, 3);
             this.pnlMarkQuestionTextContainer.Name = "pnlMarkQuestionTextContainer";
-            this.pnlMarkQuestionTextContainer.Size = new System.Drawing.Size(598, 75);
+            this.pnlMarkQuestionTextContainer.Size = new System.Drawing.Size(598, 120);
             this.pnlMarkQuestionTextContainer.TabIndex = 0;
             // 
             // panel2
@@ -2966,7 +2986,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.label35);
             this.panel2.Controls.Add(this.rtbMarkModelAnswer);
-            this.panel2.Location = new System.Drawing.Point(3, 179);
+            this.panel2.Location = new System.Drawing.Point(3, 255);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(598, 94);
             this.panel2.TabIndex = 1;
@@ -2978,9 +2998,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlMarkStudentAnswerContainer.Controls.Add(this.rtbMarkStudentAnswer);
             this.pnlMarkStudentAnswerContainer.Controls.Add(this.label36);
-            this.pnlMarkStudentAnswerContainer.Location = new System.Drawing.Point(3, 84);
+            this.pnlMarkStudentAnswerContainer.Location = new System.Drawing.Point(3, 129);
             this.pnlMarkStudentAnswerContainer.Name = "pnlMarkStudentAnswerContainer";
-            this.pnlMarkStudentAnswerContainer.Size = new System.Drawing.Size(598, 89);
+            this.pnlMarkStudentAnswerContainer.Size = new System.Drawing.Size(598, 120);
             this.pnlMarkStudentAnswerContainer.TabIndex = 2;
             // 
             // pnlMarkerResponseContainer
@@ -2988,12 +3008,15 @@
             this.pnlMarkerResponseContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlMarkerResponseContainer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlMarkerResponseContainer.Controls.Add(this.label38);
+            this.pnlMarkerResponseContainer.Controls.Add(this.nudMarkAssign);
+            this.pnlMarkerResponseContainer.Controls.Add(this.label39);
+            this.pnlMarkerResponseContainer.Controls.Add(this.lblMarksMaximum);
             this.pnlMarkerResponseContainer.Controls.Add(this.rtbMarkerResponse);
             this.pnlMarkerResponseContainer.Controls.Add(this.label37);
-            this.pnlMarkerResponseContainer.Location = new System.Drawing.Point(3, 279);
+            this.pnlMarkerResponseContainer.Location = new System.Drawing.Point(3, 355);
             this.pnlMarkerResponseContainer.Name = "pnlMarkerResponseContainer";
-            this.pnlMarkerResponseContainer.Size = new System.Drawing.Size(598, 91);
+            this.pnlMarkerResponseContainer.Size = new System.Drawing.Size(598, 162);
             this.pnlMarkerResponseContainer.TabIndex = 3;
             // 
             // label36
@@ -3016,10 +3039,13 @@
             // 
             // rtbMarkerResponse
             // 
-            this.rtbMarkerResponse.Location = new System.Drawing.Point(-2, 16);
+            this.rtbMarkerResponse.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbMarkerResponse.Location = new System.Drawing.Point(0, 16);
             this.rtbMarkerResponse.Name = "rtbMarkerResponse";
-            this.rtbMarkerResponse.Size = new System.Drawing.Size(598, 45);
-            this.rtbMarkerResponse.TabIndex = 1;
+            this.rtbMarkerResponse.Size = new System.Drawing.Size(598, 122);
+            this.rtbMarkerResponse.TabIndex = 6;
             this.rtbMarkerResponse.Text = "";
             // 
             // rtbMarkStudentAnswer
@@ -3029,9 +3055,86 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbMarkStudentAnswer.Location = new System.Drawing.Point(0, 16);
             this.rtbMarkStudentAnswer.Name = "rtbMarkStudentAnswer";
-            this.rtbMarkStudentAnswer.Size = new System.Drawing.Size(598, 73);
+            this.rtbMarkStudentAnswer.ReadOnly = true;
+            this.rtbMarkStudentAnswer.Size = new System.Drawing.Size(598, 104);
             this.rtbMarkStudentAnswer.TabIndex = 1;
+            this.rtbMarkStudentAnswer.TabStop = false;
             this.rtbMarkStudentAnswer.Text = "";
+            // 
+            // lblMarksMaximum
+            // 
+            this.lblMarksMaximum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMarksMaximum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblMarksMaximum.Location = new System.Drawing.Point(576, 141);
+            this.lblMarksMaximum.Name = "lblMarksMaximum";
+            this.lblMarksMaximum.Size = new System.Drawing.Size(21, 20);
+            this.lblMarksMaximum.TabIndex = 2;
+            this.lblMarksMaximum.Text = "00";
+            this.lblMarksMaximum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // nudMarkAssign
+            // 
+            this.nudMarkAssign.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.nudMarkAssign.Location = new System.Drawing.Point(508, 141);
+            this.nudMarkAssign.Name = "nudMarkAssign";
+            this.nudMarkAssign.Size = new System.Drawing.Size(40, 20);
+            this.nudMarkAssign.TabIndex = 7;
+            // 
+            // label39
+            // 
+            this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(554, 145);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(16, 13);
+            this.label39.TabIndex = 13;
+            this.label39.Text = "of";
+            // 
+            // label38
+            // 
+            this.label38.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(429, 146);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(73, 13);
+            this.label38.TabIndex = 12;
+            this.label38.Text = "Assign Marks:";
+            // 
+            // btnMarkStudentPDF
+            // 
+            this.btnMarkStudentPDF.Location = new System.Drawing.Point(779, 526);
+            this.btnMarkStudentPDF.Name = "btnMarkStudentPDF";
+            this.btnMarkStudentPDF.Size = new System.Drawing.Size(90, 23);
+            this.btnMarkStudentPDF.TabIndex = 9;
+            this.btnMarkStudentPDF.Text = "Student PDF";
+            this.btnMarkStudentPDF.UseVisualStyleBackColor = true;
+            // 
+            // btnMarkEmailStudent
+            // 
+            this.btnMarkEmailStudent.Location = new System.Drawing.Point(683, 526);
+            this.btnMarkEmailStudent.Name = "btnMarkEmailStudent";
+            this.btnMarkEmailStudent.Size = new System.Drawing.Size(90, 23);
+            this.btnMarkEmailStudent.TabIndex = 8;
+            this.btnMarkEmailStudent.Text = "Email Student";
+            this.btnMarkEmailStudent.UseVisualStyleBackColor = true;
+            // 
+            // btnMarkAllPDF
+            // 
+            this.btnMarkAllPDF.Location = new System.Drawing.Point(779, 555);
+            this.btnMarkAllPDF.Name = "btnMarkAllPDF";
+            this.btnMarkAllPDF.Size = new System.Drawing.Size(90, 23);
+            this.btnMarkAllPDF.TabIndex = 11;
+            this.btnMarkAllPDF.Text = "All PDF";
+            this.btnMarkAllPDF.UseVisualStyleBackColor = true;
+            // 
+            // btnMarkEmailAll
+            // 
+            this.btnMarkEmailAll.Location = new System.Drawing.Point(683, 555);
+            this.btnMarkEmailAll.Name = "btnMarkEmailAll";
+            this.btnMarkEmailAll.Size = new System.Drawing.Size(90, 23);
+            this.btnMarkEmailAll.TabIndex = 10;
+            this.btnMarkEmailAll.Text = "Email All";
+            this.btnMarkEmailAll.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -3126,6 +3229,7 @@
             this.pnlMarkStudentAnswerContainer.PerformLayout();
             this.pnlMarkerResponseContainer.ResumeLayout(false);
             this.pnlMarkerResponseContainer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMarkAssign)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3394,5 +3498,13 @@
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.RichTextBox rtbMarkerResponse;
         private System.Windows.Forms.RichTextBox rtbMarkStudentAnswer;
+        private System.Windows.Forms.NumericUpDown nudMarkAssign;
+        private System.Windows.Forms.Label lblMarksMaximum;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Button btnMarkEmailAll;
+        private System.Windows.Forms.Button btnMarkAllPDF;
+        private System.Windows.Forms.Button btnMarkEmailStudent;
+        private System.Windows.Forms.Button btnMarkStudentPDF;
     }
 }

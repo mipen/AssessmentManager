@@ -2841,7 +2841,6 @@ namespace AssessmentManager
 
         #endregion
 
-
         #region Marking Tab
 
         #region Properties
@@ -2867,16 +2866,164 @@ namespace AssessmentManager
         {
             if (session == null)
             {
-                //TODO:: Disable all items in this tab
+                //Disable all items in this tab
+                lbMarkStudents.Enabled = false;
+                lbMarkQuestions.Enabled = false;
+                tlpMarkContainer.Enabled = false;
+                btnMarkLoadSel.Enabled = false;
+                btnMarkLoadAll.Enabled = false;
+                cbMarkAssessmentVersion.Enabled = false;
+                btnMarkEmailStudent.Enabled = false;
+                btnMarkStudentPDF.Enabled = false;
+                btnMarkEmailAll.Enabled = false;
+                btnMarkAllPDF.Enabled = false;
+
+                lbMarkStudents.Items.Clear();
+                lbMarkQuestions.Items.Clear();
+                cbMarkAssessmentVersion.Items.Clear();
+
+                rtbMarkerResponse.Text = "";
+                rtbMarkModelAnswer.Text = "";
+                rtbMarkQuestionText.Text = "";
+                rtbMarkStudentAnswer.Text = "";
             }
             else
             {
-                //TODO:: Load all information for the session
+                //Load all information for the session
+                lbMarkStudents.Enabled = true;
+                lbMarkQuestions.Enabled = true;
+                tlpMarkContainer.Enabled = true;
+                btnMarkLoadSel.Enabled = true;
+                btnMarkLoadAll.Enabled = true;
+                cbMarkAssessmentVersion.Enabled = true;
+                btnMarkEmailStudent.Enabled = true;
+                btnMarkStudentPDF.Enabled = true;
+                btnMarkEmailAll.Enabled = true;
+                btnMarkAllPDF.Enabled = true;
+
+                List<StudentMarkingData> list = new List<StudentMarkingData>();
+                foreach (var s in session.StudentData)
+                {
+                    StudentMarkingData smd = new StudentMarkingData(s);
+                    list.Add(smd);
+                }
+                lbMarkStudents.Items.Clear();
+                lbMarkStudents.Items.AddRange(list.ToArray());
+            }
+        }
+
+        private void LoadStudent(StudentMarkingData smd)
+        {
+            if (smd != null)
+            {
+                smd.Loaded = true;
+                string deployedPath = Path.Combine(MarkSession.DeploymentTarget, smd.StudentData.AccountName);
+                string studentBackupPath = Path.Combine(MarkSession.FolderPath, smd.StudentData.UserName);
+                if (!Directory.Exists(studentBackupPath))
+                    Directory.CreateDirectory(studentBackupPath);
+                //Load the main file
+                string mainScriptPath = Path.Combine(deployedPath, MarkSession.AssessmentScriptFileName);
+                try
+                {
+                    using (Stream s = File.OpenRead(mainScriptPath))
+                    {
+                        BinaryFormatter bf = new BinaryFormatter();
+                        AssessmentScript mainScript = (AssessmentScript)bf.Deserialize(s);
+                        if (mainScript == null)
+                            throw new Exception("Cannot read file at: " + mainScriptPath);
+                        else
+                        {
+                            smd.Scripts.Add(new AssessmentScriptListItem(mainScript, MarkSession.AssessmentInfo.AssessmentName));
+                        }
+                    }
+
+                    //Copy over backup file
+                    string backupPath = Path.Combine(studentBackupPath, MarkSession.AssessmentScriptFileName);
+                    if (File.Exists(backupPath))
+                        File.Delete(backupPath);
+                    File.Copy(mainScriptPath, backupPath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error when loading assessment script: \n\n" + ex.Message);
+                }
+
+                //Load the autosaves
+                string autosavesPath = Path.Combine(deployedPath, AUTOSAVE_FOLDER_NAME(MarkSession.AssessmentInfo.AssessmentName));
+                if (Directory.Exists(autosavesPath))
+                {
+                    try
+                    {
+                        string[] files = Directory.GetFiles(autosavesPath);
+                        foreach (var filePath in files)
+                        {
+                            using (FileStream s = File.OpenRead(filePath))
+                            {
+                                BinaryFormatter bf = new BinaryFormatter();
+                                AssessmentScript autosave = (AssessmentScript)bf.Deserialize(s);
+                                if (autosave != null)
+                                    smd.Scripts.Add(new AssessmentScriptListItem(autosave, Path.GetFileNameWithoutExtension(filePath)));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error loading autosave file: \n\n" + ex.Message);
+                    }
+                }
+
+                int index = lbMarkStudents.Items.IndexOf(smd);
+                lbMarkStudents.Items.Remove(smd);
+                lbMarkStudents.Items.Insert(index, smd);
+            }
+        }
+
+        #endregion
+
+        #region Events
+
+        private void btnMarkLoadSel_Click(object sender, EventArgs e)
+        {
+            if (lbMarkStudents.SelectedItem is StudentMarkingData)
+            {
+                StudentMarkingData smd = lbMarkStudents.SelectedItem as StudentMarkingData;
+                LoadStudent(smd);
+            }
+        }
+
+        private void btnMarkLoadAll_Click(object sender, EventArgs e)
+        {
+            List<StudentMarkingData> list = lbMarkStudents.Items.Cast<StudentMarkingData>().ToList();
+            foreach (var smd in list)
+            {
+                LoadStudent(smd);
+            }
+        }
+
+        private void lbMarkStudents_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbMarkAssessmentVersion.Items.Clear();
+            lbMarkQuestions.Items.Clear();
+            rtbMarkerResponse.Text = "";
+            rtbMarkModelAnswer.Text = "";
+            rtbMarkQuestionText.Text = "";
+            rtbMarkStudentAnswer.Text = "";
+
+            if (lbMarkStudents.SelectedItem != null && lbMarkStudents.SelectedItem is StudentMarkingData)
+            {
+                StudentMarkingData smd = lbMarkStudents.SelectedItem as StudentMarkingData;
+                if (smd != null && smd.Loaded)
+                {
+                    cbMarkAssessmentVersion.Items.AddRange(smd.Scripts.ToArray());
+                    cbMarkAssessmentVersion.SelectedIndex = 0;
+                }
             }
         }
 
         #endregion
 
         #endregion
+
+
     }
 }

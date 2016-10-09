@@ -354,8 +354,8 @@ namespace AssessmentManager
                 {
                     //If the assessment is being autosaved, then save it in the autosave folder and give it an incremental number
                     string dir = Path.GetDirectoryName(filePath);
-                    string name = Path.GetFileNameWithoutExtension(filePath);
-                    string dir2 = dir + "\\" + AUTOSAVE_FOLDER_NAME(name);
+                    string name = Script.AssessmentInfo.AssessmentName;
+                    string dir2 = Path.Combine(dir, AUTOSAVE_FOLDER_NAME(name));
 
                     //If the autosave directory does not exist, then create it.
                     if (!Directory.Exists(dir2))
@@ -368,7 +368,7 @@ namespace AssessmentManager
                                   select t).ToList().Count + 1;
                     string fileName = name + number.ToString("000");
 
-                    path = dir2 + "\\" + fileName + ASSESSMENT_SCRIPT_EXT;
+                    path = Path.Combine(dir2, fileName + ASSESSMENT_SCRIPT_EXT);
                     fileMode = FileMode.Create;
                 }
                 else

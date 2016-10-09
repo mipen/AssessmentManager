@@ -21,6 +21,9 @@ namespace AssessmentManager
         private List<StudentData> studentData = new List<StudentData>();
         private List<string> additionalFiles = new List<string>();
 
+        //Things related to marking
+        private List<StudentMarkingData> studentMarkingData = new List<StudentMarkingData>();
+
         public string FolderPath = "";
 
         public AssessmentSession(string courseID, string deploymentTarget, AssessmentInformation assessmentInfo, string assessmentFileName, DateTime startTime, int assessmentLength, int readingTime, string restartPassword, List<StudentData> studentData, List<string> additionalFiles, DateTime deploymentTime)
@@ -37,6 +40,8 @@ namespace AssessmentManager
             this.additionalFiles = additionalFiles;
             this.deploymentTime = deploymentTime;
         }
+
+        #region Properties
 
         public string CourseID
         {
@@ -118,6 +123,14 @@ namespace AssessmentManager
             }
         }
 
+        public string AssessmentScriptFileName
+        {
+            get
+            {
+                return assessmentInfo.AssessmentName + CONSTANTS.ASSESSMENT_SCRIPT_EXT;
+            }
+        }
+
         /// <summary>
         /// Holds the names of the addtional files deployed with the assessment. Does not hold a file path, only name and extension.
         /// </summary>
@@ -128,6 +141,17 @@ namespace AssessmentManager
                 return additionalFiles;
             }
         }
+
+        //Things related to marking
+        public List<StudentMarkingData> StudentMarkingData
+        {
+            get
+            {
+                return StudentMarkingData;
+            }
+        }
+
+        #endregion
 
     }
 }
