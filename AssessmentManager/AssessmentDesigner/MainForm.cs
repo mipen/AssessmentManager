@@ -39,6 +39,8 @@ namespace AssessmentManager
         private bool reloadCourses = false;
         private bool publishPrepared = false;
         private bool suppressCBEvent = false;
+        private bool markingChangesMade = false;
+        private bool suppressMarkingSave = false;
         private Course courseRevertPoint;
         private CourseNode prevNode;
         private AssessmentSession markSession = null;
@@ -1530,6 +1532,36 @@ namespace AssessmentManager
                     e.Handled = true;
                 }
             }
+            //Hotkey for next/prev in marking tab
+            if (tabControlMain.SelectedTab == tabPageMark)
+            {
+                if(e.KeyCode==Keys.F4)
+                {
+                    TreeNode node = tvMarkQuestions.SelectedNode;
+                    if(node!=null)
+                    {
+                        if(node.PrevVisibleNode!=null)
+                        {
+                            tvMarkQuestions.SelectedNode = node.PrevVisibleNode;
+                        }
+                    }
+                    tvMarkQuestions.Focus();
+                    e.Handled = true;
+                }
+                else if (e.KeyCode == Keys.F5)
+                {
+                    TreeNode node = tvMarkQuestions.SelectedNode;
+                    if (node != null)
+                    {
+                        if (node.NextVisibleNode != null)
+                        {
+                            tvMarkQuestions.SelectedNode = node.NextVisibleNode;
+                        }
+                    }
+                    tvMarkQuestions.Focus();
+                    e.Handled = true;
+                }
+            }
         }
 
         #endregion
@@ -2893,14 +2925,17 @@ namespace AssessmentManager
                 btnMarkLoadSel.Enabled = true;
                 btnMarkLoadAll.Enabled = true;
 
-                List<StudentMarkingData> list = new List<StudentMarkingData>();
-                foreach (var s in session.StudentData)
+                if (!session.MarkingStarted)
                 {
-                    StudentMarkingData smd = new StudentMarkingData(s, session.Assessment);
-                    list.Add(smd);
+                    foreach (var s in session.StudentData)
+                    {
+                        StudentMarkingData smd = new StudentMarkingData(s, session.Assessment);
+                        session.StudentMarkingData.Add(smd);
+                    }
+                    session.MarkingStarted = true;
                 }
                 lbMarkStudents.Items.Clear();
-                lbMarkStudents.Items.AddRange(list.ToArray());
+                lbMarkStudents.Items.AddRange(session.StudentMarkingData.ToArray());
             }
         }
 
@@ -2909,11 +2944,13 @@ namespace AssessmentManager
             if (smd != null && MarkSession != null)
             {
                 smd.Loaded = true;
+                smd.DateLastLoaded = DateTime.Now;
                 string deployedPath = Path.Combine(MarkSession.DeploymentTarget, smd.StudentData.AccountName);
                 string studentBackupPath = Path.Combine(MarkSession.FolderPath, smd.StudentData.UserName);
                 if (!Directory.Exists(studentBackupPath))
                     Directory.CreateDirectory(studentBackupPath);
                 //Load the main file
+                smd.Scripts.Clear();
                 string mainScriptPath = Path.Combine(deployedPath, MarkSession.AssessmentScriptFileName);
                 try
                 {
@@ -2925,7 +2962,7 @@ namespace AssessmentManager
                             throw new Exception("Cannot read file at: " + mainScriptPath);
                         else
                         {
-                            smd.Scripts.Add(new AssessmentScriptListItem(mainScript, MarkSession.AssessmentInfo.AssessmentName));
+                            smd.Scripts.Add(new AssessmentScriptListItem(mainScript, "Main file"));
                         }
                     }
 
@@ -2989,6 +3026,8 @@ namespace AssessmentManager
                 btnMarkAllPDF.Enabled = true;
                 btnMarkQuestionsCollapse.Enabled = true;
                 btnMarkQuestionsExpand.Enabled = true;
+                lblMarkLastLoadedStudentDate.Visible = true;
+                lblMarkLastLoadedStudentDateText.Visible = true;
             }
             else
             {
@@ -3002,6 +3041,8 @@ namespace AssessmentManager
                 btnMarkAllPDF.Enabled = false;
                 btnMarkQuestionsCollapse.Enabled = false;
                 btnMarkQuestionsExpand.Enabled = false;
+                lblMarkLastLoadedStudentDate.Visible = false;
+                lblMarkLastLoadedStudentDateText.Visible = false;
 
                 tvMarkQuestions.Nodes.Clear();
                 cbMarkAssessmentVersion.Items.Clear();
@@ -3010,6 +3051,31 @@ namespace AssessmentManager
                 rtbMarkModelAnswer.Text = "";
                 rtbMarkQuestionText.Text = "";
                 rtbMarkStudentAnswer.Text = "";
+            }
+        }
+
+        private void SaveMarkingSession()
+        {
+            if (suppressMarkingSave)
+                return;
+            try
+            {
+                string path = Path.Combine(MarkSession.FolderPath, MarkSession.AssessmentInfo.AssessmentName + ASSESSMENT_SESSION_EXT);
+                if (File.Exists(path))
+                    File.Delete(path);
+                using (FileStream s = File.Open(path, FileMode.OpenOrCreate))
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.Serialize(s, MarkSession);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while saving marking data: \n\n" + ex.Message);
+            }
+            finally
+            {
+                markingChangesMade = false;
             }
         }
 
@@ -3029,10 +3095,13 @@ namespace AssessmentManager
         private void btnMarkLoadAll_Click(object sender, EventArgs e)
         {
             List<StudentMarkingData> list = lbMarkStudents.Items.Cast<StudentMarkingData>().ToList();
+            suppressMarkingSave = true;
             foreach (var smd in list)
             {
                 LoadStudent(smd);
             }
+            suppressMarkingSave = false;
+            SaveMarkingSession();
         }
 
         private void lbMarkStudents_SelectedIndexChanged(object sender, EventArgs e)
@@ -3061,6 +3130,10 @@ namespace AssessmentManager
                         //Select the first question
                         if (tvMarkQuestions.Nodes.Count > 0)
                             tvMarkQuestions.SelectedNode = tvMarkQuestions.Nodes[0];
+
+                        //Show the time the student was last loaded
+                        string str = smd.DateLastLoaded == INVALID_DATE ? "Never" : smd.DateLastLoaded.ToShortDateString() + " " + smd.DateLastLoaded.ToShortTimeString();
+                        lblMarkLastLoadedStudentDate.Text = str;
                     }
                     else
                     {
@@ -3196,12 +3269,13 @@ namespace AssessmentManager
                         }
                 }
             }
+            SaveMarkingSession();
         }
 
         private void nudMarkAssign_ValueChanged(object sender, EventArgs e)
         {
             MarkingQuestionNode node = tvMarkQuestions.SelectedNode as MarkingQuestionNode;
-            if(node!=null)
+            if (node != null)
             {
                 node.MarkingQuestion.AssignedMarks = (int)nudMarkAssign.Value;
             }
@@ -3213,6 +3287,7 @@ namespace AssessmentManager
             if (node != null)
             {
                 node.MarkingQuestion.MarkerResponse = rtbMarkerResponse.Text;
+                markingChangesMade = true;
             }
         }
 

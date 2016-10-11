@@ -24,6 +24,7 @@ namespace AssessmentManager
 
         //Things related to marking
         private List<StudentMarkingData> studentMarkingData = new List<StudentMarkingData>();
+        public bool MarkingStarted = false;
 
         public string FolderPath = "";
 
@@ -157,7 +158,7 @@ namespace AssessmentManager
         {
             get
             {
-                return StudentMarkingData;
+                return studentMarkingData;
             }
         }
 

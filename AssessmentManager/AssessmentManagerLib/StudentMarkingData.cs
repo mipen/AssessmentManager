@@ -14,6 +14,7 @@ namespace AssessmentManager
         public bool Loaded = false;
         private List<AssessmentScriptListItem> scripts = new List<AssessmentScriptListItem>();
         private List<MarkingQuestion> markingQuestions = new List<MarkingQuestion>();
+        public DateTime DateLastLoaded = CONSTANTS.INVALID_DATE;
 
         public StudentMarkingData(StudentData d, Assessment assessment)
         {

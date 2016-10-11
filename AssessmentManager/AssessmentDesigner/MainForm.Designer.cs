@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForQuestionsWithoutMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -302,6 +302,8 @@
             this.tvMarkQuestions = new System.Windows.Forms.TreeView();
             this.btnMarkQuestionsExpand = new System.Windows.Forms.Button();
             this.btnMarkQuestionsCollapse = new System.Windows.Forms.Button();
+            this.lblMarkLastLoadedStudentDateText = new System.Windows.Forms.Label();
+            this.lblMarkLastLoadedStudentDate = new System.Windows.Forms.Label();
             this.menuStripMain.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPageDesigner.SuspendLayout();
@@ -1514,8 +1516,8 @@
             // 
             // colPublishStartTime
             // 
-            dataGridViewCellStyle13.Format = "hh:mm:ss tt";
-            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle5.Format = "hh:mm:ss tt";
+            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle5;
             this.colPublishStartTime.HeaderText = "Start Time";
             this.colPublishStartTime.Name = "colPublishStartTime";
             this.colPublishStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -2331,8 +2333,8 @@
             // 
             // colSessionStartTime
             // 
-            dataGridViewCellStyle14.Format = "hh:mm:ss tt";
-            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle6.Format = "hh:mm:ss tt";
+            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle6;
             this.colSessionStartTime.HeaderText = "Start Time";
             this.colSessionStartTime.Name = "colSessionStartTime";
             this.colSessionStartTime.ReadOnly = true;
@@ -2656,6 +2658,8 @@
             // 
             // tabPageMark
             // 
+            this.tabPageMark.Controls.Add(this.lblMarkLastLoadedStudentDate);
+            this.tabPageMark.Controls.Add(this.lblMarkLastLoadedStudentDateText);
             this.tabPageMark.Controls.Add(this.btnMarkQuestionsCollapse);
             this.tabPageMark.Controls.Add(this.btnMarkQuestionsExpand);
             this.tabPageMark.Controls.Add(this.tvMarkQuestions);
@@ -3169,6 +3173,26 @@
             this.btnMarkQuestionsCollapse.UseVisualStyleBackColor = true;
             this.btnMarkQuestionsCollapse.Click += new System.EventHandler(this.btnMarkQuestionsCollapse_Click);
             // 
+            // lblMarkLastLoadedStudentDateText
+            // 
+            this.lblMarkLastLoadedStudentDateText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMarkLastLoadedStudentDateText.AutoSize = true;
+            this.lblMarkLastLoadedStudentDateText.Location = new System.Drawing.Point(268, 523);
+            this.lblMarkLastLoadedStudentDateText.Name = "lblMarkLastLoadedStudentDateText";
+            this.lblMarkLastLoadedStudentDateText.Size = new System.Drawing.Size(113, 13);
+            this.lblMarkLastLoadedStudentDateText.TabIndex = 15;
+            this.lblMarkLastLoadedStudentDateText.Text = "Student last loaded at:";
+            // 
+            // lblMarkLastLoadedStudentDate
+            // 
+            this.lblMarkLastLoadedStudentDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMarkLastLoadedStudentDate.AutoSize = true;
+            this.lblMarkLastLoadedStudentDate.Location = new System.Drawing.Point(387, 523);
+            this.lblMarkLastLoadedStudentDate.Name = "lblMarkLastLoadedStudentDate";
+            this.lblMarkLastLoadedStudentDate.Size = new System.Drawing.Size(12, 13);
+            this.lblMarkLastLoadedStudentDate.TabIndex = 16;
+            this.lblMarkLastLoadedStudentDate.Text = "x";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3541,5 +3565,7 @@
         private System.Windows.Forms.Button btnMarkQuestionsCollapse;
         private System.Windows.Forms.Button btnMarkQuestionsExpand;
         private System.Windows.Forms.TreeView tvMarkQuestions;
+        private System.Windows.Forms.Label lblMarkLastLoadedStudentDate;
+        private System.Windows.Forms.Label lblMarkLastLoadedStudentDateText;
     }
 }

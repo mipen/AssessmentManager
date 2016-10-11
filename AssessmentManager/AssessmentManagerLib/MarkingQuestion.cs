@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AssessmentManager
 {
+    [Serializable]
     public class MarkingQuestion
     {
         private string questionName = "";
