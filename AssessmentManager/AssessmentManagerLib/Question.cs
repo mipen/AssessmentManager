@@ -161,6 +161,23 @@ namespace AssessmentManager
                 correctOption = value;
             }
         }
+
+        public string GetOptionText(MultiChoiceOption opt)
+        {
+            switch (opt)
+            {
+                case MultiChoiceOption.A:
+                    return OptionA;
+                case MultiChoiceOption.B:
+                    return OptionB;
+                case MultiChoiceOption.C:
+                    return OptionC;
+                case MultiChoiceOption.D:
+                    return OptionD;
+                default:
+                    return "invalid arg";
+            }
+        }
         #endregion
 
         #region Marks
@@ -230,9 +247,9 @@ namespace AssessmentManager
                 }
             }
 
-            if(HasSubQuestions)
+            if (HasSubQuestions)
             {
-                foreach(var q in SubQuestions)
+                foreach (var q in SubQuestions)
                 {
                     num += q.AttemptedMarks(dict);
                 }
@@ -252,7 +269,7 @@ namespace AssessmentManager
 
             if (HasSubQuestions)
             {
-                foreach(var q in SubQuestions)
+                foreach (var q in SubQuestions)
                 {
                     q.AddToAnswerDict(dict);
                 }
@@ -274,15 +291,48 @@ namespace AssessmentManager
             q.CorrectOption = CorrectOption;
             q.AnswerType = AnswerType;
             q.Image = Image;
-            if(includeSubQuestions && HasSubQuestions)
+            if (includeSubQuestions && HasSubQuestions)
             {
-                foreach(var sq in SubQuestions)
+                foreach (var sq in SubQuestions)
                 {
                     q.SubQuestions.Add(sq.Clone(includeSubQuestions));
                 }
             }
 
             return q;
+        }
+
+        public void BuildMarkingQuestion(List<MarkingQuestion> list)
+        {
+            MarkingQuestion mq = new MarkingQuestion(Name);
+            if (HasSubQuestions)
+            {
+                foreach (var q in SubQuestions)
+                {
+                    q.BuildMarkingQuestion(mq.SubMarkingQuestions);
+                }
+            }
+            list.Add(mq);
+        }
+
+        public Question Find(string qName)
+        {
+            if (qName.NullOrEmpty())
+                return null;
+
+            if (Name == qName)
+                return this;
+
+            if (HasSubQuestions)
+            {
+                foreach (var q in SubQuestions)
+                {
+                    var found = q.Find(qName);
+                    if (found != null)
+                        return found;
+                }
+            }
+            return null;
         }
     }
 }

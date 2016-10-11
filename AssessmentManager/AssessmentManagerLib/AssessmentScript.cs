@@ -89,6 +89,17 @@ namespace AssessmentManager
             return script;
         }
 
+        public Question FindQuestion(string qName)
+        {
+            foreach(var q in Questions)
+            {
+                var found = q.Find(qName);
+                if (found != null)
+                    return found;
+            }
+            return null;
+        }
+
         #endregion
     }
 }

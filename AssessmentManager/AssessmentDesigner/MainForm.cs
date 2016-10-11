@@ -38,6 +38,7 @@ namespace AssessmentManager
         private bool courseEdited = false;
         private bool reloadCourses = false;
         private bool publishPrepared = false;
+        private bool suppressCBEvent = false;
         private Course courseRevertPoint;
         private CourseNode prevNode;
         private AssessmentSession markSession = null;
@@ -2862,6 +2863,14 @@ namespace AssessmentManager
             }
         }
 
+        private AssessmentScriptListItem CurMarkScript
+        {
+            get
+            {
+                return cbMarkAssessmentVersion.SelectedItem as AssessmentScriptListItem;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -2872,38 +2881,17 @@ namespace AssessmentManager
             {
                 //Disable all items in this tab
                 lbMarkStudents.Enabled = false;
-                lbMarkQuestions.Enabled = false;
-                tlpMarkContainer.Enabled = false;
                 btnMarkLoadSel.Enabled = false;
                 btnMarkLoadAll.Enabled = false;
-                cbMarkAssessmentVersion.Enabled = false;
-                btnMarkEmailStudent.Enabled = false;
-                btnMarkStudentPDF.Enabled = false;
-                btnMarkEmailAll.Enabled = false;
-                btnMarkAllPDF.Enabled = false;
 
-                lbMarkStudents.Items.Clear();
-                lbMarkQuestions.Items.Clear();
-                cbMarkAssessmentVersion.Items.Clear();
-
-                rtbMarkerResponse.Text = "";
-                rtbMarkModelAnswer.Text = "";
-                rtbMarkQuestionText.Text = "";
-                rtbMarkStudentAnswer.Text = "";
+                EnableMarkEditorGUI(false);
             }
             else
             {
                 //Load all information for the session
                 lbMarkStudents.Enabled = true;
-                lbMarkQuestions.Enabled = true;
-                tlpMarkContainer.Enabled = true;
                 btnMarkLoadSel.Enabled = true;
                 btnMarkLoadAll.Enabled = true;
-                cbMarkAssessmentVersion.Enabled = true;
-                btnMarkEmailStudent.Enabled = true;
-                btnMarkStudentPDF.Enabled = true;
-                btnMarkEmailAll.Enabled = true;
-                btnMarkAllPDF.Enabled = true;
 
                 List<StudentMarkingData> list = new List<StudentMarkingData>();
                 foreach (var s in session.StudentData)
@@ -2983,6 +2971,45 @@ namespace AssessmentManager
                 int index = lbMarkStudents.Items.IndexOf(smd);
                 lbMarkStudents.Items.Remove(smd);
                 lbMarkStudents.Items.Insert(index, smd);
+                lbMarkStudents.SelectedItem = smd;
+            }
+        }
+
+        private void EnableMarkEditorGUI(bool enable)
+        {
+            if (enable)
+            {
+                //Enable all the things
+                tvMarkQuestions.Enabled = true;
+                tlpMarkContainer.Enabled = true;
+                cbMarkAssessmentVersion.Enabled = true;
+                btnMarkEmailStudent.Enabled = true;
+                btnMarkStudentPDF.Enabled = true;
+                btnMarkEmailAll.Enabled = true;
+                btnMarkAllPDF.Enabled = true;
+                btnMarkQuestionsCollapse.Enabled = true;
+                btnMarkQuestionsExpand.Enabled = true;
+            }
+            else
+            {
+                //Disable all the things
+                tvMarkQuestions.Enabled = false;
+                tlpMarkContainer.Enabled = false;
+                cbMarkAssessmentVersion.Enabled = false;
+                btnMarkEmailStudent.Enabled = false;
+                btnMarkStudentPDF.Enabled = false;
+                btnMarkEmailAll.Enabled = false;
+                btnMarkAllPDF.Enabled = false;
+                btnMarkQuestionsCollapse.Enabled = false;
+                btnMarkQuestionsExpand.Enabled = false;
+
+                tvMarkQuestions.Nodes.Clear();
+                cbMarkAssessmentVersion.Items.Clear();
+
+                rtbMarkerResponse.Text = "";
+                rtbMarkModelAnswer.Text = "";
+                rtbMarkQuestionText.Text = "";
+                rtbMarkStudentAnswer.Text = "";
             }
         }
 
@@ -3010,21 +3037,182 @@ namespace AssessmentManager
 
         private void lbMarkStudents_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cbMarkAssessmentVersion.Items.Clear();
-            lbMarkQuestions.Items.Clear();
-            rtbMarkerResponse.Text = "";
-            rtbMarkModelAnswer.Text = "";
-            rtbMarkQuestionText.Text = "";
-            rtbMarkStudentAnswer.Text = "";
-
             if (lbMarkStudents.SelectedItem != null && lbMarkStudents.SelectedItem is StudentMarkingData)
             {
                 StudentMarkingData smd = lbMarkStudents.SelectedItem as StudentMarkingData;
-                if (smd != null && smd.Loaded)
+                if (smd != null)
                 {
-                    cbMarkAssessmentVersion.Items.AddRange(smd.Scripts.ToArray());
-                    cbMarkAssessmentVersion.SelectedIndex = 0;
+                    if (smd.Loaded)
+                    {
+                        //Enable the editor gui
+                        EnableMarkEditorGUI(true);
+
+                        //Load the script versions into the combo box
+                        cbMarkAssessmentVersion.Items.Clear();
+                        cbMarkAssessmentVersion.Items.AddRange(smd.Scripts.ToArray());
+                        suppressCBEvent = true;
+                        cbMarkAssessmentVersion.SelectedIndex = 0;
+                        suppressCBEvent = false;
+
+                        //Load the questions into the tree view
+                        smd.FillTreeView(tvMarkQuestions);
+                        tvMarkQuestions.ExpandAll();
+
+                        //Select the first question
+                        if (tvMarkQuestions.Nodes.Count > 0)
+                            tvMarkQuestions.SelectedNode = tvMarkQuestions.Nodes[0];
+                    }
+                    else
+                    {
+                        EnableMarkEditorGUI(false);
+                    }
                 }
+                else
+                    EnableMarkEditorGUI(false);
+            }
+        }
+
+        private void btnMarkQuestionsCollapse_Click(object sender, EventArgs e)
+        {
+            tvMarkQuestions.CollapseAll();
+        }
+
+        private void btnMarkQuestionsExpand_Click(object sender, EventArgs e)
+        {
+            tvMarkQuestions.ExpandAll();
+        }
+
+        private void tvMarkQuestions_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (CurMarkScript == null)
+            {
+                MessageBox.Show("Please select an assessment script from the combo box");
+                return;
+            }
+            MarkingQuestionNode node = tvMarkQuestions.SelectedNode as MarkingQuestionNode;
+            if (node != null)
+            {
+                AssessmentScript script = CurMarkScript.Script;
+                //First, find the question that the node is related to, in the selected script
+                Question q = script.FindQuestion(node.MarkingQuestion.QuestionName);
+                if (q == null)
+                {
+                    MessageBox.Show("Error: Unable to find question", "Error");
+                    return;
+                }
+                Answer a = null;
+                if (q.AnswerType != AnswerType.None)
+                {
+                    //Find the student answer in the script
+                    a = script.Answers[q.Name];
+                }
+
+                //Display the question stuff
+                rtbMarkQuestionText.Rtf = q.QuestionText;
+
+                switch (q.AnswerType)
+                {
+                    case AnswerType.None:
+                        {
+                            pnlMarkStudentAnswerContainer.Enabled = false;
+                            pnlMarkStudentAnswerContainer.Visible = false;
+
+                            pnlMarkerResponseContainer.Enabled = false;
+                            pnlMarkerResponseContainer.Visible = false;
+
+                            pnlMarkModelAnswer.Visible = false;
+                            pnlMarkModelAnswer.Enabled = false;
+                            break;
+                        }
+                    case AnswerType.Multi:
+                        {
+                            pnlMarkStudentAnswerContainer.Enabled = true;
+                            pnlMarkStudentAnswerContainer.Visible = true;
+
+                            pnlMarkerResponseContainer.Enabled = true;
+                            pnlMarkerResponseContainer.Visible = true;
+
+                            pnlMarkModelAnswer.Visible = true;
+                            pnlMarkModelAnswer.Enabled = true;
+
+                            //Build the student answer string
+                            string str = "";
+                            if (a.SelectedOption != MultiChoiceOption.None)
+                                str = $"The student selected answer: ({a.SelectedOption.ToString()}) {q.GetOptionText(a.SelectedOption)}";
+                            else
+                                str = "The student did not select an answer";
+                            rtbMarkStudentAnswer.Text = str;
+
+                            //Build the model answer string
+                            string mStr = string.Concat(new object[]
+                            {
+                                "The correct option was: \n",
+                                $"({q.CorrectOption.ToString()}) {q.GetOptionText(q.CorrectOption)}\n\n",
+                                "The options were: \n\n",
+                                $"(A) {q.OptionA}\n",
+                                $"(B) {q.OptionB}\n",
+                                $"(C) {q.OptionC}\n",
+                                $"(D) {q.OptionD}"
+                            });
+                            rtbMarkModelAnswer.Text = mStr;
+
+                            //Show the marker response
+                            rtbMarkerResponse.Text = node.MarkingQuestion.MarkerResponse;
+
+                            //Show the marks
+                            lblMarksMaximum.Text = q.Marks.ToString("00");
+                            nudMarkAssign.Maximum = q.Marks;
+                            nudMarkAssign.Value = node.MarkingQuestion.AssignedMarks;
+
+                            break;
+                        }
+                    default:
+                        {
+                            pnlMarkStudentAnswerContainer.Enabled = true;
+                            pnlMarkStudentAnswerContainer.Visible = true;
+
+                            pnlMarkerResponseContainer.Enabled = true;
+                            pnlMarkerResponseContainer.Visible = true;
+
+                            pnlMarkModelAnswer.Visible = true;
+                            pnlMarkModelAnswer.Enabled = true;
+
+                            //Show the student answer
+                            string str = q.AnswerType == AnswerType.Open ? a.LongAnswer : a.ShortAnswer;
+                            rtbMarkStudentAnswer.Text = str;
+
+                            //Show the model answer
+                            rtbMarkModelAnswer.Text = q.ModelAnswer;
+
+                            //Show the marker response
+                            rtbMarkerResponse.Text = node.MarkingQuestion.MarkerResponse;
+
+                            //Show the marks
+                            lblMarksMaximum.Text = q.Marks.ToString("00");
+                            nudMarkAssign.Maximum = q.Marks;
+                            nudMarkAssign.Value = node.MarkingQuestion.AssignedMarks;
+
+                            break;
+                        }
+                }
+            }
+        }
+
+        private void nudMarkAssign_ValueChanged(object sender, EventArgs e)
+        {
+            MarkingQuestionNode node = tvMarkQuestions.SelectedNode as MarkingQuestionNode;
+            if(node!=null)
+            {
+                node.MarkingQuestion.AssignedMarks = (int)nudMarkAssign.Value;
+            }
+        }
+
+        private void rtbMarkerResponse_TextChanged(object sender, EventArgs e)
+        {
+            MarkingQuestionNode node = tvMarkQuestions.SelectedNode as MarkingQuestionNode;
+            if (node != null)
+            {
+                node.MarkingQuestion.MarkerResponse = rtbMarkerResponse.Text;
             }
         }
 
@@ -3032,6 +3220,12 @@ namespace AssessmentManager
 
         #endregion
 
+        private void cbMarkAssessmentVersion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (suppressCBEvent)
+                return;
 
+            tvMarkQuestions_AfterSelect(sender, new TreeViewEventArgs(tvMarkQuestions.SelectedNode));
+        }
     }
 }
