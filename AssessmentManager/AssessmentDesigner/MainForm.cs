@@ -2144,6 +2144,7 @@ namespace AssessmentManager
                 {
                     MessageBox.Show("Unable to load session", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
+                MarkSession = null;
                 MarkSession = session;
             }
             //Select the marking tab
@@ -2272,25 +2273,28 @@ namespace AssessmentManager
 
         private void UpdateLastDeploymentTime()
         {
-            DateTime date = INVALID_DATE;
-            foreach (var course in CourseManager.Courses)
+            if (HasAssessmentOpen)
             {
-                if (course.Assessments.Count > 0)
+                DateTime date = INVALID_DATE;
+                foreach (var course in CourseManager.Courses)
                 {
-                    foreach (var session in course.Assessments)
+                    if (course.Assessments.Count > 0)
                     {
-                        if (Path.GetFileName(session.AssessmentFileName) == assessmentFile.Name)
+                        foreach (var session in course.Assessments)
                         {
-                            if (date == INVALID_DATE || session.DeploymentTime > date)
-                                date = session.DeploymentTime;
+                            if (Path.GetFileName(session.AssessmentFileName) == assessmentFile.Name)
+                            {
+                                if (date == INVALID_DATE || session.DeploymentTime > date)
+                                    date = session.DeploymentTime;
+                            }
                         }
                     }
                 }
+                if (date != INVALID_DATE)
+                    lblPublishLastDeployed.Text = date.ToShortDateString() + " " + date.ToShortTimeString();
+                else
+                    lblPublishLastDeployed.Text = "Never";
             }
-            if (date != INVALID_DATE)
-                lblPublishLastDeployed.Text = date.ToShortDateString() + " " + date.ToShortTimeString();
-            else
-                lblPublishLastDeployed.Text = "Never";
         }
 
         private bool TryDeployAssessment(out AssessmentSession assessmentSession)
@@ -2451,7 +2455,7 @@ namespace AssessmentManager
             DateTime date = dtpPublishDate.Value;
             DateTime time = dtpPublishTime.Value;
             DateTime startTime2 = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
-            AssessmentSession session = new AssessmentSession(SelectedCourse.ID, lblDeploymentTarget.Text, info, assessmentFile.Name, startTime2, (int)nudPublishAssessmentLength.Value, (int)nudPublishReadingTime.Value, tbPublishResetPassword.Text, students, additionalFilesNames, DateTime.Now);
+            AssessmentSession session = new AssessmentSession(SelectedCourse.ID, lblDeploymentTarget.Text, info, assessmentFile.Name, startTime2, (int)nudPublishAssessmentLength.Value, (int)nudPublishReadingTime.Value, tbPublishResetPassword.Text, students, additionalFilesNames, DateTime.Now, Assessment);
             assessmentSession = session;
             #endregion
 
@@ -2904,7 +2908,7 @@ namespace AssessmentManager
                 List<StudentMarkingData> list = new List<StudentMarkingData>();
                 foreach (var s in session.StudentData)
                 {
-                    StudentMarkingData smd = new StudentMarkingData(s);
+                    StudentMarkingData smd = new StudentMarkingData(s, session.Assessment);
                     list.Add(smd);
                 }
                 lbMarkStudents.Items.Clear();
@@ -2914,7 +2918,7 @@ namespace AssessmentManager
 
         private void LoadStudent(StudentMarkingData smd)
         {
-            if (smd != null)
+            if (smd != null && MarkSession != null)
             {
                 smd.Loaded = true;
                 string deployedPath = Path.Combine(MarkSession.DeploymentTarget, smd.StudentData.AccountName);
@@ -2962,7 +2966,11 @@ namespace AssessmentManager
                                 BinaryFormatter bf = new BinaryFormatter();
                                 AssessmentScript autosave = (AssessmentScript)bf.Deserialize(s);
                                 if (autosave != null)
-                                    smd.Scripts.Add(new AssessmentScriptListItem(autosave, Path.GetFileNameWithoutExtension(filePath)));
+                                {
+                                    string str = Path.GetFileNameWithoutExtension(filePath);
+                                    string number = str.Substring(str.Length - 3);
+                                    smd.Scripts.Add(new AssessmentScriptListItem(autosave, "autosave" + number));
+                                }
                             }
                         }
                     }

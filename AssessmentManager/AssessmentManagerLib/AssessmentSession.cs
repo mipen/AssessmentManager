@@ -20,13 +20,14 @@ namespace AssessmentManager
         private string restartPassword;
         private List<StudentData> studentData = new List<StudentData>();
         private List<string> additionalFiles = new List<string>();
+        private Assessment assessment = null;
 
         //Things related to marking
         private List<StudentMarkingData> studentMarkingData = new List<StudentMarkingData>();
 
         public string FolderPath = "";
 
-        public AssessmentSession(string courseID, string deploymentTarget, AssessmentInformation assessmentInfo, string assessmentFileName, DateTime startTime, int assessmentLength, int readingTime, string restartPassword, List<StudentData> studentData, List<string> additionalFiles, DateTime deploymentTime)
+        public AssessmentSession(string courseID, string deploymentTarget, AssessmentInformation assessmentInfo, string assessmentFileName, DateTime startTime, int assessmentLength, int readingTime, string restartPassword, List<StudentData> studentData, List<string> additionalFiles, DateTime deploymentTime, Assessment assessment)
         {
             this.assessmentInfo = assessmentInfo;
             this.assessmentFileName = assessmentFileName;
@@ -39,6 +40,7 @@ namespace AssessmentManager
             this.studentData = studentData;
             this.additionalFiles = additionalFiles;
             this.deploymentTime = deploymentTime;
+            this.assessment = assessment;
         }
 
         #region Properties
@@ -139,6 +141,14 @@ namespace AssessmentManager
             get
             {
                 return additionalFiles;
+            }
+        }
+
+        public Assessment Assessment
+        {
+            get
+            {
+                return assessment;
             }
         }
 

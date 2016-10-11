@@ -12,10 +12,12 @@ namespace AssessmentManager
         private StudentData studentData = null;
         public bool Loaded = false;
         private List<AssessmentScriptListItem> scripts = new List<AssessmentScriptListItem>();
+        private List<MarkingQuestion> markingQuestions = new List<MarkingQuestion>();
 
-        public StudentMarkingData(StudentData d)
+        public StudentMarkingData(StudentData d, Assessment assessment)
         {
             studentData = d;
+            BuildFromAssessment(assessment);
         }
 
         #region Properties
@@ -38,6 +40,13 @@ namespace AssessmentManager
 
         #endregion
 
+        #region Methods
+
+        private void BuildFromAssessment(Assessment assessment)
+        {
+            //TODO:: this
+        }
+
         public override string ToString()
         {
             string str = StudentData.UserName;
@@ -45,5 +54,7 @@ namespace AssessmentManager
                 str += " - Unloaded";
             return str;
         }
+
+        #endregion
     }
 }
