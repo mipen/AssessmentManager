@@ -11,16 +11,15 @@ using System.Windows.Forms;
 
 namespace AssessmentManager
 {
-    public class AssessmentWriter
+    public class AssessmentResultWriter
     {
-        private Assessment a;
-        private AssessmentInformation info;
+
+        private StudentMarkingData smd = null;
         private string filePath = "";
 
-        public AssessmentWriter(Assessment assessment, AssessmentInformation info, string filePath)
+        public AssessmentResultWriter(StudentMarkingData smd, string filePath)
         {
-            a = assessment;
-            this.info = info;
+            this.smd = smd;
             this.filePath = filePath;
         }
 
@@ -53,10 +52,12 @@ namespace AssessmentManager
         private const float SubQuestionIndent = 20f;
         private const float SubSubQuestionIndent = 40f;
 
-        public bool MakePdf(bool withAnswers)
+        public bool MakePDF()
         {
             Document doc = new Document();
             bool successful = true;
+            AssessmentInformation info = smd.Scripts.First().Script.AssessmentInfo;
+
             try
             {
                 FileStream fs = new FileStream(filePath, FileMode.Create);
@@ -69,9 +70,12 @@ namespace AssessmentManager
                 {
                     string authorText = $"Author: {info.Author}";
                     Paragraph authorPara = new Paragraph(authorText, AuthorFont);
-                    authorPara.SetAlignment("Left");
+                    //authorPara.SetAlignment("Left");
+                    authorPara.Add(new Chunk(new VerticalPositionMark()));
+                    authorPara.Add(new Chunk($"{smd.StudentData.FirstName} {smd.StudentData.LastName} - {smd.StudentData.StudentID}"));
                     doc.Add(authorPara);
                 }
+
 
                 //Do title
                 Paragraph titlePara = new Paragraph(info.AssessmentName, TitleFont);
@@ -80,119 +84,92 @@ namespace AssessmentManager
                 doc.Add(titlePara);
 
                 //Do weighting
-                if (!withAnswers)
-                {
-                    Paragraph weightingPara = new Paragraph($"{info.AssessmentWeighting}%", WeightingFont);
-                    weightingPara.SetAlignment(Center);
-                    weightingPara.SpacingAfter = 5f;
-                    doc.Add(weightingPara);
-                }
-                else
-                {
-                    PdfPTable table = new PdfPTable(3);
-                    table.WidthPercentage = 100f;
-                    table.AddCell(GetCell("Includes model answers", ModelAnswerHeaderFont, PdfPCell.ALIGN_LEFT));
-                    table.AddCell(GetCell($"{info.AssessmentWeighting}%", WeightingFont, PdfPCell.ALIGN_CENTER));
-                    table.AddCell(GetCell("", AuthorFont, PdfPCell.ALIGN_RIGHT));
-                    doc.Add(table);
-                }
+                Paragraph weightingPara = new Paragraph($"{info.AssessmentWeighting}%", WeightingFont);
+                weightingPara.SetAlignment(Center);
+                weightingPara.SpacingAfter = 5f;
+                doc.Add(weightingPara);
 
                 Paragraph linePara = new Paragraph(new Chunk(new LineSeparator(0.0f, 100f, Color.BLACK, Element.ALIGN_LEFT, 1)));
                 linePara.SpacingAfter = 15f;
                 doc.Add(linePara);
 
-                //Do the questions
-                DoQuestions(a.Questions, doc, withAnswers);
+                DoQuestions(smd.MarkingQuestions, doc);
 
-                //Show total marks for assessment
+                //Show marks for assessment
                 Paragraph totalMarksPara = new Paragraph("");
                 totalMarksPara.Add(new Chunk(new VerticalPositionMark()));
-                Paragraph totalPhrase = new Paragraph($"Total marks for assessment: {a.TotalMarks}", TotalMarksFont);
+                Paragraph totalPhrase = new Paragraph($"Final result: {smd.FinalMark} / {smd.TotalAvailableMarks}", TotalMarksFont);
                 totalPhrase.SetAlignment(Right);
                 totalMarksPara.Add(totalPhrase);
-
                 totalMarksPara.SpacingBefore = 10f;
-                
                 doc.Add(totalMarksPara);
+
+                Paragraph percentPara = new Paragraph("");
+                percentPara.Add(new Chunk(new VerticalPositionMark()));
+                Paragraph percentPhrase = new Paragraph($"{(((double)smd.FinalMark / (double)smd.TotalAvailableMarks) * 100).ToString("00.0")}%", TotalMarksFont);
+                percentPhrase.SetAlignment(Right);
+                percentPara.Add(percentPhrase);
+                doc.Add(percentPara);
+
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, "Error creating pdf");
+                MessageBox.Show(ex.Message, "Error creating pdf");
                 successful = false;
             }
             finally
             {
                 doc.Close();
             }
+
             return successful;
         }
 
-        private void DoQuestions(List<Question> questions, Document doc, bool withAnswers)
+        private void DoQuestions(List<MarkingQuestion> questions, Document doc)
         {
-            foreach (Question q in questions)
+            foreach (var q in questions)
             {
-                //Draw the question
-                DrawQuestion(q, doc, withAnswers);
+                DrawQuestion(q, doc);
 
-                //If the question has subquestions, draw those
                 if (q.HasSubQuestions)
                 {
-                    DoQuestions(q.SubQuestions, doc, withAnswers);
+                    DoQuestions(q.SubMarkingQuestions, doc);
                 }
             }
         }
 
-        private void DrawQuestion(Question q, Document doc, bool withAnswers)
+        private void DrawQuestion(MarkingQuestion mq, Document doc)
         {
+            //Get the question
+            Question question = smd.Scripts.First().Script.FindQuestion(mq.QuestionName);
+
             Paragraph mainPara = new Paragraph();
             mainPara.SpacingBefore = 20f;
-            mainPara.IndentationLeft = GetIndent(q);
 
-            //Question name
-            Phrase questionHeader = new Phrase(q.Name, QuestionHeaderFont);
+            //Question header text
+            Phrase questionHeader = new Phrase(mq.QuestionName, QuestionHeaderFont);
             mainPara.Add(questionHeader);
-
-            //Question marks
-            mainPara.Add(new Chunk(new VerticalPositionMark()));
-            Chunk marksChunk = null;
-            Chunk secondaryMarksChunk = null;
-            if (q.AnswerType != AnswerType.None)
+            if(question.AnswerType!=AnswerType.None)
             {
-                marksChunk = new Chunk($"Marks: {q.Marks}", MarksHeaderFont);
-                if (q.HasSubQuestions)
-                    secondaryMarksChunk = new Chunk($"Total marks: {q.TotalMarks}", MarksHeaderSecondaryFont);
-            }
-            else if (q.HasSubQuestions)
-            {
-                marksChunk = new Chunk($"Total marks: {q.TotalMarks}", MarksHeaderFont);
-            }
-            else
-            {
-                marksChunk = new Chunk("");
-            }
-            mainPara.Add(marksChunk);
-            mainPara.Add("\n");
-            if (secondaryMarksChunk != null)
-            {
-                mainPara.Add("");
+                //Marks
                 mainPara.Add(new Chunk(new VerticalPositionMark()));
-                mainPara.Add(secondaryMarksChunk);
-                mainPara.Add("\n");
+                mainPara.Add(new Chunk($"Marks: {mq.AssignedMarks} / {question.Marks}", MarksHeaderFont));
             }
+            mainPara.Add("\n");
 
             //Question text
-            Paragraph questionTextPara = new Paragraph(q.QuestionTextRaw, QuestionTextFont);
+            Paragraph questionTextPara = new Paragraph(question.QuestionTextRaw, QuestionTextFont);
             questionTextPara.FirstLineIndent = 15f;
             mainPara.Add(questionTextPara);
             mainPara.Add("\n");
 
-            //Multi choice options (if applicable)
-            if(q.AnswerType==AnswerType.Multi)
+            //Multi Choice options if applicable
+            if (question.AnswerType == AnswerType.Multi)
             {
-                Phrase optA = new Phrase($"A) {q.OptionA}\n", QuestionTextFont);
-                Phrase optB = new Phrase($"B) {q.OptionB}\n", QuestionTextFont);
-                Phrase optC = new Phrase($"C) {q.OptionC}\n", QuestionTextFont);
-                Phrase optD = new Phrase($"D) {q.OptionD}\n", QuestionTextFont);
+                Phrase optA = new Phrase($"A) {question.OptionA}\n", QuestionTextFont);
+                Phrase optB = new Phrase($"B) {question.OptionB}\n", QuestionTextFont);
+                Phrase optC = new Phrase($"C) {question.OptionC}\n", QuestionTextFont);
+                Phrase optD = new Phrase($"D) {question.OptionD}\n", QuestionTextFont);
                 Paragraph optionsPara = new Paragraph();
                 optionsPara.Add(optA);
                 optionsPara.Add(optB);
@@ -201,32 +178,52 @@ namespace AssessmentManager
                 mainPara.Add(optionsPara);
             }
 
-            //Model answers
-            if(withAnswers)
+            //Model answer
+            if (question.AnswerType != AnswerType.None)
             {
-                Paragraph answerPara = null;
-                if(q.AnswerType==AnswerType.Multi)
+                mainPara.Add(new Phrase("Model answer: \n", ModelAnswerHeaderFont));
+                if (question.AnswerType == AnswerType.Multi)
                 {
-                    answerPara = new Paragraph($"Correct option is: ({q.CorrectOption})",QuestionTextFont);
+                    Paragraph multiAnswerPara = new Paragraph($"The correct option was: ({question.CorrectOption}) {question.GetOptionText(question.CorrectOption)}", QuestionTextFont);
+                    mainPara.Add(multiAnswerPara);
                 }
-                else if(q.AnswerType==AnswerType.Open || q.AnswerType==AnswerType.Single)
+                else
                 {
-                    answerPara = new Paragraph(q.ModelAnswer, QuestionTextFont);
+                    Paragraph longAnswerPara = new Paragraph(question.ModelAnswer, QuestionTextFont);
+                    mainPara.Add(longAnswerPara);
                 }
+                mainPara.Add("\n");
 
-                if(answerPara!=null)
+                //Student response
+                mainPara.Add(new Phrase("Student response: \n", ModelAnswerHeaderFont));
+                Answer answer = smd.Scripts.First().Script.Answers[mq.QuestionName];
+                if (question.AnswerType == AnswerType.Multi)
                 {
-                    mainPara.Add(new Phrase("Model answer: \n", ModelAnswerHeaderFont));
-                    mainPara.Add(answerPara);
+                    MultiChoiceOption opt = answer.SelectedOption;
+                    mainPara.Add(new Paragraph($"Student chose option ({opt}) {question.GetOptionText(opt)}", QuestionTextFont));
+                }
+                else
+                {
+                    string sAnswer = question.AnswerType == AnswerType.Open ? answer.LongAnswer : answer.ShortAnswer;
+                    mainPara.Add(new Paragraph(sAnswer, QuestionTextFont));
+                }
+                mainPara.Add("\n");
+
+                //Marker response
+                if (!mq.MarkerResponse.NullOrEmpty())
+                {
+                    mainPara.Add(new Phrase("Marker response: \n", ModelAnswerHeaderFont));
+                    mainPara.Add(new Paragraph(mq.MarkerResponse, QuestionTextFont));
+                    mainPara.Add("\n");
                 }
             }
 
             doc.Add(mainPara);
         }
 
-        private float GetIndent(Question q)
+        private float GetIndent(string qName)
         {
-            int count = q.Name.Count(c => c == '.');
+            int count = qName.Count(c => c == '.');
             if (count == 0)
                 return 0f;
             else if (count == 1)
@@ -244,5 +241,6 @@ namespace AssessmentManager
             cell.Border = PdfPCell.NO_BORDER;
             return cell;
         }
+
     }
 }

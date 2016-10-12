@@ -48,6 +48,25 @@ namespace AssessmentManager
             }
         }
 
+        public int FinalMark
+        {
+            get
+            {
+                int num = 0;
+                foreach (var q in MarkingQuestions)
+                    num += q.TotalAssignedMarks;
+                return num;
+            }
+        }
+
+        public int TotalAvailableMarks
+        {
+            get
+            {
+                return (int)Scripts.First()?.Script.TotalMarks;
+            }
+        }
+
         #endregion
 
         #region Methods

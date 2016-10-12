@@ -51,6 +51,7 @@
     <Compile Include="AnswerType.cs" />
     <Compile Include="Assessment.cs" />
     <Compile Include="AssessmentInformation.cs" />
+    <Compile Include="AssessmentResultWriter.cs" />
     <Compile Include="AssessmentScript.cs" />
     <Compile Include="AssessmentSession.cs" />
     <Compile Include="AssessmentSessionNode.cs" />

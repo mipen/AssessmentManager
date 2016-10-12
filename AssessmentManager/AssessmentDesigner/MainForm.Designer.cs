@@ -250,6 +250,11 @@
             this.btnNewCourse = new System.Windows.Forms.Button();
             this.tvCourses = new System.Windows.Forms.TreeView();
             this.tabPageMark = new System.Windows.Forms.TabPage();
+            this.lblMarkLastLoadedStudentDate = new System.Windows.Forms.Label();
+            this.lblMarkLastLoadedStudentDateText = new System.Windows.Forms.Label();
+            this.btnMarkQuestionsCollapse = new System.Windows.Forms.Button();
+            this.btnMarkQuestionsExpand = new System.Windows.Forms.Button();
+            this.tvMarkQuestions = new System.Windows.Forms.TreeView();
             this.btnMarkEmailAll = new System.Windows.Forms.Button();
             this.btnMarkAllPDF = new System.Windows.Forms.Button();
             this.btnMarkEmailStudent = new System.Windows.Forms.Button();
@@ -299,11 +304,14 @@
             this.toolStripSeparatorCourses = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiDeleteCourse = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDeleteAssessmentSession = new System.Windows.Forms.ToolStripMenuItem();
-            this.tvMarkQuestions = new System.Windows.Forms.TreeView();
-            this.btnMarkQuestionsExpand = new System.Windows.Forms.Button();
-            this.btnMarkQuestionsCollapse = new System.Windows.Forms.Button();
-            this.lblMarkLastLoadedStudentDateText = new System.Windows.Forms.Label();
-            this.lblMarkLastLoadedStudentDate = new System.Windows.Forms.Label();
+            this.tsmiMarkAssessment = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsMarkStudents = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiLoadStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiMakePDFStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiEmailStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblMarkStudentResult = new System.Windows.Forms.Label();
+            this.lblMarkStudentResultInt = new System.Windows.Forms.Label();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStripMain.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPageDesigner.SuspendLayout();
@@ -357,6 +365,7 @@
             this.pnlMarkStudentAnswerContainer.SuspendLayout();
             this.contextMenuStripQuestionNode.SuspendLayout();
             this.cmsCoursesTree.SuspendLayout();
+            this.cmsMarkStudents.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStripMain
@@ -2658,6 +2667,8 @@
             // 
             // tabPageMark
             // 
+            this.tabPageMark.Controls.Add(this.lblMarkStudentResultInt);
+            this.tabPageMark.Controls.Add(this.lblMarkStudentResult);
             this.tabPageMark.Controls.Add(this.lblMarkLastLoadedStudentDate);
             this.tabPageMark.Controls.Add(this.lblMarkLastLoadedStudentDateText);
             this.tabPageMark.Controls.Add(this.btnMarkQuestionsCollapse);
@@ -2681,6 +2692,60 @@
             this.tabPageMark.Text = "Mark";
             this.tabPageMark.UseVisualStyleBackColor = true;
             // 
+            // lblMarkLastLoadedStudentDate
+            // 
+            this.lblMarkLastLoadedStudentDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMarkLastLoadedStudentDate.AutoSize = true;
+            this.lblMarkLastLoadedStudentDate.Location = new System.Drawing.Point(387, 523);
+            this.lblMarkLastLoadedStudentDate.Name = "lblMarkLastLoadedStudentDate";
+            this.lblMarkLastLoadedStudentDate.Size = new System.Drawing.Size(12, 13);
+            this.lblMarkLastLoadedStudentDate.TabIndex = 16;
+            this.lblMarkLastLoadedStudentDate.Text = "x";
+            // 
+            // lblMarkLastLoadedStudentDateText
+            // 
+            this.lblMarkLastLoadedStudentDateText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMarkLastLoadedStudentDateText.AutoSize = true;
+            this.lblMarkLastLoadedStudentDateText.Location = new System.Drawing.Point(268, 523);
+            this.lblMarkLastLoadedStudentDateText.Name = "lblMarkLastLoadedStudentDateText";
+            this.lblMarkLastLoadedStudentDateText.Size = new System.Drawing.Size(113, 13);
+            this.lblMarkLastLoadedStudentDateText.TabIndex = 15;
+            this.lblMarkLastLoadedStudentDateText.Text = "Student last loaded at:";
+            // 
+            // btnMarkQuestionsCollapse
+            // 
+            this.btnMarkQuestionsCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnMarkQuestionsCollapse.Image = global::AssessmentManager.Properties.Resources.CollapseAll32;
+            this.btnMarkQuestionsCollapse.Location = new System.Drawing.Point(234, 521);
+            this.btnMarkQuestionsCollapse.Name = "btnMarkQuestionsCollapse";
+            this.btnMarkQuestionsCollapse.Size = new System.Drawing.Size(32, 32);
+            this.btnMarkQuestionsCollapse.TabIndex = 14;
+            this.buttonToolTip.SetToolTip(this.btnMarkQuestionsCollapse, "Collapse All");
+            this.btnMarkQuestionsCollapse.UseVisualStyleBackColor = true;
+            this.btnMarkQuestionsCollapse.Click += new System.EventHandler(this.btnMarkQuestionsCollapse_Click);
+            // 
+            // btnMarkQuestionsExpand
+            // 
+            this.btnMarkQuestionsExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnMarkQuestionsExpand.Image = global::AssessmentManager.Properties.Resources.ExpandAll32;
+            this.btnMarkQuestionsExpand.Location = new System.Drawing.Point(128, 521);
+            this.btnMarkQuestionsExpand.Name = "btnMarkQuestionsExpand";
+            this.btnMarkQuestionsExpand.Size = new System.Drawing.Size(32, 32);
+            this.btnMarkQuestionsExpand.TabIndex = 13;
+            this.buttonToolTip.SetToolTip(this.btnMarkQuestionsExpand, "Expand All");
+            this.btnMarkQuestionsExpand.UseVisualStyleBackColor = true;
+            this.btnMarkQuestionsExpand.Click += new System.EventHandler(this.btnMarkQuestionsExpand_Click);
+            // 
+            // tvMarkQuestions
+            // 
+            this.tvMarkQuestions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tvMarkQuestions.Location = new System.Drawing.Point(128, 22);
+            this.tvMarkQuestions.Name = "tvMarkQuestions";
+            this.tvMarkQuestions.Size = new System.Drawing.Size(138, 498);
+            this.tvMarkQuestions.TabIndex = 12;
+            this.tvMarkQuestions.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMarkQuestions_AfterSelect);
+            // 
             // btnMarkEmailAll
             // 
             this.btnMarkEmailAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -2689,7 +2754,9 @@
             this.btnMarkEmailAll.Size = new System.Drawing.Size(90, 23);
             this.btnMarkEmailAll.TabIndex = 10;
             this.btnMarkEmailAll.Text = "Email All";
+            this.buttonToolTip.SetToolTip(this.btnMarkEmailAll, "Send an email to each student with their results");
             this.btnMarkEmailAll.UseVisualStyleBackColor = true;
+            this.btnMarkEmailAll.Click += new System.EventHandler(this.btnMarkEmailAll_Click);
             // 
             // btnMarkAllPDF
             // 
@@ -2699,7 +2766,9 @@
             this.btnMarkAllPDF.Size = new System.Drawing.Size(90, 23);
             this.btnMarkAllPDF.TabIndex = 11;
             this.btnMarkAllPDF.Text = "All PDF";
+            this.buttonToolTip.SetToolTip(this.btnMarkAllPDF, "Make a PDF file for each students\' results");
             this.btnMarkAllPDF.UseVisualStyleBackColor = true;
+            this.btnMarkAllPDF.Click += new System.EventHandler(this.btnMarkAllPDF_Click);
             // 
             // btnMarkEmailStudent
             // 
@@ -2709,7 +2778,9 @@
             this.btnMarkEmailStudent.Size = new System.Drawing.Size(90, 23);
             this.btnMarkEmailStudent.TabIndex = 8;
             this.btnMarkEmailStudent.Text = "Email Student";
+            this.buttonToolTip.SetToolTip(this.btnMarkEmailStudent, "Send an email to the selected student with their results");
             this.btnMarkEmailStudent.UseVisualStyleBackColor = true;
+            this.btnMarkEmailStudent.Click += new System.EventHandler(this.btnMarkEmailStudent_Click);
             // 
             // btnMarkStudentPDF
             // 
@@ -2719,7 +2790,9 @@
             this.btnMarkStudentPDF.Size = new System.Drawing.Size(90, 23);
             this.btnMarkStudentPDF.TabIndex = 9;
             this.btnMarkStudentPDF.Text = "Student PDF";
+            this.buttonToolTip.SetToolTip(this.btnMarkStudentPDF, "Make a PDF file of the selected student\'s results");
             this.btnMarkStudentPDF.UseVisualStyleBackColor = true;
+            this.btnMarkStudentPDF.Click += new System.EventHandler(this.btnMarkStudentPDF_Click);
             // 
             // tlpMarkContainer
             // 
@@ -2929,6 +3002,7 @@
             this.cbMarkAssessmentVersion.Name = "cbMarkAssessmentVersion";
             this.cbMarkAssessmentVersion.Size = new System.Drawing.Size(138, 21);
             this.cbMarkAssessmentVersion.TabIndex = 5;
+            this.buttonToolTip.SetToolTip(this.cbMarkAssessmentVersion, "The version of the assessment to display");
             this.cbMarkAssessmentVersion.SelectedIndexChanged += new System.EventHandler(this.cbMarkAssessmentVersion_SelectedIndexChanged);
             // 
             // btnMarkLoadAll
@@ -2939,6 +3013,7 @@
             this.btnMarkLoadAll.Size = new System.Drawing.Size(120, 23);
             this.btnMarkLoadAll.TabIndex = 4;
             this.btnMarkLoadAll.Text = "Load All";
+            this.buttonToolTip.SetToolTip(this.btnMarkLoadAll, "Load all students");
             this.btnMarkLoadAll.UseVisualStyleBackColor = true;
             this.btnMarkLoadAll.Click += new System.EventHandler(this.btnMarkLoadAll_Click);
             // 
@@ -2950,6 +3025,7 @@
             this.btnMarkLoadSel.Size = new System.Drawing.Size(120, 23);
             this.btnMarkLoadSel.TabIndex = 3;
             this.btnMarkLoadSel.Text = "Load Selected";
+            this.buttonToolTip.SetToolTip(this.btnMarkLoadSel, "Load the selected student");
             this.btnMarkLoadSel.UseVisualStyleBackColor = true;
             this.btnMarkLoadSel.Click += new System.EventHandler(this.btnMarkLoadSel_Click);
             // 
@@ -2981,6 +3057,7 @@
             this.lbMarkStudents.Size = new System.Drawing.Size(120, 498);
             this.lbMarkStudents.TabIndex = 1;
             this.lbMarkStudents.SelectedIndexChanged += new System.EventHandler(this.lbMarkStudents_SelectedIndexChanged);
+            this.lbMarkStudents.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lbMarkStudents_MouseUp);
             // 
             // contextMenuStripQuestionNode
             // 
@@ -3104,9 +3181,10 @@
             this.tsmiDuplicateCourse,
             this.toolStripSeparatorCourses,
             this.tsmiDeleteCourse,
-            this.tsmiDeleteAssessmentSession});
+            this.tsmiDeleteAssessmentSession,
+            this.tsmiMarkAssessment});
             this.cmsCoursesTree.Name = "cmsCoursesTree";
-            this.cmsCoursesTree.Size = new System.Drawing.Size(215, 76);
+            this.cmsCoursesTree.Size = new System.Drawing.Size(215, 98);
             // 
             // tsmiDuplicateCourse
             // 
@@ -3141,57 +3219,69 @@
             this.tsmiDeleteAssessmentSession.Visible = false;
             this.tsmiDeleteAssessmentSession.Click += new System.EventHandler(this.tsmiDeleteAssessmentSession_Click);
             // 
-            // tvMarkQuestions
+            // tsmiMarkAssessment
             // 
-            this.tvMarkQuestions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.tvMarkQuestions.Location = new System.Drawing.Point(128, 22);
-            this.tvMarkQuestions.Name = "tvMarkQuestions";
-            this.tvMarkQuestions.Size = new System.Drawing.Size(138, 498);
-            this.tvMarkQuestions.TabIndex = 12;
-            this.tvMarkQuestions.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMarkQuestions_AfterSelect);
+            this.tsmiMarkAssessment.Enabled = false;
+            this.tsmiMarkAssessment.Name = "tsmiMarkAssessment";
+            this.tsmiMarkAssessment.Size = new System.Drawing.Size(214, 22);
+            this.tsmiMarkAssessment.Text = "Mark Assessment";
+            this.tsmiMarkAssessment.Click += new System.EventHandler(this.tsmiMarkAssessment_Click);
             // 
-            // btnMarkQuestionsExpand
+            // cmsMarkStudents
             // 
-            this.btnMarkQuestionsExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnMarkQuestionsExpand.Image = global::AssessmentManager.Properties.Resources.ExpandAll32;
-            this.btnMarkQuestionsExpand.Location = new System.Drawing.Point(128, 521);
-            this.btnMarkQuestionsExpand.Name = "btnMarkQuestionsExpand";
-            this.btnMarkQuestionsExpand.Size = new System.Drawing.Size(32, 32);
-            this.btnMarkQuestionsExpand.TabIndex = 13;
-            this.btnMarkQuestionsExpand.UseVisualStyleBackColor = true;
-            this.btnMarkQuestionsExpand.Click += new System.EventHandler(this.btnMarkQuestionsExpand_Click);
+            this.cmsMarkStudents.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiLoadStudent,
+            this.toolStripSeparator9,
+            this.tsmiMakePDFStudent,
+            this.tsmiEmailStudent});
+            this.cmsMarkStudents.Name = "cmsMarkStudents";
+            this.cmsMarkStudents.Size = new System.Drawing.Size(153, 98);
             // 
-            // btnMarkQuestionsCollapse
+            // tsmiLoadStudent
             // 
-            this.btnMarkQuestionsCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnMarkQuestionsCollapse.Image = global::AssessmentManager.Properties.Resources.CollapseAll32;
-            this.btnMarkQuestionsCollapse.Location = new System.Drawing.Point(234, 521);
-            this.btnMarkQuestionsCollapse.Name = "btnMarkQuestionsCollapse";
-            this.btnMarkQuestionsCollapse.Size = new System.Drawing.Size(32, 32);
-            this.btnMarkQuestionsCollapse.TabIndex = 14;
-            this.btnMarkQuestionsCollapse.UseVisualStyleBackColor = true;
-            this.btnMarkQuestionsCollapse.Click += new System.EventHandler(this.btnMarkQuestionsCollapse_Click);
+            this.tsmiLoadStudent.Name = "tsmiLoadStudent";
+            this.tsmiLoadStudent.Size = new System.Drawing.Size(147, 22);
+            this.tsmiLoadStudent.Text = "Load Student";
+            this.tsmiLoadStudent.Click += new System.EventHandler(this.tsmiLoadStudent_Click);
             // 
-            // lblMarkLastLoadedStudentDateText
+            // tsmiMakePDFStudent
             // 
-            this.lblMarkLastLoadedStudentDateText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblMarkLastLoadedStudentDateText.AutoSize = true;
-            this.lblMarkLastLoadedStudentDateText.Location = new System.Drawing.Point(268, 523);
-            this.lblMarkLastLoadedStudentDateText.Name = "lblMarkLastLoadedStudentDateText";
-            this.lblMarkLastLoadedStudentDateText.Size = new System.Drawing.Size(113, 13);
-            this.lblMarkLastLoadedStudentDateText.TabIndex = 15;
-            this.lblMarkLastLoadedStudentDateText.Text = "Student last loaded at:";
+            this.tsmiMakePDFStudent.Name = "tsmiMakePDFStudent";
+            this.tsmiMakePDFStudent.Size = new System.Drawing.Size(147, 22);
+            this.tsmiMakePDFStudent.Text = "Make PDF";
+            this.tsmiMakePDFStudent.Click += new System.EventHandler(this.tsmiMakePDFStudent_Click);
             // 
-            // lblMarkLastLoadedStudentDate
+            // tsmiEmailStudent
             // 
-            this.lblMarkLastLoadedStudentDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblMarkLastLoadedStudentDate.AutoSize = true;
-            this.lblMarkLastLoadedStudentDate.Location = new System.Drawing.Point(387, 523);
-            this.lblMarkLastLoadedStudentDate.Name = "lblMarkLastLoadedStudentDate";
-            this.lblMarkLastLoadedStudentDate.Size = new System.Drawing.Size(12, 13);
-            this.lblMarkLastLoadedStudentDate.TabIndex = 16;
-            this.lblMarkLastLoadedStudentDate.Text = "x";
+            this.tsmiEmailStudent.Name = "tsmiEmailStudent";
+            this.tsmiEmailStudent.Size = new System.Drawing.Size(147, 22);
+            this.tsmiEmailStudent.Text = "Email Student";
+            this.tsmiEmailStudent.Click += new System.EventHandler(this.tsmiEmailStudent_Click);
+            // 
+            // lblMarkStudentResult
+            // 
+            this.lblMarkStudentResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMarkStudentResult.AutoSize = true;
+            this.lblMarkStudentResult.Location = new System.Drawing.Point(301, 540);
+            this.lblMarkStudentResult.Name = "lblMarkStudentResult";
+            this.lblMarkStudentResult.Size = new System.Drawing.Size(80, 13);
+            this.lblMarkStudentResult.TabIndex = 17;
+            this.lblMarkStudentResult.Text = "Student Result:";
+            // 
+            // lblMarkStudentResultInt
+            // 
+            this.lblMarkStudentResultInt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMarkStudentResultInt.AutoSize = true;
+            this.lblMarkStudentResultInt.Location = new System.Drawing.Point(387, 540);
+            this.lblMarkStudentResultInt.Name = "lblMarkStudentResultInt";
+            this.lblMarkStudentResultInt.Size = new System.Drawing.Size(12, 13);
+            this.lblMarkStudentResultInt.TabIndex = 18;
+            this.lblMarkStudentResultInt.Text = "x";
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(149, 6);
             // 
             // MainForm
             // 
@@ -3287,6 +3377,7 @@
             this.pnlMarkStudentAnswerContainer.PerformLayout();
             this.contextMenuStripQuestionNode.ResumeLayout(false);
             this.cmsCoursesTree.ResumeLayout(false);
+            this.cmsMarkStudents.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3567,5 +3658,13 @@
         private System.Windows.Forms.TreeView tvMarkQuestions;
         private System.Windows.Forms.Label lblMarkLastLoadedStudentDate;
         private System.Windows.Forms.Label lblMarkLastLoadedStudentDateText;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMarkAssessment;
+        private System.Windows.Forms.ContextMenuStrip cmsMarkStudents;
+        private System.Windows.Forms.ToolStripMenuItem tsmiLoadStudent;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMakePDFStudent;
+        private System.Windows.Forms.ToolStripMenuItem tsmiEmailStudent;
+        private System.Windows.Forms.Label lblMarkStudentResultInt;
+        private System.Windows.Forms.Label lblMarkStudentResult;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
     }
 }

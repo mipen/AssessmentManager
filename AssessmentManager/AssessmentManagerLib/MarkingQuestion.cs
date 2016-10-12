@@ -53,6 +53,20 @@ namespace AssessmentManager
             }
         }
 
+        public int TotalAssignedMarks
+        {
+            get
+            {
+                int num = AssignedMarks;
+                if(HasSubQuestions)
+                {
+                    foreach (var q in SubMarkingQuestions)
+                        num += q.TotalAssignedMarks;
+                }
+                return num;
+            }
+        }
+
         public List<MarkingQuestion> SubMarkingQuestions
         {
             get
