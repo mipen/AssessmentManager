@@ -361,6 +361,22 @@ namespace AssessmentManager
             MakePdf(false);
         }
 
+        private void emailSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EmailConfigForm ecf = new EmailConfigForm();
+            ecf.UserName = Settings.Instance.Username;
+            ecf.Password = Settings.Instance.Password;
+            ecf.Smtp = Settings.Instance.Smtp;
+            ecf.SSL = Settings.Instance.SSL;
+            ecf.Port = Settings.Instance.Port;
+            ecf.Message = Settings.Instance.Message;
+            if (ecf.ShowDialog() == DialogResult.OK)
+            {
+                Settings.Instance.SetFromConfigForm(ecf);
+                Settings.Instance.Save();
+            }
+        }
+
         #endregion
 
         #region TreeViewButtons
@@ -3400,6 +3416,33 @@ namespace AssessmentManager
         private void btnMarkEmailStudent_Click(object sender, EventArgs e)
         {
             //TODO:: this
+            if (lbMarkStudents.SelectedItem != null)
+            {
+                if (lbMarkStudents.SelectedItem is StudentMarkingData)
+                {
+                    StudentMarkingData smd = lbMarkStudents.SelectedItem as StudentMarkingData;
+                    if (smd != null)
+                    {
+                        if (smd.Loaded)
+                        {
+                            try
+                            {
+                                string filePath = Path.Combine(MarkSession.FolderPath, smd.StudentData.UserName + PDF_EXT);
+                                
+                                EmailHandler em = new EmailHandler(MarkSession, smd, filePath, true);
+                                em.SendEmail();
+                                
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error emailing student: \n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                        else
+                            MessageBox.Show("Please load student before trying to send results", "Student unloaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
         }
 
         private void btnMarkStudentPDF_Click(object sender, EventArgs e)
@@ -3430,6 +3473,7 @@ namespace AssessmentManager
         private void btnMarkEmailAll_Click(object sender, EventArgs e)
         {
             //TODO:: this
+
         }
 
         private void btnMarkAllPDF_Click(object sender, EventArgs e)
@@ -3503,10 +3547,6 @@ namespace AssessmentManager
             }
         }
 
-        #endregion
-
-        #endregion
-
         private void cbMarkAssessmentVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (suppressCBEvent)
@@ -3514,6 +3554,11 @@ namespace AssessmentManager
 
             tvMarkQuestions_AfterSelect(sender, new TreeViewEventArgs(tvMarkQuestions.SelectedNode));
         }
+
+        #endregion
+
+        #endregion
+
 
     }
 }

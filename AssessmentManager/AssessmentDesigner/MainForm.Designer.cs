@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForQuestionsWithoutMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -520,8 +520,9 @@
             // emailSettingsToolStripMenuItem
             // 
             this.emailSettingsToolStripMenuItem.Name = "emailSettingsToolStripMenuItem";
-            this.emailSettingsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.emailSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.emailSettingsToolStripMenuItem.Text = "&Email Settings";
+            this.emailSettingsToolStripMenuItem.Click += new System.EventHandler(this.emailSettingsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1525,8 +1526,8 @@
             // 
             // colPublishStartTime
             // 
-            dataGridViewCellStyle5.Format = "hh:mm:ss tt";
-            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle7.Format = "hh:mm:ss tt";
+            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle7;
             this.colPublishStartTime.HeaderText = "Start Time";
             this.colPublishStartTime.Name = "colPublishStartTime";
             this.colPublishStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -2342,8 +2343,8 @@
             // 
             // colSessionStartTime
             // 
-            dataGridViewCellStyle6.Format = "hh:mm:ss tt";
-            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle8.Format = "hh:mm:ss tt";
+            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle8;
             this.colSessionStartTime.HeaderText = "Start Time";
             this.colSessionStartTime.Name = "colSessionStartTime";
             this.colSessionStartTime.ReadOnly = true;
@@ -3235,7 +3236,7 @@
             this.tsmiMakePDFStudent,
             this.tsmiEmailStudent});
             this.cmsMarkStudents.Name = "cmsMarkStudents";
-            this.cmsMarkStudents.Size = new System.Drawing.Size(153, 98);
+            this.cmsMarkStudents.Size = new System.Drawing.Size(148, 76);
             // 
             // tsmiLoadStudent
             // 

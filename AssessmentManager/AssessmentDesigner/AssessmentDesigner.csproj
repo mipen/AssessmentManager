@@ -57,6 +57,13 @@
     </Compile>
     <Compile Include="CourseContextMenuMode.cs" />
     <Compile Include="CourseSelectorEventArgs.cs" />
+    <Compile Include="EmailConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmailConfigForm.Designer.cs">
+      <DependentUpon>EmailConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EmailHandler.cs" />
     <Compile Include="ImageSelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +98,9 @@
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="AssessmentInformationForm.resx">
       <DependentUpon>AssessmentInformationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmailConfigForm.resx">
+      <DependentUpon>EmailConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImageSelector.resx">
       <DependentUpon>ImageSelector.cs</DependentUpon>

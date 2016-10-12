@@ -119,7 +119,7 @@ namespace AssessmentManager
             }
             finally
             {
-                doc.Close();
+                doc.Close();               
             }
 
             return successful;
@@ -145,11 +145,12 @@ namespace AssessmentManager
 
             Paragraph mainPara = new Paragraph();
             mainPara.SpacingBefore = 20f;
+            mainPara.IndentationLeft = GetIndent(mq.QuestionName);
 
             //Question header text
             Phrase questionHeader = new Phrase(mq.QuestionName, QuestionHeaderFont);
             mainPara.Add(questionHeader);
-            if(question.AnswerType!=AnswerType.None)
+            if (question.AnswerType != AnswerType.None)
             {
                 //Marks
                 mainPara.Add(new Chunk(new VerticalPositionMark()));

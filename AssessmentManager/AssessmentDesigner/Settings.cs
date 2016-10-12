@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -15,12 +12,99 @@ namespace AssessmentManager
         private List<string> recentFiles = new List<string>();
         private static readonly string FILE_NAME = "settings.xml";
 
+        //Email stuff
+        private string username = "";
+        private string password = "";
+        private string smtp = "";
+        private string message = "";
+        private int port = 587;
+        private bool ssl = true;
+
         public List<string> RecentFiles => recentFiles;
 
         private Settings()
         {
 
         }
+
+        #region Email Properties
+        public string Username
+        {
+            get
+            {
+                return username;
+            }
+
+            set
+            {
+                username = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                return password;
+            }
+
+            set
+            {
+                password = value;
+            }
+        }
+
+        public string Smtp
+        {
+            get
+            {
+                return smtp;
+            }
+
+            set
+            {
+                smtp = value;
+            }
+        }
+
+        public string Message
+        {
+            get
+            {
+                return message;
+            }
+            set
+            {
+                message = value;
+            }
+        }
+
+        public int Port
+        {
+            get
+            {
+                return port;
+            }
+
+            set
+            {
+                port = value;
+            }
+        }
+
+        public bool SSL
+        {
+            get
+            {
+                return ssl;
+            }
+
+            set
+            {
+                ssl = value;
+            }
+        }
+        #endregion
 
         public static void Init()
         {
@@ -93,6 +177,16 @@ namespace AssessmentManager
                     {
                     }
                 }
+        }
+
+        public void SetFromConfigForm(EmailConfigForm ecf)
+        {
+            Username = ecf.UserName;
+            Password = ecf.Password;
+            Smtp = ecf.Smtp;
+            Message = ecf.Message;
+            Port = ecf.Port;
+            SSL = ecf.SSL;
         }
     }
 }
