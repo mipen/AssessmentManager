@@ -382,6 +382,7 @@ namespace AssessmentManager
                     using (FileStream s = File.Open(path, fileMode, FileAccess.Write))
                     {
                         BinaryFormatter bf = new BinaryFormatter();
+                        Script.TimeSaved = DateTime.Now;
                         bf.Serialize(s, Script);
                         changesMade = false;
                     }
@@ -402,6 +403,7 @@ namespace AssessmentManager
                     using (FileStream s = File.Open(path, FileMode.OpenOrCreate, FileAccess.Write))
                     {
                         BinaryFormatter bf = new BinaryFormatter();
+                        Script.TimeSaved = DateTime.Now;
                         bf.Serialize(s, Script);
                         changesMade = false;
                     }

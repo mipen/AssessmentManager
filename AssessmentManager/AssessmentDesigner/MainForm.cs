@@ -9,8 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using static AssessmentManager.CONSTANTS;
@@ -393,6 +391,12 @@ namespace AssessmentManager
                 Settings.Instance.SetFromConfigForm(ecf);
                 Settings.Instance.Save();
             }
+        }
+
+        private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            About a = new About();
+            a.ShowDialog();
         }
 
         #endregion
@@ -2156,10 +2160,13 @@ namespace AssessmentManager
             TreeNode node = tvCourses.SelectedNode;
             if (node != null && node is CourseNode)
             {
-                //Don't copy assessment sessions here
-                CourseNode cNode = node as CourseNode;
-                Course newCourse = cNode.Course.Clone(false);
-                CourseManager.RegisterNewCourse(newCourse);
+                if (MessageBox.Show("Are you sure you wish to duplicate this course?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    //Don't copy assessment sessions here
+                    CourseNode cNode = node as CourseNode;
+                    Course newCourse = cNode.Course.Clone(false);
+                    CourseManager.RegisterNewCourse(newCourse);
+                }
             }
         }
 
@@ -2178,7 +2185,7 @@ namespace AssessmentManager
                     }
                     else
                     {
-                        MessageBox.Show("Cannot mark this assessment as it has not begun yet!", "Assessment not started");
+                        MessageBox.Show("Cannot mark this assessment as it has not begun yet!", "Assessment not started", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
@@ -3038,7 +3045,8 @@ namespace AssessmentManager
                             throw new Exception("Cannot read file at: " + mainScriptPath);
                         else
                         {
-                            smd.Scripts.Add(new AssessmentScriptListItem(mainScript, "Submitted File"));
+                            string name = mainScript.TimeSaved == INVALID_DATE ? "Submitted File" : $"Submitted File - {mainScript.TimeSaved.ToString("hh:mm tt")}";
+                            smd.Scripts.Add(new AssessmentScriptListItem(mainScript, name));
                         }
                     }
 
@@ -3070,7 +3078,7 @@ namespace AssessmentManager
                                 {
                                     string str = Path.GetFileNameWithoutExtension(filePath);
                                     string number = str.Substring(str.Length - 3);
-                                    smd.Scripts.Add(new AssessmentScriptListItem(autosave, "autosave" + number));
+                                    smd.Scripts.Add(new AssessmentScriptListItem(autosave, $"autosave{number} - {autosave.TimeSaved.ToString("hh:mm tt")}"));
                                 }
                             }
                             try
@@ -3577,10 +3585,10 @@ namespace AssessmentManager
             tvMarkQuestions_AfterSelect(sender, new TreeViewEventArgs(tvMarkQuestions.SelectedNode));
         }
 
-        #endregion
 
         #endregion
 
+        #endregion
 
     }
 }

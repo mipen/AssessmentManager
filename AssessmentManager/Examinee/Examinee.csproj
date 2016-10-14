@@ -132,7 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="examinee_icon.ico" />
-    <Content Include="TODO.txt" />
     <None Include="Resources\1457348260_ic_arrow_back_48px.png" />
     <None Include="Resources\1457348170_ic_arrow_forward_48px.png" />
     <None Include="Resources\expand-all32.png" />

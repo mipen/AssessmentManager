@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AssessmentManager
@@ -35,7 +31,7 @@ namespace AssessmentManager
 
         public static readonly string COURSES_FOLDER_NAME = "Courses";
 
-        public static readonly DateTime INVALID_DATE = new DateTime(1975, 1, 1, 1, 1, 1, 1);
+        public static readonly DateTime INVALID_DATE = new DateTime(1990, 1, 1, 1, 1, 1, 1);
 
         public static readonly string QUESTION_FORMAT_STRING = DataFormats.GetFormat(typeof(Question).FullName).Name;
 

@@ -16,7 +16,4 @@
 
 	- About window: display information for icons; licenses + links and acknowledgement. My information. Acknowledgement of original program. Acknowledge use of PdfSharp
 
-	Remove delete options for courses and assessment session
-
-	Change settings file to binary file
 

@@ -38,9 +38,10 @@
             // lblDisplay
             // 
             this.lblDisplay.AutoSize = true;
-            this.lblDisplay.Location = new System.Drawing.Point(119, 23);
+            this.lblDisplay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDisplay.Location = new System.Drawing.Point(93, 23);
             this.lblDisplay.Name = "lblDisplay";
-            this.lblDisplay.Size = new System.Drawing.Size(142, 13);
+            this.lblDisplay.Size = new System.Drawing.Size(194, 15);
             this.lblDisplay.TabIndex = 0;
             this.lblDisplay.Text = "Sending email ... Please wait";
             // 
@@ -54,7 +55,7 @@
             // timer
             // 
             this.timer.Enabled = true;
-            this.timer.Interval = 500;
+            this.timer.Interval = 300;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // lblSentCount

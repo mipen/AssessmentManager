@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace AssessmentManager
 {
+    [Serializable]
     public sealed class Settings
     {
         private static Settings instance;
         private List<string> recentFiles = new List<string>();
-        private static readonly string FILE_NAME = "settings.xml";
+        //private static readonly string FILE_NAME = "settings.xml";
+        private static readonly string FILE_NAME = "settings.settings";
 
         //Email stuff
         private string username = "";
         private string password = "";
-        private string smtp = "";
+        private string smtp = "smtp.office365.com";
         private string message = "";
         private int port = 587;
         private bool ssl = true;
@@ -109,7 +111,7 @@ namespace AssessmentManager
         public static void Init()
         {
             string startupPath = Application.StartupPath;
-            string filePath = startupPath + "\\" + FILE_NAME;
+            string filePath = Path.Combine(startupPath, FILE_NAME);
             if (!File.Exists(filePath))
             {
                 instance = new Settings();
@@ -120,8 +122,10 @@ namespace AssessmentManager
                 {
                     try
                     {
-                        XmlSerializer x = new XmlSerializer(typeof(Settings));
-                        instance = (Settings)x.Deserialize(stream);
+                        //XmlSerializer x = new XmlSerializer(typeof(Settings));
+                        //instance = (Settings)x.Deserialize(stream);
+                        BinaryFormatter bf = new BinaryFormatter();
+                        instance = (Settings)bf.Deserialize(stream);
                     }
                     catch (Exception ex)
                     {
@@ -144,14 +148,16 @@ namespace AssessmentManager
         {
             //Save the settings in the instance here
             string startupPath = Application.StartupPath;
-            string filePath = startupPath + "\\" + FILE_NAME;
+            string filePath = Path.Combine(startupPath, FILE_NAME);
 
             try
             {
                 using (var stream = File.Open(filePath, FileMode.Create, FileAccess.Write))
                 {
-                    XmlSerializer x = new XmlSerializer(typeof(Settings));
-                    x.Serialize(stream, instance);
+                    //XmlSerializer x = new XmlSerializer(typeof(Settings));
+                    //x.Serialize(stream, instance);
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.Serialize(stream, instance);
                 }
             }
             catch (Exception ex)

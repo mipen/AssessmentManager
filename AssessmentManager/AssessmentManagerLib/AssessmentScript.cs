@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AssessmentManager
 {
@@ -17,6 +14,7 @@ namespace AssessmentManager
         private StudentData studentData = null;
         public bool Started = false;
         private bool published = false;
+        public DateTime TimeSaved = CONSTANTS.INVALID_DATE;
 
         public AssessmentScript()
         {

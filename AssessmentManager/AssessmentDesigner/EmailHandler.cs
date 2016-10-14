@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AssessmentManager
@@ -21,10 +17,12 @@ namespace AssessmentManager
         private List<StudentMarkingData> smd = null;
         private int labelNum = 0;
         private int sentCount = 0;
+        private int attemptedEmails = 0;
+        private List<string> erroredEmails = new List<string>();
         private const string label0 = "Sending email ... Please wait";
-        private const string label1 = "Sending email ... Please wait.";
-        private const string label2 = "Sending email ... Please wait..";
-        private const string label3 = "Sending email ... Please wait...";
+        private const string label1 = "Sending email ... Please wait .";
+        private const string label2 = "Sending email ... Please wait ..";
+        private const string label3 = "Sending email ... Please wait ...";
 
         public EmailHandler(AssessmentSession session, List<StudentMarkingData> smd)
         {
@@ -213,7 +211,7 @@ namespace AssessmentManager
                     client.EnableSsl = SSL;
                     client.Credentials = login;
                     MailAddress from = new MailAddress(Username, Username, Encoding.UTF8);
-                    MailAddress to = new MailAddress(smd.First().StudentData.UserName + ManukauMail);
+                    MailAddress to = new MailAddress(s.StudentData.UserName + ManukauMail);
                     MailMessage msg = new MailMessage(from, to);
                     msg.Subject = session.AssessmentInfo.AssessmentName + " Results";
                     msg.Body = Message;
@@ -227,7 +225,9 @@ namespace AssessmentManager
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error emailing " + s.StudentData.UserName + "\n\n" + ex.Message);
+                    MessageBox.Show("Error emailing " + s.StudentData.UserName + "\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    attemptedEmails++;
+                    erroredEmails.Add(s.StudentData.UserName);
                     continue;
                 }
             }
@@ -238,17 +238,18 @@ namespace AssessmentManager
             if (e.Cancelled)
                 MessageBox.Show($"{e.UserState} send cancelled");
             if (e.Error != null)
-                MessageBox.Show($"Error sending email for {e.UserState}: \n" + e.Error.ToString());
+            {
+                MessageBox.Show($"Error sending email to {e.UserState} \nPlease ensure your login details and smtp server are correct. Other causes for this error could be SSL or the chosen port. \n\n Exception:\n" + e.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                erroredEmails.Add(e.UserState.ToString());
+                attemptedEmails++;
+            }
             else
             {
                 progress.Value++;
                 SentCount++;
+                attemptedEmails++;
             }
-            if (progress.Value >= progress.Maximum)
-            {
-                MessageBox.Show("All emails sent successfully!", "Successful Operation");
-                this.Close();
-            }
+
         }
 
         #endregion
@@ -263,6 +264,30 @@ namespace AssessmentManager
         private void timer_Tick(object sender, EventArgs e)
         {
             Label++;
+            if (attemptedEmails >= smd.Count)
+            {
+                StringBuilder sb = new StringBuilder();
+                string title = "";
+                if (erroredEmails.Count == 0)
+                {
+                    sb.AppendLine("All emails sent successfully!");
+                    title = "Completed";
+                }
+                else
+                {
+                    sb.AppendLine($"Successfully sent {SentCount} email(s)");
+                    sb.AppendLine();
+                    sb.AppendLine("The following email(s) were not sent:");
+                    foreach (var s in erroredEmails)
+                    {
+                        sb.AppendLine("     " + s);
+                    }
+                    title = "Partially completed";
+                }
+                timer.Enabled = false;
+                MessageBox.Show(sb.ToString(), title);
+                this.Close();
+            }
         }
 
         #endregion
