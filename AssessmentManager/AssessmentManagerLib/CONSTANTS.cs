@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace AssessmentManager
 
         public static string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         public static string DOCUMENTS_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        public static string TEMP_PDF_PATH = Path.Combine(Application.StartupPath, "temp");
 
         public static readonly string EXAMDRIVE_ROOT = @"X:\";
         public static readonly string C_ROOT = @"C:\";

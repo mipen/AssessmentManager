@@ -108,6 +108,24 @@ namespace AssessmentManager
             nudAssessmentTimeStudent.Visible = false;
             nudAssessmentTimeStudent.ValueChanged += nudAssessmentTimeStudent_ValueChanged;
             dgvPublishStudents.Controls.Add(nudAssessmentTimeStudent);
+
+            //Clear the temp pdf folder
+            if (Directory.Exists(TEMP_PDF_PATH))
+            {
+                string[] files = Directory.GetFiles(TEMP_PDF_PATH);
+                if (files.Count() > 0)
+                {
+                    foreach (var file in files)
+                    {
+                        try
+                        {
+                            File.Delete(file);
+                        }
+                        catch
+                        { }
+                    }
+                }
+            }
         }
 
         public Assessment Assessment
@@ -1742,17 +1760,17 @@ namespace AssessmentManager
                 session = true;
             }
             //Course related things
-            //TODO:: Disable deleting course
+            //Disable deleting course
             tsmiDuplicateCourse.Enabled = course;
             tsmiDuplicateCourse.Visible = course;
-            toolStripSeparatorCourses.Visible = course;
-            tsmiDeleteCourse.Visible = course;
-            tsmiDeleteCourse.Enabled = course;
+            //toolStripSeparatorCourses.Visible = course;
+            //tsmiDeleteCourse.Visible = course;
+            //tsmiDeleteCourse.Enabled = course;
 
             //Session related things
-            //TODO:: Disable deleting assessment
-            tsmiDeleteAssessmentSession.Visible = session;
-            tsmiDeleteAssessmentSession.Enabled = session;
+            //Disable deleting assessment
+            //tsmiDeleteAssessmentSession.Visible = session;
+            //tsmiDeleteAssessmentSession.Enabled = session;
             tsmiMarkAssessment.Enabled = session;
             tsmiMarkAssessment.Visible = session;
         }
@@ -3158,8 +3176,8 @@ namespace AssessmentManager
         {
             if (pdfSaveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                AssessmentResultWriter arw = new AssessmentResultWriter(smd, pdfSaveFileDialog.FileName);
-                if (arw.MakePDF())
+                AssessmentResultWriter arw = new AssessmentResultWriter(smd);
+                if (arw.MakePDF(pdfSaveFileDialog.FileName))
                 {
                     if (MessageBox.Show("PDF successfully created. Would you like to view it now?", "PDF created", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
@@ -3171,8 +3189,8 @@ namespace AssessmentManager
 
         private void MakeResultsPDF(StudentMarkingData smd, string path)
         {
-            AssessmentResultWriter arw = new AssessmentResultWriter(smd, path);
-            arw.MakePDF();
+            AssessmentResultWriter arw = new AssessmentResultWriter(smd);
+            arw.MakePDF(path);
         }
 
         private void UpdateStudentResultDisplay()
@@ -3415,7 +3433,6 @@ namespace AssessmentManager
 
         private void btnMarkEmailStudent_Click(object sender, EventArgs e)
         {
-            //TODO:: this
             if (lbMarkStudents.SelectedItem != null)
             {
                 if (lbMarkStudents.SelectedItem is StudentMarkingData)
@@ -3427,11 +3444,8 @@ namespace AssessmentManager
                         {
                             try
                             {
-                                string filePath = Path.Combine(MarkSession.FolderPath, smd.StudentData.UserName + PDF_EXT);
-                                
-                                EmailHandler em = new EmailHandler(MarkSession, smd, filePath, true);
-                                em.SendEmail();
-                                
+                                EmailHandler em = new EmailHandler(MarkSession, smd);
+                                em.ShowDialog();
                             }
                             catch (Exception ex)
                             {
@@ -3472,8 +3486,16 @@ namespace AssessmentManager
 
         private void btnMarkEmailAll_Click(object sender, EventArgs e)
         {
-            //TODO:: this
-
+            List<StudentMarkingData> list = lbMarkStudents.Items.Cast<StudentMarkingData>().Where(s => s.Loaded).ToList();
+            if (list != null && list.Count > 0)
+            {
+                EmailHandler em = new EmailHandler(MarkSession, list);
+                em.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("There are no students available to email. Please make sure that all students are loaded before trying to email them.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void btnMarkAllPDF_Click(object sender, EventArgs e)

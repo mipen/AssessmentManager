@@ -229,7 +229,7 @@ namespace AssessmentManager
             tree.Nodes.Clear();
             if (courses.Count > 0)
             {
-                foreach (var c in courses.Where(co => (co.CourseTitle.Contains(criteria)) || (co.ID.Contains(criteria))))
+                foreach (var c in courses.Where(co => (co.CourseTitle.ToLower().Contains(criteria.ToLower())) || (co.ID.Contains(criteria))))
                 {
                     CourseNode cn = BuildCourseNodeFor(c);
                     tree.Nodes.Add(cn);

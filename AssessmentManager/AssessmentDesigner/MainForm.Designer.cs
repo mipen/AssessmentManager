@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForQuestionsWithoutMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -250,6 +250,8 @@
             this.btnNewCourse = new System.Windows.Forms.Button();
             this.tvCourses = new System.Windows.Forms.TreeView();
             this.tabPageMark = new System.Windows.Forms.TabPage();
+            this.lblMarkStudentResultInt = new System.Windows.Forms.Label();
+            this.lblMarkStudentResult = new System.Windows.Forms.Label();
             this.lblMarkLastLoadedStudentDate = new System.Windows.Forms.Label();
             this.lblMarkLastLoadedStudentDateText = new System.Windows.Forms.Label();
             this.btnMarkQuestionsCollapse = new System.Windows.Forms.Button();
@@ -307,11 +309,9 @@
             this.tsmiMarkAssessment = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsMarkStudents = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiLoadStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiMakePDFStudent = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEmailStudent = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblMarkStudentResult = new System.Windows.Forms.Label();
-            this.lblMarkStudentResultInt = new System.Windows.Forms.Label();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStripMain.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPageDesigner.SuspendLayout();
@@ -520,7 +520,7 @@
             // emailSettingsToolStripMenuItem
             // 
             this.emailSettingsToolStripMenuItem.Name = "emailSettingsToolStripMenuItem";
-            this.emailSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.emailSettingsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.emailSettingsToolStripMenuItem.Text = "&Email Settings";
             this.emailSettingsToolStripMenuItem.Click += new System.EventHandler(this.emailSettingsToolStripMenuItem_Click);
             // 
@@ -1526,8 +1526,8 @@
             // 
             // colPublishStartTime
             // 
-            dataGridViewCellStyle7.Format = "hh:mm:ss tt";
-            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Format = "hh:mm:ss tt";
+            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle1;
             this.colPublishStartTime.HeaderText = "Start Time";
             this.colPublishStartTime.Name = "colPublishStartTime";
             this.colPublishStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -2343,8 +2343,8 @@
             // 
             // colSessionStartTime
             // 
-            dataGridViewCellStyle8.Format = "hh:mm:ss tt";
-            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Format = "hh:mm:ss tt";
+            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle2;
             this.colSessionStartTime.HeaderText = "Start Time";
             this.colSessionStartTime.Name = "colSessionStartTime";
             this.colSessionStartTime.ReadOnly = true;
@@ -2692,6 +2692,26 @@
             this.tabPageMark.TabIndex = 2;
             this.tabPageMark.Text = "Mark";
             this.tabPageMark.UseVisualStyleBackColor = true;
+            // 
+            // lblMarkStudentResultInt
+            // 
+            this.lblMarkStudentResultInt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMarkStudentResultInt.AutoSize = true;
+            this.lblMarkStudentResultInt.Location = new System.Drawing.Point(387, 540);
+            this.lblMarkStudentResultInt.Name = "lblMarkStudentResultInt";
+            this.lblMarkStudentResultInt.Size = new System.Drawing.Size(12, 13);
+            this.lblMarkStudentResultInt.TabIndex = 18;
+            this.lblMarkStudentResultInt.Text = "x";
+            // 
+            // lblMarkStudentResult
+            // 
+            this.lblMarkStudentResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMarkStudentResult.AutoSize = true;
+            this.lblMarkStudentResult.Location = new System.Drawing.Point(301, 540);
+            this.lblMarkStudentResult.Name = "lblMarkStudentResult";
+            this.lblMarkStudentResult.Size = new System.Drawing.Size(80, 13);
+            this.lblMarkStudentResult.TabIndex = 17;
+            this.lblMarkStudentResult.Text = "Student Result:";
             // 
             // lblMarkLastLoadedStudentDate
             // 
@@ -3185,7 +3205,7 @@
             this.tsmiDeleteAssessmentSession,
             this.tsmiMarkAssessment});
             this.cmsCoursesTree.Name = "cmsCoursesTree";
-            this.cmsCoursesTree.Size = new System.Drawing.Size(215, 98);
+            this.cmsCoursesTree.Size = new System.Drawing.Size(215, 120);
             // 
             // tsmiDuplicateCourse
             // 
@@ -3226,6 +3246,7 @@
             this.tsmiMarkAssessment.Name = "tsmiMarkAssessment";
             this.tsmiMarkAssessment.Size = new System.Drawing.Size(214, 22);
             this.tsmiMarkAssessment.Text = "Mark Assessment";
+            this.tsmiMarkAssessment.Visible = false;
             this.tsmiMarkAssessment.Click += new System.EventHandler(this.tsmiMarkAssessment_Click);
             // 
             // cmsMarkStudents
@@ -3245,6 +3266,11 @@
             this.tsmiLoadStudent.Text = "Load Student";
             this.tsmiLoadStudent.Click += new System.EventHandler(this.tsmiLoadStudent_Click);
             // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(144, 6);
+            // 
             // tsmiMakePDFStudent
             // 
             this.tsmiMakePDFStudent.Name = "tsmiMakePDFStudent";
@@ -3258,31 +3284,6 @@
             this.tsmiEmailStudent.Size = new System.Drawing.Size(147, 22);
             this.tsmiEmailStudent.Text = "Email Student";
             this.tsmiEmailStudent.Click += new System.EventHandler(this.tsmiEmailStudent_Click);
-            // 
-            // lblMarkStudentResult
-            // 
-            this.lblMarkStudentResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblMarkStudentResult.AutoSize = true;
-            this.lblMarkStudentResult.Location = new System.Drawing.Point(301, 540);
-            this.lblMarkStudentResult.Name = "lblMarkStudentResult";
-            this.lblMarkStudentResult.Size = new System.Drawing.Size(80, 13);
-            this.lblMarkStudentResult.TabIndex = 17;
-            this.lblMarkStudentResult.Text = "Student Result:";
-            // 
-            // lblMarkStudentResultInt
-            // 
-            this.lblMarkStudentResultInt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblMarkStudentResultInt.AutoSize = true;
-            this.lblMarkStudentResultInt.Location = new System.Drawing.Point(387, 540);
-            this.lblMarkStudentResultInt.Name = "lblMarkStudentResultInt";
-            this.lblMarkStudentResultInt.Size = new System.Drawing.Size(12, 13);
-            this.lblMarkStudentResultInt.TabIndex = 18;
-            this.lblMarkStudentResultInt.Text = "x";
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(149, 6);
             // 
             // MainForm
             // 

@@ -15,12 +15,10 @@ namespace AssessmentManager
     {
 
         private StudentMarkingData smd = null;
-        private string filePath = "";
 
-        public AssessmentResultWriter(StudentMarkingData smd, string filePath)
+        public AssessmentResultWriter(StudentMarkingData smd)
         {
             this.smd = smd;
-            this.filePath = filePath;
         }
 
         #region Fonts
@@ -52,7 +50,7 @@ namespace AssessmentManager
         private const float SubQuestionIndent = 20f;
         private const float SubSubQuestionIndent = 40f;
 
-        public bool MakePDF()
+        public bool MakePDF(string fp)
         {
             Document doc = new Document();
             bool successful = true;
@@ -60,7 +58,7 @@ namespace AssessmentManager
 
             try
             {
-                FileStream fs = new FileStream(filePath, FileMode.Create);
+                FileStream fs = new FileStream(fp, FileMode.Create);
 
                 PdfWriter.GetInstance(doc, fs);
                 doc.Open();
