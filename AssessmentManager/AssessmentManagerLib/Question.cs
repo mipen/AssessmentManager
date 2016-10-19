@@ -11,7 +11,8 @@ namespace AssessmentManager
         private int marks = 0;
         private string questionText = "";
         private string questionTextRaw = "";
-        private string modelAnswer;
+        private string modelAnswer = "";
+        private List<string> singleAnswers = new List<string>();
         private string optionA, optionB, optionC, optionD;
         private MultiChoiceOption correctOption = MultiChoiceOption.A;
         private AnswerType answerType = AnswerType.Open;
@@ -96,6 +97,18 @@ namespace AssessmentManager
             set
             {
                 modelAnswer = value;
+            }
+        }
+
+        public List<string> SingleAnswers
+        {
+            get
+            {
+                return singleAnswers;
+            }
+            set
+            {
+                singleAnswers = value;
             }
         }
 

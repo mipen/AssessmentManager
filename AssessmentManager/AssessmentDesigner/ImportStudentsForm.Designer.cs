@@ -34,10 +34,11 @@
             this.dgv = new System.Windows.Forms.DataGridView();
             this.buttonAccept = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.colUsername = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUsername = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnImportSpreadsheet = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,10 +65,10 @@
             // 
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colUsername,
+            this.colStudentID,
             this.colLastName,
             this.colFirstName,
-            this.colStudentID});
+            this.colUsername});
             this.dgv.Location = new System.Drawing.Point(15, 54);
             this.dgv.Name = "dgv";
             this.dgv.Size = new System.Drawing.Size(443, 333);
@@ -93,10 +94,10 @@
             this.buttonCancel.Text = "&Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // colUsername
+            // colStudentID
             // 
-            this.colUsername.HeaderText = "Username";
-            this.colUsername.Name = "colUsername";
+            this.colStudentID.HeaderText = "Student ID";
+            this.colStudentID.Name = "colStudentID";
             // 
             // colLastName
             // 
@@ -108,10 +109,20 @@
             this.colFirstName.HeaderText = "First Name";
             this.colFirstName.Name = "colFirstName";
             // 
-            // colStudentID
+            // colUsername
             // 
-            this.colStudentID.HeaderText = "Student ID";
-            this.colStudentID.Name = "colStudentID";
+            this.colUsername.HeaderText = "Username";
+            this.colUsername.Name = "colUsername";
+            // 
+            // btnImportSpreadsheet
+            // 
+            this.btnImportSpreadsheet.Location = new System.Drawing.Point(185, 393);
+            this.btnImportSpreadsheet.Name = "btnImportSpreadsheet";
+            this.btnImportSpreadsheet.Size = new System.Drawing.Size(104, 23);
+            this.btnImportSpreadsheet.TabIndex = 5;
+            this.btnImportSpreadsheet.Text = "From Spreadsheet";
+            this.btnImportSpreadsheet.UseVisualStyleBackColor = true;
+            this.btnImportSpreadsheet.Click += new System.EventHandler(this.btnImportSpreadsheet_Click);
             // 
             // ImportStudentsForm
             // 
@@ -120,6 +131,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(474, 427);
+            this.Controls.Add(this.btnImportSpreadsheet);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonAccept);
             this.Controls.Add(this.dgv);
@@ -142,9 +154,10 @@
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.Button buttonAccept;
         private System.Windows.Forms.Button buttonCancel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colUsername;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStudentID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colLastName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colFirstName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStudentID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colUsername;
+        private System.Windows.Forms.Button btnImportSpreadsheet;
     }
 }

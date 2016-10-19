@@ -18,6 +18,8 @@ namespace AssessmentManager
         private int labelNum = 0;
         private int sentCount = 0;
         private int attemptedEmails = 0;
+        private int timeOutCount = 0;
+        private const int timeOut = 200;
         private List<string> erroredEmails = new List<string>();
         private const string label0 = "Sending email ... Please wait";
         private const string label1 = "Sending email ... Please wait .";
@@ -177,6 +179,7 @@ namespace AssessmentManager
             if (Username.NullOrEmpty() || Password.NullOrEmpty() || Smtp.NullOrEmpty())
             {
                 MessageBox.Show("Cannot send email - please make sure you have entered your Username, Password and smtp server correctly.", "Invalid Username, password or smtp server", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Close();
                 return;
             }
 
@@ -242,12 +245,14 @@ namespace AssessmentManager
                 MessageBox.Show($"Error sending email to {e.UserState} \nPlease ensure your login details and smtp server are correct. Other causes for this error could be SSL or the chosen port. \n\n Exception:\n" + e.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 erroredEmails.Add(e.UserState.ToString());
                 attemptedEmails++;
+                timeOutCount = 0;
             }
             else
             {
                 progress.Value++;
                 SentCount++;
                 attemptedEmails++;
+                timeOutCount = 0;
             }
 
         }
@@ -264,6 +269,7 @@ namespace AssessmentManager
         private void timer_Tick(object sender, EventArgs e)
         {
             Label++;
+            timeOutCount++;
             if (attemptedEmails >= smd.Count)
             {
                 StringBuilder sb = new StringBuilder();
@@ -285,8 +291,14 @@ namespace AssessmentManager
                     title = "Partially completed";
                 }
                 timer.Enabled = false;
-                MessageBox.Show(sb.ToString(), title);
-                this.Close();
+                MessageBox.Show(sb.ToString(), title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Close();
+            }
+            if (timeOutCount > timeOut)
+            {
+                timer.Enabled = false;
+                MessageBox.Show("Operation timed out - please make sure that the details you have entered are correct and that you are connected to the internet", "Timed Out", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
             }
         }
 

@@ -38,6 +38,7 @@ namespace AssessmentManager
         private bool reloadCourses = false;
         private bool publishPrepared = false;
         private bool suppressCBEvent = false;
+        private bool suppressDesignerChanges = false;
         private bool markingChangesMade = false;
         private bool suppressMarkingSave = false;
         private Course courseRevertPoint;
@@ -988,6 +989,7 @@ namespace AssessmentManager
                 //Update the colour button
                 toolStripButtonColour.BackColor = richTextBoxQuestion.SelectionColor;
 
+                suppressDesignerChanges = true;
                 //Display the question's answer type
                 switch (node.Question.AnswerType)
                 {
@@ -1005,7 +1007,14 @@ namespace AssessmentManager
                         {
                             comboBoxAnswerType.SelectedItem = "Single";
                             //Display the answers
-                            richTextBoxAnswerSingleAcceptable.Text = node.Question.ModelAnswer;
+                            //richTextBoxAnswerSingleAcceptable.Text = node.Question.ModelAnswer;
+                            if (node.Question.SingleAnswers != null)
+                                richTextBoxAnswerSingleAcceptable.Lines = node.Question.SingleAnswers.ToArray();
+                            else
+                            {
+                                node.Question.SingleAnswers = new List<string>();
+                                richTextBoxAnswerSingleAcceptable.Clear();
+                            }
                             break;
                         }
                     case AnswerType.Open:
@@ -1021,6 +1030,7 @@ namespace AssessmentManager
                             break;
                         }
                 }
+                suppressDesignerChanges = false;
                 //Display the correct multi choice option
                 comboBoxAnswerMultiCorrect.SelectedItem = node.Question.CorrectOption.ToString();
                 //Disable the subquestion button if the question cannot have any more subquestions
@@ -1376,7 +1386,7 @@ namespace AssessmentManager
         private void richTextBoxAnswerOpen_TextChanged(object sender, EventArgs e)
         {
             QuestionNode node = (QuestionNode)treeViewQuestionList.SelectedNode;
-            if (node != null)
+            if (node != null && !suppressDesignerChanges)
             {
                 node.Question.ModelAnswer = richTextBoxAnswerOpen.Text;
                 DesignerChangesMade = true;
@@ -1386,9 +1396,10 @@ namespace AssessmentManager
         private void richTextBoxAnswerSingleAcceptable_TextChanged(object sender, EventArgs e)
         {
             QuestionNode node = (QuestionNode)treeViewQuestionList.SelectedNode;
-            if (node != null)
+            if (node != null && !suppressDesignerChanges)
             {
-                node.Question.ModelAnswer = richTextBoxAnswerSingleAcceptable.Text;
+                //node.Question.ModelAnswer = richTextBoxAnswerSingleAcceptable.Text;
+                node.Question.SingleAnswers = richTextBoxAnswerSingleAcceptable.Lines.ToList();
                 DesignerChangesMade = true;
             }
         }
@@ -1396,7 +1407,7 @@ namespace AssessmentManager
         private void textBoxMultiChoiceA_TextChanged(object sender, EventArgs e)
         {
             QuestionNode node = (QuestionNode)treeViewQuestionList.SelectedNode;
-            if (node != null)
+            if (node != null && !suppressDesignerChanges)
             {
                 node.Question.OptionA = textBoxMultiChoiceA.Text;
                 DesignerChangesMade = true;
@@ -1406,7 +1417,7 @@ namespace AssessmentManager
         private void textBoxMultiChoiceB_TextChanged(object sender, EventArgs e)
         {
             QuestionNode node = (QuestionNode)treeViewQuestionList.SelectedNode;
-            if (node != null)
+            if (node != null && !suppressDesignerChanges)
             {
                 node.Question.OptionB = textBoxMultiChoiceB.Text;
                 DesignerChangesMade = true;
@@ -1416,7 +1427,7 @@ namespace AssessmentManager
         private void textBoxMultiChoiceC_TextChanged(object sender, EventArgs e)
         {
             QuestionNode node = (QuestionNode)treeViewQuestionList.SelectedNode;
-            if (node != null)
+            if (node != null && !suppressDesignerChanges)
             {
                 node.Question.OptionC = textBoxMultiChoiceC.Text;
                 DesignerChangesMade = true;
@@ -1426,7 +1437,7 @@ namespace AssessmentManager
         private void textBoxMultiChoiceD_TextChanged(object sender, EventArgs e)
         {
             QuestionNode node = (QuestionNode)treeViewQuestionList.SelectedNode;
-            if (node != null)
+            if (node != null && !suppressDesignerChanges)
             {
                 node.Question.OptionD = textBoxMultiChoiceD.Text;
                 DesignerChangesMade = true;
@@ -1843,10 +1854,10 @@ namespace AssessmentManager
                     //DGVEDIT::
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dgvCourseStudents);
-                    row.Cells[0].Value = s.UserName;
+                    row.Cells[0].Value = s.StudentID;
                     row.Cells[1].Value = s.LastName;
                     row.Cells[2].Value = s.FirstName;
-                    row.Cells[3].Value = s.StudentID;
+                    row.Cells[3].Value = s.UserName;
                     dgvCourseStudents.Rows.Add(row);
                 }
             }
@@ -1900,10 +1911,10 @@ namespace AssessmentManager
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dgvPublishedAssessmentStudents);
 
-                    row.Cells[0].Value = sd.UserName;
+                    row.Cells[0].Value = sd.StudentID;
                     row.Cells[1].Value = sd.LastName;
                     row.Cells[2].Value = sd.FirstName;
-                    row.Cells[3].Value = sd.StudentID;
+                    row.Cells[3].Value = sd.UserName;
                     row.Cells[4].Value = sd.StartTime;
                     row.Cells[5].Value = sd.AssessmentLength;
                     row.Cells[6].Value = sd.ReadingTime;
@@ -2046,10 +2057,10 @@ namespace AssessmentManager
                         //DGVEDIT::
                         DataGridViewRow row = new DataGridViewRow();
                         row.CreateCells(dgvCourseStudents);
-                        row.Cells[0].Value = s.UserName;
+                        row.Cells[0].Value = s.StudentID;
                         row.Cells[1].Value = s.LastName;
                         row.Cells[2].Value = s.FirstName;
-                        row.Cells[3].Value = s.StudentID;
+                        row.Cells[3].Value = s.UserName;
                         dgvCourseStudents.Rows.Add(row);
                     }
                     CourseEdited = true;
@@ -2453,10 +2464,10 @@ namespace AssessmentManager
                 {
                     DataGridViewRow row = dgvPublishStudents.Rows[i];
                     //DGVEDIT::
-                    string userName = row.Cells[0].Value == null ? "" : row.Cells[0].Value.ToString();
+                    string studentID = row.Cells[0].Value == null ? "" : row.Cells[0].Value.ToString();
                     string lastName = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
                     string firstName = row.Cells[2].Value == null ? "" : row.Cells[2].Value.ToString();
-                    string studentID = row.Cells[3].Value == null ? "" : row.Cells[3].Value.ToString();
+                    string userName = row.Cells[3].Value == null ? "" : row.Cells[3].Value.ToString();
                     DateTime startTime;
                     if (row.Cells[4].Value == null)
                     {
@@ -2779,10 +2790,10 @@ namespace AssessmentManager
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dgvPublishStudents);
 
-                    row.Cells[0].Value = student.UserName;
+                    row.Cells[0].Value = student.StudentID;
                     row.Cells[1].Value = student.LastName;
                     row.Cells[2].Value = student.FirstName;
-                    row.Cells[3].Value = student.StudentID;
+                    row.Cells[3].Value = student.UserName;
                     row.Cells[4].Value = d;
                     row.Cells[5].Value = nudPublishAssessmentLength.Value;
                     row.Cells[6].Value = nudPublishReadingTime.Value;
@@ -3102,11 +3113,62 @@ namespace AssessmentManager
                     }
                 }
 
+                AutoMarkQuestions(smd);
+
                 int index = lbMarkStudents.Items.IndexOf(smd);
                 lbMarkStudents.Items.Remove(smd);
                 lbMarkStudents.Items.Insert(index, smd);
                 lbMarkStudents.SelectedItem = smd;
             }
+        }
+
+        private void AutoMarkQuestions(StudentMarkingData smd)
+        {
+            //Main script
+            if (smd.Scripts.Count == 0)
+                return;
+            AssessmentScript script = smd.Scripts.First().Script;
+            if (script == null)
+                return;
+            Dictionary<MarkingQuestion, Question> dict = new Dictionary<MarkingQuestion, Question>();
+            foreach (var mq in smd.MarkingQuestions)
+            {
+                mq.GetAutoMarkingQuestions(script, dict);
+            }
+
+            foreach (var kvp in dict)
+            {
+                //MarkingQuestion = key
+                //Question = value
+
+                Answer a = script.Answers[kvp.Value.Name];
+                if (a == null)
+                    continue;
+                switch (kvp.Value.AnswerType)
+                {
+                    case AnswerType.Multi:
+                        {
+                            if (a.SelectedOption == kvp.Value.CorrectOption)
+                            {
+                                kvp.Key.AssignedMarks = kvp.Value.Marks;
+                            }
+                            else
+                                kvp.Key.AssignedMarks = 0;
+                            break;
+                        }
+                    case AnswerType.Single:
+                        {
+                            if (kvp.Value.SingleAnswers != null && kvp.Value.SingleAnswers.Contains(a.ShortAnswer))
+                                kvp.Key.AssignedMarks = kvp.Value.Marks;
+                            else
+                                kvp.Key.AssignedMarks = 0;
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            }
+
         }
 
         private void EnableMarkEditorGUI(bool enable)
@@ -3402,7 +3464,18 @@ namespace AssessmentManager
                             rtbMarkStudentAnswer.Text = str;
 
                             //Show the model answer
-                            rtbMarkModelAnswer.Text = q.ModelAnswer;
+                            if (q.AnswerType == AnswerType.Single)
+                            {
+                                rtbMarkModelAnswer.Clear();
+                                if (q.SingleAnswers != null)
+                                    rtbMarkModelAnswer.Lines = q.SingleAnswers.ToArray();
+                                else
+                                {
+                                    rtbMarkModelAnswer.Clear();
+                                }
+                            }
+                            else
+                                rtbMarkModelAnswer.Text = q.ModelAnswer;
 
                             //Show the marker response
                             rtbMarkerResponse.Text = node.MarkingQuestion.MarkerResponse;

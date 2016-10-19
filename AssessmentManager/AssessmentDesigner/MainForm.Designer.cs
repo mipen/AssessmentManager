@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForQuestionsWithoutMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -136,15 +136,6 @@
             this.tabPagePublish = new System.Windows.Forms.TabPage();
             this.tlpPublishContainer = new System.Windows.Forms.TableLayoutPanel();
             this.dgvPublishStudents = new System.Windows.Forms.DataGridView();
-            this.colPublishUsername = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPublishLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPublishFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPublishStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPublishStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPublishAssessmentLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPublishReadingTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPublishAccountName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPublishAccountPassword = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.nudPublishWeigthing = new System.Windows.Forms.NumericUpDown();
@@ -213,15 +204,6 @@
             this.label24 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.dgvPublishedAssessmentStudents = new System.Windows.Forms.DataGridView();
-            this.colSessionUserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSessionLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSessionFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSessionStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSessionStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSessionAssessmentLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSessionReadingTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSessionAccountName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSessionAccountPassword = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlCourseView = new System.Windows.Forms.Panel();
             this.btnCourseClearStudents = new System.Windows.Forms.Button();
             this.btnCourseOpenFolder = new System.Windows.Forms.Button();
@@ -231,10 +213,6 @@
             this.btnApplyCourseChanges = new System.Windows.Forms.Button();
             this.btnImportStudents = new System.Windows.Forms.Button();
             this.dgvCourseStudents = new System.Windows.Forms.DataGridView();
-            this.colUserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.cbCourseSemester = new System.Windows.Forms.ComboBox();
             this.nudCourseYear = new System.Windows.Forms.NumericUpDown();
@@ -312,6 +290,28 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiMakePDFStudent = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEmailStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.colSessionStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSessionLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSessionFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSessionUserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSessionStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSessionAssessmentLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSessionReadingTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSessionAccountName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSessionAccountPassword = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPublishStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPublishLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPublishFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPublishUsername = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPublishStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPublishAssessmentLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPublishReadingTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPublishAccountName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPublishAccountPassword = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStripMain.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPageDesigner.SuspendLayout();
@@ -535,7 +535,7 @@
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem1.Text = "&About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
@@ -1487,10 +1487,10 @@
             this.dgvPublishStudents.AllowUserToAddRows = false;
             this.dgvPublishStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPublishStudents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colPublishUsername,
+            this.colPublishStudentID,
             this.colPublishLastName,
             this.colPublishFirstName,
-            this.colPublishStudentID,
+            this.colPublishUsername,
             this.colPublishStartTime,
             this.colPublishAssessmentLength,
             this.colPublishReadingTime,
@@ -1504,57 +1504,6 @@
             this.dgvPublishStudents.TabIndex = 15;
             this.dgvPublishStudents.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvPublishStudents_CellBeginEdit);
             this.dgvPublishStudents.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPublishStudents_CellEndEdit);
-            // 
-            // colPublishUsername
-            // 
-            this.colPublishUsername.HeaderText = "Username";
-            this.colPublishUsername.Name = "colPublishUsername";
-            // 
-            // colPublishLastName
-            // 
-            this.colPublishLastName.HeaderText = "Last Name";
-            this.colPublishLastName.Name = "colPublishLastName";
-            // 
-            // colPublishFirstName
-            // 
-            this.colPublishFirstName.HeaderText = "First Name";
-            this.colPublishFirstName.Name = "colPublishFirstName";
-            // 
-            // colPublishStudentID
-            // 
-            this.colPublishStudentID.HeaderText = "Student ID";
-            this.colPublishStudentID.Name = "colPublishStudentID";
-            // 
-            // colPublishStartTime
-            // 
-            dataGridViewCellStyle1.Format = "hh:mm:ss tt";
-            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colPublishStartTime.HeaderText = "Start Time";
-            this.colPublishStartTime.Name = "colPublishStartTime";
-            this.colPublishStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colPublishStartTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // colPublishAssessmentLength
-            // 
-            this.colPublishAssessmentLength.HeaderText = "Assessment Length (mins)";
-            this.colPublishAssessmentLength.Name = "colPublishAssessmentLength";
-            // 
-            // colPublishReadingTime
-            // 
-            this.colPublishReadingTime.HeaderText = "Reading Time (mins)";
-            this.colPublishReadingTime.Name = "colPublishReadingTime";
-            // 
-            // colPublishAccountName
-            // 
-            this.colPublishAccountName.HeaderText = "Account Name";
-            this.colPublishAccountName.Name = "colPublishAccountName";
-            this.colPublishAccountName.ReadOnly = true;
-            // 
-            // colPublishAccountPassword
-            // 
-            this.colPublishAccountPassword.HeaderText = "Account Password";
-            this.colPublishAccountPassword.Name = "colPublishAccountPassword";
-            this.colPublishAccountPassword.ReadOnly = true;
             // 
             // panel1
             // 
@@ -1961,8 +1910,8 @@
             // 
             this.tabPageCourses.Controls.Add(this.btnCollapse);
             this.tabPageCourses.Controls.Add(this.btnCourseExpand);
-            this.tabPageCourses.Controls.Add(this.pnlAssessmentView);
             this.tabPageCourses.Controls.Add(this.pnlCourseView);
+            this.tabPageCourses.Controls.Add(this.pnlAssessmentView);
             this.tabPageCourses.Controls.Add(this.tbCourseSearch);
             this.tabPageCourses.Controls.Add(this.btnNewCourse);
             this.tabPageCourses.Controls.Add(this.tvCourses);
@@ -2303,10 +2252,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvPublishedAssessmentStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPublishedAssessmentStudents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSessionUserName,
+            this.colSessionStudentID,
             this.colSessionLastName,
             this.colSessionFirstName,
-            this.colSessionStudentID,
+            this.colSessionUserName,
             this.colSessionStartTime,
             this.colSessionAssessmentLength,
             this.colSessionReadingTime,
@@ -2317,62 +2266,6 @@
             this.dgvPublishedAssessmentStudents.ReadOnly = true;
             this.dgvPublishedAssessmentStudents.Size = new System.Drawing.Size(635, 293);
             this.dgvPublishedAssessmentStudents.TabIndex = 15;
-            // 
-            // colSessionUserName
-            // 
-            this.colSessionUserName.HeaderText = "Username";
-            this.colSessionUserName.Name = "colSessionUserName";
-            this.colSessionUserName.ReadOnly = true;
-            // 
-            // colSessionLastName
-            // 
-            this.colSessionLastName.HeaderText = "Last Name";
-            this.colSessionLastName.Name = "colSessionLastName";
-            this.colSessionLastName.ReadOnly = true;
-            // 
-            // colSessionFirstName
-            // 
-            this.colSessionFirstName.HeaderText = "First Name";
-            this.colSessionFirstName.Name = "colSessionFirstName";
-            this.colSessionFirstName.ReadOnly = true;
-            // 
-            // colSessionStudentID
-            // 
-            this.colSessionStudentID.HeaderText = "Student ID";
-            this.colSessionStudentID.Name = "colSessionStudentID";
-            this.colSessionStudentID.ReadOnly = true;
-            // 
-            // colSessionStartTime
-            // 
-            dataGridViewCellStyle2.Format = "hh:mm:ss tt";
-            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colSessionStartTime.HeaderText = "Start Time";
-            this.colSessionStartTime.Name = "colSessionStartTime";
-            this.colSessionStartTime.ReadOnly = true;
-            // 
-            // colSessionAssessmentLength
-            // 
-            this.colSessionAssessmentLength.HeaderText = "Assessment Length (mins)";
-            this.colSessionAssessmentLength.Name = "colSessionAssessmentLength";
-            this.colSessionAssessmentLength.ReadOnly = true;
-            // 
-            // colSessionReadingTime
-            // 
-            this.colSessionReadingTime.HeaderText = "Reading Time (mins)";
-            this.colSessionReadingTime.Name = "colSessionReadingTime";
-            this.colSessionReadingTime.ReadOnly = true;
-            // 
-            // colSessionAccountName
-            // 
-            this.colSessionAccountName.HeaderText = "Account Name";
-            this.colSessionAccountName.Name = "colSessionAccountName";
-            this.colSessionAccountName.ReadOnly = true;
-            // 
-            // colSessionAccountPassword
-            // 
-            this.colSessionAccountPassword.HeaderText = "Account Password";
-            this.colSessionAccountPassword.Name = "colSessionAccountPassword";
-            this.colSessionAccountPassword.ReadOnly = true;
             // 
             // pnlCourseView
             // 
@@ -2485,36 +2378,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvCourseStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCourseStudents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colUserName,
+            this.colStudentID,
             this.colLastName,
             this.colFirstName,
-            this.colStudentID});
+            this.colUserName});
             this.dgvCourseStudents.Location = new System.Drawing.Point(3, 139);
             this.dgvCourseStudents.Name = "dgvCourseStudents";
             this.dgvCourseStudents.Size = new System.Drawing.Size(626, 404);
             this.dgvCourseStudents.TabIndex = 5;
             this.dgvCourseStudents.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCourseStudents_CellValueChanged);
             this.dgvCourseStudents.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvCourseStudents_RowsRemoved);
-            // 
-            // colUserName
-            // 
-            this.colUserName.HeaderText = "Username";
-            this.colUserName.Name = "colUserName";
-            // 
-            // colLastName
-            // 
-            this.colLastName.HeaderText = "Last Name";
-            this.colLastName.Name = "colLastName";
-            // 
-            // colFirstName
-            // 
-            this.colFirstName.HeaderText = "First Name";
-            this.colFirstName.Name = "colFirstName";
-            // 
-            // colStudentID
-            // 
-            this.colStudentID.HeaderText = "Student ID";
-            this.colStudentID.Name = "colStudentID";
             // 
             // label6
             // 
@@ -3286,6 +3159,133 @@
             this.tsmiEmailStudent.Text = "Email Student";
             this.tsmiEmailStudent.Click += new System.EventHandler(this.tsmiEmailStudent_Click);
             // 
+            // colSessionStudentID
+            // 
+            this.colSessionStudentID.HeaderText = "Student ID";
+            this.colSessionStudentID.Name = "colSessionStudentID";
+            this.colSessionStudentID.ReadOnly = true;
+            // 
+            // colSessionLastName
+            // 
+            this.colSessionLastName.HeaderText = "Last Name";
+            this.colSessionLastName.Name = "colSessionLastName";
+            this.colSessionLastName.ReadOnly = true;
+            // 
+            // colSessionFirstName
+            // 
+            this.colSessionFirstName.HeaderText = "First Name";
+            this.colSessionFirstName.Name = "colSessionFirstName";
+            this.colSessionFirstName.ReadOnly = true;
+            // 
+            // colSessionUserName
+            // 
+            this.colSessionUserName.HeaderText = "Username";
+            this.colSessionUserName.Name = "colSessionUserName";
+            this.colSessionUserName.ReadOnly = true;
+            // 
+            // colSessionStartTime
+            // 
+            dataGridViewCellStyle3.Format = "hh:mm:ss tt";
+            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle3;
+            this.colSessionStartTime.HeaderText = "Start Time";
+            this.colSessionStartTime.Name = "colSessionStartTime";
+            this.colSessionStartTime.ReadOnly = true;
+            // 
+            // colSessionAssessmentLength
+            // 
+            this.colSessionAssessmentLength.HeaderText = "Assessment Length (mins)";
+            this.colSessionAssessmentLength.Name = "colSessionAssessmentLength";
+            this.colSessionAssessmentLength.ReadOnly = true;
+            // 
+            // colSessionReadingTime
+            // 
+            this.colSessionReadingTime.HeaderText = "Reading Time (mins)";
+            this.colSessionReadingTime.Name = "colSessionReadingTime";
+            this.colSessionReadingTime.ReadOnly = true;
+            // 
+            // colSessionAccountName
+            // 
+            this.colSessionAccountName.HeaderText = "Account Name";
+            this.colSessionAccountName.Name = "colSessionAccountName";
+            this.colSessionAccountName.ReadOnly = true;
+            // 
+            // colSessionAccountPassword
+            // 
+            this.colSessionAccountPassword.HeaderText = "Account Password";
+            this.colSessionAccountPassword.Name = "colSessionAccountPassword";
+            this.colSessionAccountPassword.ReadOnly = true;
+            // 
+            // colPublishStudentID
+            // 
+            this.colPublishStudentID.HeaderText = "Student ID";
+            this.colPublishStudentID.Name = "colPublishStudentID";
+            // 
+            // colPublishLastName
+            // 
+            this.colPublishLastName.HeaderText = "Last Name";
+            this.colPublishLastName.Name = "colPublishLastName";
+            // 
+            // colPublishFirstName
+            // 
+            this.colPublishFirstName.HeaderText = "First Name";
+            this.colPublishFirstName.Name = "colPublishFirstName";
+            // 
+            // colPublishUsername
+            // 
+            this.colPublishUsername.HeaderText = "Username";
+            this.colPublishUsername.Name = "colPublishUsername";
+            // 
+            // colPublishStartTime
+            // 
+            dataGridViewCellStyle4.Format = "hh:mm:ss tt";
+            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle4;
+            this.colPublishStartTime.HeaderText = "Start Time";
+            this.colPublishStartTime.Name = "colPublishStartTime";
+            this.colPublishStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colPublishStartTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colPublishAssessmentLength
+            // 
+            this.colPublishAssessmentLength.HeaderText = "Assessment Length (mins)";
+            this.colPublishAssessmentLength.Name = "colPublishAssessmentLength";
+            // 
+            // colPublishReadingTime
+            // 
+            this.colPublishReadingTime.HeaderText = "Reading Time (mins)";
+            this.colPublishReadingTime.Name = "colPublishReadingTime";
+            // 
+            // colPublishAccountName
+            // 
+            this.colPublishAccountName.HeaderText = "Account Name";
+            this.colPublishAccountName.Name = "colPublishAccountName";
+            this.colPublishAccountName.ReadOnly = true;
+            // 
+            // colPublishAccountPassword
+            // 
+            this.colPublishAccountPassword.HeaderText = "Account Password";
+            this.colPublishAccountPassword.Name = "colPublishAccountPassword";
+            this.colPublishAccountPassword.ReadOnly = true;
+            // 
+            // colStudentID
+            // 
+            this.colStudentID.HeaderText = "Student ID";
+            this.colStudentID.Name = "colStudentID";
+            // 
+            // colLastName
+            // 
+            this.colLastName.HeaderText = "Last Name";
+            this.colLastName.Name = "colLastName";
+            // 
+            // colFirstName
+            // 
+            this.colFirstName.HeaderText = "First Name";
+            this.colFirstName.Name = "colFirstName";
+            // 
+            // colUserName
+            // 
+            this.colUserName.HeaderText = "Username";
+            this.colUserName.Name = "colUserName";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3520,10 +3520,6 @@
         private System.Windows.Forms.ComboBox cbCourseSemester;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridView dgvCourseStudents;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colUserName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colLastName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colFirstName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStudentID;
         private System.Windows.Forms.Button btnImportStudents;
         private System.Windows.Forms.Button btnApplyCourseChanges;
         private System.Windows.Forms.Button btnDiscardCourseChanges;
@@ -3593,24 +3589,6 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Button btnSessionOpenLocation;
         private System.Windows.Forms.Button btnCourseOpenFolder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionUserName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionLastName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionFirstName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionStudentID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionStartTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionAssessmentLength;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionReadingTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionAccountName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionAccountPassword;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishUsername;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishLastName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishFirstName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishStudentID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishStartTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishAssessmentLength;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishReadingTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishAccountName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishAccountPassword;
         private System.Windows.Forms.Button btnCollapse;
         private System.Windows.Forms.Button btnCourseExpand;
         private System.Windows.Forms.ToolStripMenuItem contextMenuCopyQuestion;
@@ -3669,5 +3647,27 @@
         private System.Windows.Forms.Label lblMarkStudentResultInt;
         private System.Windows.Forms.Label lblMarkStudentResult;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionStudentID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionLastName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionFirstName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionUserName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionStartTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionAssessmentLength;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionReadingTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionAccountName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSessionAccountPassword;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishStudentID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishLastName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishFirstName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishUsername;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishStartTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishAssessmentLength;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishReadingTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishAccountName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPublishAccountPassword;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStudentID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLastName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colFirstName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colUserName;
     }
 }

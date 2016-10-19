@@ -63,6 +63,16 @@ namespace AssessmentManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _600755_284506_14 {
+            get {
+                object obj = ResourceManager.GetObject("600755-284506-14", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AlignCentre {
             get {
                 object obj = ResourceManager.GetObject("AlignCentre", resourceCulture);

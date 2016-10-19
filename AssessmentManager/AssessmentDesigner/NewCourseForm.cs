@@ -54,10 +54,10 @@ namespace AssessmentManager
                         if (row.Cells[0].Value == null && row.Cells[1].Value == null && row.Cells[2].Value == null && row.Cells[3].Value == null)
                             continue;
 
-                        string userName = row.Cells[0].Value?.ToString();
+                        string studentID = row.Cells[0].Value?.ToString();
                         string lastName = row.Cells[1].Value?.ToString();
                         string firstName = row.Cells[2].Value?.ToString();
-                        string studentID = row.Cells[3].Value?.ToString();
+                        string userName = row.Cells[3].Value?.ToString();
                         Student s = new Student(userName, lastName, firstName, studentID);
                         list.Add(s);
                     }
@@ -154,10 +154,10 @@ namespace AssessmentManager
                         //DGVEDIT::
                         DataGridViewRow row = new DataGridViewRow();
                         row.CreateCells(dgvStudents);
-                        row.Cells[0].Value = s.UserName;
+                        row.Cells[0].Value = s.StudentID;
                         row.Cells[1].Value = s.LastName;
                         row.Cells[2].Value = s.FirstName;
-                        row.Cells[3].Value = s.StudentID;
+                        row.Cells[3].Value = s.UserName;
                         dgvStudents.Rows.Add(row);
                     }
                 }

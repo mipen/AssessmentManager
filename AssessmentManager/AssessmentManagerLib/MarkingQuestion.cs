@@ -84,6 +84,25 @@ namespace AssessmentManager
 
         #region Methods
 
+        public void GetAutoMarkingQuestions(AssessmentScript script, Dictionary<MarkingQuestion, Question> dict)
+        {
+            Question q = script.FindQuestion(QuestionName);
+            if(q!= null)
+            {
+                if(q.AnswerType==AnswerType.Multi || q.AnswerType==AnswerType.Single)
+                {
+                    dict.Add(this, q);
+                }
+            }
+            if(HasSubQuestions)
+            {
+                foreach(var smq in SubMarkingQuestions)
+                {
+                    smq.GetAutoMarkingQuestions(script, dict);
+                }
+            }
+        }
+
         public MarkingQuestionNode BuildNode()
         {
             MarkingQuestionNode node = new MarkingQuestionNode(this);
