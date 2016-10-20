@@ -1800,7 +1800,7 @@ namespace AssessmentManager
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 HandoutWriter w = new HandoutWriter(session, sfd.FileName);
-                if(w.MakePdf())
+                if (w.MakePdf())
                 {
                     Process.Start(sfd.FileName);
                 }
