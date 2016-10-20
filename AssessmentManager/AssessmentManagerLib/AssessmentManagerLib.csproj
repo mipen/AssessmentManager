@@ -66,6 +66,7 @@
     <Compile Include="CoursesExt.cs" />
     <Compile Include="FileCellItem.cs" />
     <Compile Include="FileItem.cs" />
+    <Compile Include="HandoutWriter.cs" />
     <Compile Include="MarkingQuestion.cs" />
     <Compile Include="MarkingQuestionNode.cs" />
     <Compile Include="MultiChoiceOption.cs" />

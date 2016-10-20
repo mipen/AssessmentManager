@@ -110,12 +110,12 @@ namespace AssessmentManager
                 totalMarksPara.Add(totalPhrase);
 
                 totalMarksPara.SpacingBefore = 10f;
-                
+
                 doc.Add(totalMarksPara);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Error creating pdf");
+                MessageBox.Show(e.Message, "Error creating pdf", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 successful = false;
             }
             finally
@@ -185,7 +185,7 @@ namespace AssessmentManager
             mainPara.Add("\n");
 
             //Multi choice options (if applicable)
-            if(q.AnswerType==AnswerType.Multi)
+            if (q.AnswerType == AnswerType.Multi)
             {
                 Phrase optA = new Phrase($"A) {q.OptionA}\n", QuestionTextFont);
                 Phrase optB = new Phrase($"B) {q.OptionB}\n", QuestionTextFont);
@@ -200,19 +200,19 @@ namespace AssessmentManager
             }
 
             //Model answers
-            if(withAnswers)
+            if (withAnswers)
             {
                 Paragraph answerPara = null;
-                if(q.AnswerType==AnswerType.Multi)
+                if (q.AnswerType == AnswerType.Multi)
                 {
-                    answerPara = new Paragraph($"Correct option is: ({q.CorrectOption})",QuestionTextFont);
+                    answerPara = new Paragraph($"Correct option is: ({q.CorrectOption})", QuestionTextFont);
                 }
-                else if(q.AnswerType==AnswerType.Open || q.AnswerType==AnswerType.Single)
+                else if (q.AnswerType == AnswerType.Open || q.AnswerType == AnswerType.Single)
                 {
                     answerPara = new Paragraph(q.ModelAnswer, QuestionTextFont);
                 }
 
-                if(answerPara!=null)
+                if (answerPara != null)
                 {
                     mainPara.Add(new Phrase("Model answer: \n", ModelAnswerHeaderFont));
                     mainPara.Add(answerPara);

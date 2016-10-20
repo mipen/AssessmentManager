@@ -83,6 +83,14 @@ namespace AssessmentManager
             }
         }
 
+        public DateTime FinishTime
+        {
+            get
+            {
+                return StartTime.AddMinutes((double)(readingTime + assessmentLength));
+            }
+        }
+
         public DateTime DeploymentTime
         {
             get

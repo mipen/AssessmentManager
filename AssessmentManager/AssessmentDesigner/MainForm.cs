@@ -1793,6 +1793,18 @@ namespace AssessmentManager
         private void GenerateHandout(AssessmentSession session)
         {
             //TODO:: THIS, get info from snjezana
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = PDF_FILTER;
+            sfd.DefaultExt = PDF_FILTER.Remove(0, 1);
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                HandoutWriter w = new HandoutWriter(session, sfd.FileName);
+                if(w.MakePdf())
+                {
+                    Process.Start(sfd.FileName);
+                }
+            }
         }
 
         #endregion
