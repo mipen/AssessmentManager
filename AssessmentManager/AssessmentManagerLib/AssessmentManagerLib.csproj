@@ -79,6 +79,7 @@
     <Compile Include="StudentData.cs" />
     <Compile Include="StudentMarkingData.cs" />
     <Compile Include="TimeData.cs" />
+    <Compile Include="UsernamePasswordPair.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>

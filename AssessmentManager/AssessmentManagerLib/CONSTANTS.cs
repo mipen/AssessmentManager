@@ -30,6 +30,8 @@ namespace AssessmentManager
         public static readonly string EXAMDRIVE_ROOT = @"X:\";
         public static readonly string C_ROOT = @"C:\";
 
+        public const string INVALID = "not found";
+
         public static readonly string STUDENT_STAGE = "STUDENTS_CHECK";
 
         public static readonly string COURSES_FOLDER_NAME = "Courses";
@@ -40,7 +42,13 @@ namespace AssessmentManager
 
         public static string AUTOSAVE_FOLDER_NAME(string assessmentName)
         {
-            return $"{assessmentName.Replace(" ","")}_autosaves";
+            return $"{assessmentName.Replace(" ", "")}_autosaves";
+        }
+
+        public static string USERNAME_FILE_PATH(string assessmentPath, string deployTarget)
+        {
+            //return Path.Combine(Application.StartupPath, new DirectoryInfo(deployTarget).Name + SPREADSHEET_EXT);
+            return Path.Combine(assessmentPath, new DirectoryInfo(deployTarget).Name + SPREADSHEET_EXT);
         }
     }
 }

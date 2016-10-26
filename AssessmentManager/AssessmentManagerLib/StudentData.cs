@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace AssessmentManager
 {
@@ -13,7 +14,7 @@ namespace AssessmentManager
         private int readingTime = 0;
         private string restartPassword = "";
 
-        public StudentData(string userName, string lastName, string firstName, string studentID, DateTime startTime, int assessmentLength, int readingTime, string accountName, string accountPassword, string restartPassword):base(userName,lastName,firstName,studentID)
+        public StudentData(string userName, string lastName, string firstName, string studentID, DateTime startTime, int assessmentLength, int readingTime, string accountName, string accountPassword, string restartPassword) : base(userName, lastName, firstName, studentID)
         {
             this.accountName = accountName;
             this.accountPassword = accountPassword;
@@ -105,16 +106,39 @@ namespace AssessmentManager
 
         public override bool ResolveErrors()
         {
-            return base.ResolveErrors() && !AccountName.NullOrEmpty() && !AccountPassword.NullOrEmpty() && startTime != null && AssessmentLength > 0;
+            return base.ResolveErrors() && !AccountName.NullOrEmpty() && AccountName != CONSTANTS.INVALID && !AccountPassword.NullOrEmpty() && AccountPassword != CONSTANTS.INVALID && startTime != null && AssessmentLength > 0;
+        }
+
+        public bool ResolveErrors(string deployTarget)
+        {
+            return base.ResolveErrors() && !AccountName.NullOrEmpty() && Directory.Exists(Path.Combine(deployTarget, AccountName)) && !AccountPassword.NullOrEmpty() && AccountPassword != CONSTANTS.INVALID && startTime != null && AssessmentLength > 0;
         }
 
         public override List<ErrorType> GetErrors()
         {
             List<ErrorType> list = base.GetErrors();
 
-            if (AccountName.NullOrEmpty())
+            if (AccountName.NullOrEmpty() || AccountName == CONSTANTS.INVALID)
                 list.Add(ErrorType.AccountName);
-            if (AccountPassword.NullOrEmpty())
+            if (AccountPassword.NullOrEmpty() || AccountPassword == CONSTANTS.INVALID)
+                list.Add(ErrorType.AccountPassword);
+            if (StartTime == null || StartTime == CONSTANTS.INVALID_DATE)
+                list.Add(ErrorType.StartTime);
+            if (AssessmentLength <= 0)
+                list.Add(ErrorType.AssessmentLength);
+            if (ReadingTime < 0)
+                list.Add(ErrorType.ReadingTime);
+
+            return list;
+        }
+
+        public List<ErrorType> GetErrors(string deployTarget)
+        {
+            List<ErrorType> list = base.GetErrors();
+
+            if (AccountName.NullOrEmpty() || !Directory.Exists(Path.Combine(deployTarget, AccountName)))
+                list.Add(ErrorType.AccountName);
+            if (AccountPassword.NullOrEmpty() || AccountPassword == CONSTANTS.INVALID)
                 list.Add(ErrorType.AccountPassword);
             if (StartTime == null || StartTime == CONSTANTS.INVALID_DATE)
                 list.Add(ErrorType.StartTime);

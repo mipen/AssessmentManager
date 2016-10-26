@@ -7,11 +7,13 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using static AssessmentManager.CONSTANTS;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace AssessmentManager
 {
@@ -713,6 +715,8 @@ namespace AssessmentManager
                             return;
                     }
                     OpenFromFile(item.Tag.ToString());
+                    recentToolStripMenuItem.DropDownItems.Remove(item);
+                    recentToolStripMenuItem.DropDownItems.Insert(0, item);
                 };
                 recentToolStripMenuItem.DropDownItems.Add(item);
             }
@@ -722,7 +726,7 @@ namespace AssessmentManager
         /// Save the currently open Assessment to file. Does not display SaveFileDialog, but instead is given the path to save to.
         /// </summary>
         /// <param name="path">The specified path to save the Assessment to.</param>
-        private void SaveToFile(string path)
+        private void SaveToFile(string path, bool addToRecent = true)
         {
             //Save the file here
             if (HasAssessmentOpen)
@@ -737,8 +741,11 @@ namespace AssessmentManager
                     assessmentFile = new FileInfo(path);
                     DesignerChangesMade = false;
                     UpdateFormText();
-                    Settings.Instance.AddRecentFile(path);
-                    UpdateRecentFiles();
+                    if (addToRecent)
+                    {
+                        Settings.Instance.AddRecentFile(path);
+                        UpdateRecentFiles();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1486,6 +1493,16 @@ namespace AssessmentManager
                 UpdateMarkAllocations();
             }
         }
+
+        private void tsmiOpenRules_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsmiHandoutTest_Click(object sender, EventArgs e)
+        {
+
+        }
         #endregion
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1792,7 +1809,6 @@ namespace AssessmentManager
 
         private void GenerateHandout(AssessmentSession session)
         {
-            //TODO:: THIS, get info from snjezana
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = PDF_FILTER;
             sfd.DefaultExt = PDF_FILTER.Remove(0, 1);
@@ -2311,6 +2327,8 @@ namespace AssessmentManager
             set
             {
                 publishPrepared = value;
+                dgvPublishStudents.Enabled = publishPrepared;
+                btnPublishDeploy.Enabled = publishPrepared;
             }
         }
 
@@ -2515,7 +2533,7 @@ namespace AssessmentManager
                     string accountPassword = row.Cells[8].Value == null ? "" : row.Cells[8].Value.ToString();
 
                     StudentData sd = new StudentData(userName, lastName, firstName, studentID, startTime, assessmentLength, readingTime, accountName, accountPassword, tbPublishResetPassword.Text);
-                    if (!sd.ResolveErrors())
+                    if (!sd.ResolveErrors(@lblDeploymentTarget.Text))
                     {
                         flag = true;
                         string id = sd.AnyIdentifiableTag();
@@ -2527,7 +2545,7 @@ namespace AssessmentManager
                                 id = id + " " + num.ToString();
                             } while (errors.Keys.Contains(id));
                         }
-                        errors.Add(id, sd.GetErrors());
+                        errors.Add(id, sd.GetErrors(@lblDeploymentTarget.Text));
                     }
                     else
                         students.Add(sd);
@@ -2551,7 +2569,7 @@ namespace AssessmentManager
                         sb.AppendLine("     " + e.ToString());
                     }
                 }
-                MessageBox.Show(sb.ToString(), title + "Students errored");
+                MessageBox.Show(sb.ToString(), title + "Students errored", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             #endregion
@@ -2613,7 +2631,7 @@ namespace AssessmentManager
             session.FolderPath = sessionPath;
             CourseManager.SerialiseSession(session, @sessionFilePath);
             string assessmentPath = Path.Combine(@sessionPath, assessmentFile.Name);
-            SaveToFile(@assessmentPath);
+            SaveToFile(@assessmentPath, false);
             if (additionalFiles.Count > 0)
             {
                 try
@@ -2727,6 +2745,82 @@ namespace AssessmentManager
             }
         }
 
+        private bool ReadUsernameFile(string path, out Dictionary<string, UsernamePasswordPair> dict)
+        {
+            dict = new Dictionary<string, UsernamePasswordPair>();
+
+            Excel.Application xl = null;
+            Excel.Workbook workBook = null;
+            Excel.Worksheet sheet = null;
+            Excel.Range range = null;
+
+            try
+            {
+                xl = new Excel.Application();
+                workBook = xl.Workbooks.Open(path);
+                sheet = workBook.Worksheets[1];
+                range = sheet.UsedRange;
+                //Column order: (1) student id, (2) last name, (3) first name, (4) username, (5) password. Sometimes the first row will have titles for each column
+                //Must first check if the first row is a header row.
+                int startRow = 1;
+                if ((range.Cells[1, 1] != null && (range.Cells[1, 1].Value2 == null || range.Cells[1, 1].Value2.ToString().ToLower().Contains("id"))) ||
+                    (range.Cells[1, 2] != null && (range.Cells[1, 2].Value2 == null || range.Cells[1, 2].Value2.ToString().ToLower().Contains("surname"))) ||
+                    (range.Cells[1, 3] != null && (range.Cells[1, 3].Value2 == null || range.Cells[1, 3].Value2.ToString().Replace(" ", "").ToLower().Contains("givenname"))) ||
+                    (range.Cells[1, 4] != null && (range.Cells[1, 4].Value2 == null || range.Cells[1, 4].Value2.ToString().Replace(" ", "").ToLower().Contains("username"))))
+                {
+                    startRow = 2;
+                }
+                //Check if there is a student id column
+                if (range.Cells[startRow, 1] != null && range.Cells[startRow, 1].Value2 != null)
+                {
+                    int test = 0;
+                    if (!int.TryParse(range.Cells[startRow, 1].Value2.ToString(), out test))
+                        throw new Exception("The first column of the file must contain the student id");
+                }
+                else
+                    throw new Exception("Error reading file - could not find first column");
+
+                for (int row = startRow; row <= range.Rows.Count; row++)
+                {
+
+                    string id = "";
+                    string username = "";
+                    string password = "";
+                    for (int col = 1; col <= range.Columns.Count; col++)
+                    {
+                        if (range.Cells[row, col] != null && range.Cells[row, col].Value2 != null)
+                        {
+                            if (col == 1)
+                                id = range.Cells[row, col].Value2.ToString();
+                            else if (col == 4)
+                                username = range.Cells[row, col].Value2;
+                            else if (col == 5)
+                                password = range.Cells[row, col].Value2;
+                        }
+                    }
+                    dict.Add(id, new UsernamePasswordPair(username, password));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while reading account details from: \n" + path + "\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                Marshal.ReleaseComObject(sheet);
+                workBook.Close();
+                Marshal.ReleaseComObject(workBook);
+                xl.Quit();
+                Marshal.ReleaseComObject(xl);
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region Events
@@ -2775,56 +2869,80 @@ namespace AssessmentManager
                 if (lblDeploymentTarget.Text.NullOrEmpty() || !Directory.Exists(@lblDeploymentTarget.Text))
                 {
                     string message = "Please select a valid deployment target.";
-                    MessageBox.Show(message, "Invalid deployment target");
-                    return;
-                }
-
-                List<string> paths = Directory.GetDirectories(@lblDeploymentTarget.Text).ToList();
-                if (paths.Count < SelectedCourse.Students.Count)
-                {
-                    string m = "There are too many students in this course and not enough exam account folders. Please make sure that there are enough for the number of students.";
-                    MessageBox.Show(m, "Too many students");
+                    MessageBox.Show(message, "Invalid deployment target", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
                 PublishPrepared = true;
-                dgvPublishStudents.Enabled = true;
-                btnPublishDeploy.Enabled = true;
 
                 //DGVEDIT:: Fill out the students grid.
                 dgvPublishStudents.Rows.Clear();
                 DateTime date = dtpPublishDate.Value;
                 DateTime time = dtpPublishTime.Value;
                 DateTime d = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, time.Millisecond);
-                int pathNum = 0;
-                foreach (var student in SelectedCourse.Students)
+                //string path = USERNAME_FILE_PATH(@lblDeploymentTarget.Text);
+                string path = USERNAME_FILE_PATH(assessmentFile.DirectoryName, lblDeploymentTarget.Text);
+                if (File.Exists(path))
                 {
-                    DataGridViewRow row = new DataGridViewRow();
-                    row.CreateCells(dgvPublishStudents);
+                    Dictionary<string, UsernamePasswordPair> dict = null;
 
-                    row.Cells[0].Value = student.StudentID;
-                    row.Cells[1].Value = student.LastName;
-                    row.Cells[2].Value = student.FirstName;
-                    row.Cells[3].Value = student.UserName;
-                    row.Cells[4].Value = d;
-                    row.Cells[5].Value = nudPublishAssessmentLength.Value;
-                    row.Cells[6].Value = nudPublishReadingTime.Value;
-                    //TODO:: Assign account username and password to each student properly
-                    //TODO:: Will read values from a given spreadsheet. Must check to make sure that each directory exists
-                    try
+                    if (ReadUsernameFile(path, out dict) && dict != null)
                     {
-                        row.Cells[7].Value = new DirectoryInfo(paths[pathNum]).Name;
-                        row.Cells[8].Value = "password";
+                        bool flag = false;
+                        foreach (var student in SelectedCourse.Students)
+                        {
+                            DataGridViewRow row = new DataGridViewRow();
+                            row.CreateCells(dgvPublishStudents);
+
+                            row.Cells[0].Value = student.StudentID;
+                            row.Cells[1].Value = student.LastName;
+                            row.Cells[2].Value = student.FirstName;
+                            row.Cells[3].Value = student.UserName;
+                            row.Cells[4].Value = d;
+                            row.Cells[5].Value = nudPublishAssessmentLength.Value;
+                            row.Cells[6].Value = nudPublishReadingTime.Value;
+                            // Assign account username and password to each student properly
+                            // Will read values from a given spreadsheet. Must check to make sure that each directory exists
+                            UsernamePasswordPair pair = null;
+                            if (dict.TryGetValue(student.StudentID, out pair))
+                            {
+                                if (!Directory.Exists(Path.Combine(lblDeploymentTarget.Text, pair.Username)))
+                                {
+                                    flag = true;
+                                    row.Cells[7].Value = INVALID;
+                                }
+                                else
+                                    row.Cells[7].Value = pair.Username;
+                                row.Cells[8].Value = pair.Password;
+                            }
+                            else
+                            {
+                                row.Cells[7].Value = INVALID;
+                                row.Cells[8].Value = INVALID;
+                            }
+                            dgvPublishStudents.Rows.Add(row);
+                        }
+                        if (flag)
+                        {
+                            MessageBox.Show("The accounts for one or more students could not be found. Please make sure these are entered correctly and exist.", "Account not found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            PublishPrepared = false;
+                        }
                     }
-                    catch { }
-                    pathNum++;
-                    dgvPublishStudents.Rows.Add(row);
+                    else
+                        PublishPrepared = false;
+                }
+                else
+                {
+                    MessageBox.Show("Unable to find login details file for course folder " + new DirectoryInfo(lblDeploymentTarget.Text).Name + "\n" + "Please make sure the file exists and is in the same directory as the Assessment file.",
+                        "Error - File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    PublishPrepared = false;
                 }
             }
             else
             {
                 //If no course selected, tell must select one.
                 MessageBox.Show("Please select a course!");
+                PublishPrepared = false;
             }
         }
 
