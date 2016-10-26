@@ -25,7 +25,8 @@ namespace AssessmentManager
         public static string DESKTOP_PATH = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         public static string DOCUMENTS_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static string TEMP_PDF_PATH = Path.Combine(Application.StartupPath, "temp");
-        public static string RULES_FILE_PATH = Path.Combine(Application.StartupPath, "rules.txt");
+        public static readonly string RULES_NAME = "rules.txt";
+        public static string RULES_FILE_PATH = Path.Combine(Application.StartupPath, RULES_NAME);
 
         public static readonly string EXAMDRIVE_ROOT = @"X:\";
         public static readonly string C_ROOT = @"C:\";
@@ -35,6 +36,7 @@ namespace AssessmentManager
         public static readonly string STUDENT_STAGE = "STUDENTS_CHECK";
 
         public static readonly string COURSES_FOLDER_NAME = "Courses";
+
 
         public static readonly DateTime INVALID_DATE = new DateTime(1990, 1, 1, 1, 1, 1, 1);
 

@@ -841,6 +841,11 @@ namespace AssessmentManager
                 }
             }
         }
+
+        private void MakeRulesFile(string path)
+        {
+            File.Create(path);
+        }
         #endregion
 
         #region TreeView Events
@@ -1496,13 +1501,20 @@ namespace AssessmentManager
 
         private void tsmiOpenRules_Click(object sender, EventArgs e)
         {
-
+            string path = RULES_FILE_PATH;
+            if (!File.Exists(path))
+                File.WriteAllText(path, "");
+            Process.Start(path);
         }
 
         private void tsmiHandoutTest_Click(object sender, EventArgs e)
         {
-
+            string path = Path.Combine(Application.StartupPath, "test_handout" + PDF_EXT);
+            HandoutWriter.MakeTestHandout(path);
+            if (File.Exists(path))
+                Process.Start(path);
         }
+
         #endregion
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
