@@ -32,13 +32,14 @@
             this.cbChooseCourse = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.buttonAccept = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
             this.colStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colUsername = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonAccept = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             this.btnImportSpreadsheet = new System.Windows.Forms.Button();
+            this.btnHelp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,26 +75,6 @@
             this.dgv.Size = new System.Drawing.Size(443, 333);
             this.dgv.TabIndex = 2;
             // 
-            // buttonAccept
-            // 
-            this.buttonAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonAccept.Location = new System.Drawing.Point(15, 393);
-            this.buttonAccept.Name = "buttonAccept";
-            this.buttonAccept.Size = new System.Drawing.Size(75, 23);
-            this.buttonAccept.TabIndex = 3;
-            this.buttonAccept.Text = "&Accept";
-            this.buttonAccept.UseVisualStyleBackColor = true;
-            // 
-            // buttonCancel
-            // 
-            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(383, 393);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 4;
-            this.buttonCancel.Text = "&Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            // 
             // colStudentID
             // 
             this.colStudentID.HeaderText = "Student ID";
@@ -114,6 +95,26 @@
             this.colUsername.HeaderText = "Username";
             this.colUsername.Name = "colUsername";
             // 
+            // buttonAccept
+            // 
+            this.buttonAccept.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonAccept.Location = new System.Drawing.Point(15, 393);
+            this.buttonAccept.Name = "buttonAccept";
+            this.buttonAccept.Size = new System.Drawing.Size(75, 23);
+            this.buttonAccept.TabIndex = 3;
+            this.buttonAccept.Text = "&Accept";
+            this.buttonAccept.UseVisualStyleBackColor = true;
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(383, 393);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 4;
+            this.buttonCancel.Text = "&Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            // 
             // btnImportSpreadsheet
             // 
             this.btnImportSpreadsheet.Location = new System.Drawing.Point(185, 393);
@@ -124,6 +125,16 @@
             this.btnImportSpreadsheet.UseVisualStyleBackColor = true;
             this.btnImportSpreadsheet.Click += new System.EventHandler(this.btnImportSpreadsheet_Click);
             // 
+            // btnHelp
+            // 
+            this.btnHelp.Location = new System.Drawing.Point(295, 393);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(18, 23);
+            this.btnHelp.TabIndex = 6;
+            this.btnHelp.Text = "?";
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
             // ImportStudentsForm
             // 
             this.AcceptButton = this.buttonAccept;
@@ -131,6 +142,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(474, 427);
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnImportSpreadsheet);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonAccept);
@@ -159,5 +171,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colFirstName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colUsername;
         private System.Windows.Forms.Button btnImportSpreadsheet;
+        private System.Windows.Forms.Button btnHelp;
     }
 }

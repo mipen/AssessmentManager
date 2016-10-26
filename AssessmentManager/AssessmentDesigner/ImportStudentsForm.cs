@@ -147,5 +147,12 @@ namespace AssessmentManager
                 }
             }
         }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            string msg = "This option lets you import a list of students from an Excel spreadsheet. The file format it uses is " + CONSTANTS.SPREADSHEET_EXT + "\n" + "The order of the columns expected is: \n\n"
+            + "[Student ID] [Surname] [First Name] [MIT Username]";
+            MessageBox.Show(msg, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }
