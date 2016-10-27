@@ -12,13 +12,13 @@ namespace AssessmentManager
     public class AssessmentWriter
     {
         private Assessment a;
-        private AssessmentInformation info;
+        //private AssessmentInformation info;
         private string filePath = "";
 
-        public AssessmentWriter(Assessment assessment, AssessmentInformation info, string filePath)
+        public AssessmentWriter(Assessment assessment, string filePath)
         {
             a = assessment;
-            this.info = info;
+            //this.info = info;
             this.filePath = filePath;
         }
 
@@ -63,16 +63,21 @@ namespace AssessmentManager
                 doc.Open();
 
                 //Do author
-                if (!info.Author.NullOrEmpty())
+                if (a.AssessmentInfo != null && !a.AssessmentInfo.Author.NullOrEmpty())
                 {
-                    string authorText = $"Author: {info.Author}";
+                    string authorText = $"Author: {a.AssessmentInfo.Author}";
                     Paragraph authorPara = new Paragraph(authorText, AuthorFont);
                     authorPara.SetAlignment("Left");
                     doc.Add(authorPara);
                 }
 
                 //Do title
-                Paragraph titlePara = new Paragraph(info.AssessmentName, TitleFont);
+                string titleStr = "";
+                if (a.AssessmentInfo != null)
+                    titleStr = a.AssessmentInfo.AssessmentName;
+                else
+                    titleStr = "Assessment";
+                Paragraph titlePara = new Paragraph(titleStr, TitleFont);
                 titlePara.SetAlignment(Center);
                 titlePara.SpacingAfter = 5f;
                 doc.Add(titlePara);
@@ -80,17 +85,23 @@ namespace AssessmentManager
                 //Do weighting
                 if (!withAnswers)
                 {
-                    Paragraph weightingPara = new Paragraph($"{info.AssessmentWeighting}%", WeightingFont);
-                    weightingPara.SetAlignment(Center);
-                    weightingPara.SpacingAfter = 5f;
-                    doc.Add(weightingPara);
+                    if (a.AssessmentInfo != null)
+                    {
+                        Paragraph weightingPara = new Paragraph($"{a.AssessmentInfo.AssessmentWeighting}%", WeightingFont);
+                        weightingPara.SetAlignment(Center);
+                        weightingPara.SpacingAfter = 5f;
+                        doc.Add(weightingPara);
+                    }
                 }
                 else
                 {
                     PdfPTable table = new PdfPTable(3);
                     table.WidthPercentage = 100f;
                     table.AddCell(GetCell("Includes model answers", ModelAnswerHeaderFont, PdfPCell.ALIGN_LEFT));
-                    table.AddCell(GetCell($"{info.AssessmentWeighting}%", WeightingFont, PdfPCell.ALIGN_CENTER));
+                    string weightingStr = "";
+                    if (a.AssessmentInfo != null)
+                        weightingStr = $"{a.AssessmentInfo.AssessmentWeighting}%";
+                    table.AddCell(GetCell(weightingStr, WeightingFont, PdfPCell.ALIGN_CENTER));
                     table.AddCell(GetCell("", AuthorFont, PdfPCell.ALIGN_RIGHT));
                     doc.Add(table);
                 }

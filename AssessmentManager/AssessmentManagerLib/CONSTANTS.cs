@@ -44,7 +44,8 @@ namespace AssessmentManager
 
         public static string AUTOSAVE_FOLDER_NAME(string assessmentName)
         {
-            return $"{assessmentName.Replace(" ", "")}_autosaves";
+            string str = @assessmentName.Replace(" ", "").Replace("\\", "").Replace("/", "").Replace(":", "").Replace("*", "").Replace("?", "").Replace("\"", "").Replace("<", "").Replace(">", "").Replace("|", "").Replace(".", "");
+            return str + "_autosaves";
         }
 
         public static string USERNAME_FILE_PATH(string assessmentPath, string deployTarget)

@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForQuestionsWithoutMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,6 +51,9 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emailSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiOpenRules = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiHandoutTest = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControlMain = new System.Windows.Forms.TabControl();
@@ -312,9 +315,6 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiMakePDFStudent = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEmailStudent = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiOpenRules = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiHandoutTest = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripMain.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPageDesigner.SuspendLayout();
@@ -527,6 +527,29 @@
             this.emailSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.emailSettingsToolStripMenuItem.Text = "&Email Settings";
             this.emailSettingsToolStripMenuItem.Click += new System.EventHandler(this.emailSettingsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiOpenRules,
+            this.tsmiHandoutTest});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Text = "Handout";
+            // 
+            // tsmiOpenRules
+            // 
+            this.tsmiOpenRules.Name = "tsmiOpenRules";
+            this.tsmiOpenRules.Size = new System.Drawing.Size(218, 22);
+            this.tsmiOpenRules.Text = "Open Rules File";
+            this.tsmiOpenRules.Click += new System.EventHandler(this.tsmiOpenRules_Click);
+            // 
+            // tsmiHandoutTest
+            // 
+            this.tsmiHandoutTest.Name = "tsmiHandoutTest";
+            this.tsmiHandoutTest.Size = new System.Drawing.Size(218, 22);
+            this.tsmiHandoutTest.Text = "Generate Example Handout";
+            this.tsmiHandoutTest.Click += new System.EventHandler(this.tsmiHandoutTest_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1531,8 +1554,8 @@
             // 
             // colPublishStartTime
             // 
-            dataGridViewCellStyle5.Format = "hh:mm:ss tt";
-            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Format = "hh:mm:ss tt";
+            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle1;
             this.colPublishStartTime.HeaderText = "Start Time";
             this.colPublishStartTime.Name = "colPublishStartTime";
             this.colPublishStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -2350,8 +2373,8 @@
             // 
             // colSessionStartTime
             // 
-            dataGridViewCellStyle6.Format = "hh:mm:ss tt";
-            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Format = "hh:mm:ss tt";
+            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle2;
             this.colSessionStartTime.HeaderText = "Start Time";
             this.colSessionStartTime.Name = "colSessionStartTime";
             this.colSessionStartTime.ReadOnly = true;
@@ -3291,29 +3314,6 @@
             this.tsmiEmailStudent.Size = new System.Drawing.Size(147, 22);
             this.tsmiEmailStudent.Text = "Email Student";
             this.tsmiEmailStudent.Click += new System.EventHandler(this.tsmiEmailStudent_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiOpenRules,
-            this.tsmiHandoutTest});
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem1.Text = "Handout";
-            // 
-            // tsmiOpenRules
-            // 
-            this.tsmiOpenRules.Name = "tsmiOpenRules";
-            this.tsmiOpenRules.Size = new System.Drawing.Size(155, 22);
-            this.tsmiOpenRules.Text = "Open Rules File";
-            this.tsmiOpenRules.Click += new System.EventHandler(this.tsmiOpenRules_Click);
-            // 
-            // tsmiHandoutTest
-            // 
-            this.tsmiHandoutTest.Name = "tsmiHandoutTest";
-            this.tsmiHandoutTest.Size = new System.Drawing.Size(155, 22);
-            this.tsmiHandoutTest.Text = "Generate Test";
-            this.tsmiHandoutTest.Click += new System.EventHandler(this.tsmiHandoutTest_Click);
             // 
             // MainForm
             // 

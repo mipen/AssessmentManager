@@ -5,9 +5,18 @@ namespace AssessmentManager
 {
     public partial class AssessmentInformationForm : Form
     {
-        public AssessmentInformationForm()
+        public AssessmentInformationForm(Assessment assessment = null)
         {
             InitializeComponent();
+            if (assessment != null)
+            {
+                if (assessment.AssessmentInfo != null)
+                {
+                    AssessmentName = assessment.AssessmentInfo.AssessmentName;
+                    Author = assessment.AssessmentInfo.Author;
+                    AssessmentWeighting = assessment.AssessmentInfo.AssessmentWeighting;
+                }
+            }
         }
 
         #region Properties
@@ -70,8 +79,8 @@ namespace AssessmentManager
         {
             if (AssessmentName.NullOrEmpty())
             {
-                MessageBox.Show("Please enter the assessment name.","Assessment name required");
-                
+                MessageBox.Show("Please enter the assessment name.", "Assessment name required");
+
                 return;
             }
             DialogResult = DialogResult.OK;

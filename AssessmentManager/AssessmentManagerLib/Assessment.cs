@@ -7,6 +7,7 @@ namespace AssessmentManager
     public class Assessment
     {
         private List<Question> questions = new List<Question>();
+        private AssessmentInformation assessmentInfo = new AssessmentInformation();
 
         public Assessment()
         {
@@ -23,6 +24,14 @@ namespace AssessmentManager
                     num += q.TotalMarks;
                 }
                 return num;
+            }
+        }
+
+        public AssessmentInformation AssessmentInfo
+        {
+            get
+            {
+                return assessmentInfo;
             }
         }
 

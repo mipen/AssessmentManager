@@ -817,34 +817,36 @@ namespace AssessmentManager
         {
             if (Assessment == null)
             {
-                MessageBox.Show("Unable to make pdf: Assessment is null", "Error");
+                MessageBox.Show("Unable to make pdf: Assessment is null", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (Assessment.Questions.Count == 0)
             {
-                MessageBox.Show("Unable to make pdf: Assessment has no questions", "Error");
+                MessageBox.Show("Unable to make pdf: Assessment has no questions", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (pdfSaveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                AssessmentInformationForm aif = new AssessmentInformationForm();
+                AssessmentInformationForm aif = new AssessmentInformationForm(Assessment);
                 if (aif.ShowDialog() == DialogResult.OK)
                 {
-                    AssessmentWriter w = new AssessmentWriter(Assessment, aif.AssessmentInformation, pdfSaveFileDialog.FileName);
+                    if (Assessment.AssessmentInfo == null)
+                        typeof(Assessment).GetField("assessmentInfo", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                            .SetValue(Assessment, new AssessmentInformation());
+                    AssessmentInformationForm.PopulateAssessmentInformation(Assessment.AssessmentInfo, aif);
+                    DesignerChangesMade = true;
+                    SetAssessmentDetails(Assessment);
+
+                    AssessmentWriter w = new AssessmentWriter(Assessment, pdfSaveFileDialog.FileName);
                     if (w.MakePdf(withAnswers))
                     {
-                        if (MessageBox.Show("PDF successfully created. Would you like to view it now?", "PDF created", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show("PDF successfully created. Would you like to view it now?", "PDF created", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
                             Process.Start(pdfSaveFileDialog.FileName);
                         }
                     }
                 }
             }
-        }
-
-        private void MakeRulesFile(string path)
-        {
-            File.Create(path);
         }
         #endregion
 
@@ -2408,6 +2410,7 @@ namespace AssessmentManager
 
             //Set any values relevant to the assessment, ie file name, last time deployed
             lblPublishFileName.Text = assessmentFile.FullName;
+            SetAssessmentDetails(Assessment);
 
             //Generate new password
             tbPublishResetPassword.Text = Util.RandomString(6);
@@ -2420,6 +2423,16 @@ namespace AssessmentManager
 
             //Show when assessment was last published.
             UpdateLastDeploymentTime();
+        }
+
+        private void SetAssessmentDetails(Assessment a)
+        {
+            if (a.AssessmentInfo != null)
+            {
+                tbPublishAssessmentName.Text = a.AssessmentInfo.AssessmentName;
+                tbPublishAuthor.Text = a.AssessmentInfo.Author;
+                nudPublishWeigthing.Value = a.AssessmentInfo.AssessmentWeighting;
+            }
         }
 
         private void PopulateCoursePicker()
