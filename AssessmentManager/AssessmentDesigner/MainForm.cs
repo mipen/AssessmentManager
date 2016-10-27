@@ -359,7 +359,7 @@ namespace AssessmentManager
                     foreach (var q in list)
                         questions += q.Name + "\n";
 
-                    MessageBox.Show("These questions do not have any marks assigned: \n\n" + questions, "Unassigned marks");
+                    MessageBox.Show("These questions do not have any marks assigned: \n\n" + questions, "Unassigned marks", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -2897,6 +2897,21 @@ namespace AssessmentManager
                     MessageBox.Show(message, "Invalid deployment target", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
+                List<Question> list = Assessment.CheckMissingMarks();
+                if (list.Count > 0)
+                {
+                    list.Sort((a, b) => a.Name.CompareTo(b.Name));
+
+                    string questions = "";
+                    foreach (var q in list)
+                        questions += q.Name + "\n";
+
+                    if (MessageBox.Show("These questions do not have any marks assigned: \n\n" + questions + "\n\n" + "Would you like to continue?",
+                        "Unassigned marks", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
 
                 PublishPrepared = true;
 
@@ -2966,7 +2981,7 @@ namespace AssessmentManager
             else
             {
                 //If no course selected, tell must select one.
-                MessageBox.Show("Please select a course!");
+                MessageBox.Show("Please select a course!", "No course selected", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 PublishPrepared = false;
             }
         }
