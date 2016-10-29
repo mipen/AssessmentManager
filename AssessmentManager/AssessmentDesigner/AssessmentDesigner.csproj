@@ -147,9 +147,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\AlignTableCellMiddleCenter.bmp" />
   </ItemGroup>
   <ItemGroup>
