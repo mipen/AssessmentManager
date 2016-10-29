@@ -31,6 +31,9 @@ namespace AssessmentManager
         public static readonly string EXAMDRIVE_ROOT = @"X:\";
         public static readonly string C_ROOT = @"C:\";
 
+        public static readonly string EXAMINEE_EXE = "Examinee.exe";
+        public static readonly string SHARED_DLL = "AssessmentManagerLib.dll";
+
         public const string INVALID = "not found";
 
         public static readonly string STUDENT_STAGE = "STUDENTS_CHECK";

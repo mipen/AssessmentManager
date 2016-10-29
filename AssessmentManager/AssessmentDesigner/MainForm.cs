@@ -2697,6 +2697,18 @@ namespace AssessmentManager
                             File.Copy(@p, @d, true);
                         }
                     }
+                    if (chkbxPublishIncludeExaminee.Checked)
+                    {
+                        string examinee_path = Path.Combine(Application.StartupPath, EXAMINEE_EXE);
+                        string dll_path = Path.Combine(Application.StartupPath, SHARED_DLL);
+                        if (File.Exists(examinee_path) && File.Exists(dll_path))
+                        {
+                            File.Copy(examinee_path, Path.Combine(@destPath, EXAMINEE_EXE));
+                            File.Copy(dll_path, Path.Combine(@destPath, SHARED_DLL));
+                        }
+                        else
+                            throw new FileNotFoundException($"Cannot find either {EXAMINEE_EXE} or {SHARED_DLL} in {Application.StartupPath} \nPlease make sure they exist in the root path of Assessment Designer.exe");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -2748,11 +2760,8 @@ namespace AssessmentManager
                                         //Delete the script file
                                         string fileName = Path.GetFileName(filePath);
                                         string scriptName = session.AssessmentInfo.AssessmentName + ASSESSMENT_SCRIPT_EXT;
-                                        if (fileName == scriptName)
-                                        {
+                                        if (fileName == scriptName || fileName == EXAMINEE_EXE || fileName == SHARED_DLL)
                                             Util.DeleteFile(filePath);
-                                            continue;
-                                        }
 
                                         //Delete the additional files
                                         if (session.AdditionalFiles.Count > 0)

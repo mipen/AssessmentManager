@@ -315,6 +315,7 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiMakePDFStudent = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEmailStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkbxPublishIncludeExaminee = new System.Windows.Forms.CheckBox();
             this.menuStripMain.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPageDesigner.SuspendLayout();
@@ -524,7 +525,7 @@
             // emailSettingsToolStripMenuItem
             // 
             this.emailSettingsToolStripMenuItem.Name = "emailSettingsToolStripMenuItem";
-            this.emailSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.emailSettingsToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.emailSettingsToolStripMenuItem.Text = "&Email Settings";
             this.emailSettingsToolStripMenuItem.Click += new System.EventHandler(this.emailSettingsToolStripMenuItem_Click);
             // 
@@ -534,7 +535,7 @@
             this.tsmiOpenRules,
             this.tsmiHandoutTest});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItem1.Text = "Handout";
             // 
             // tsmiOpenRules
@@ -1800,13 +1801,14 @@
             // 
             // gbAdditionalFiles
             // 
+            this.gbAdditionalFiles.Controls.Add(this.chkbxPublishIncludeExaminee);
             this.gbAdditionalFiles.Controls.Add(this.btnPublishAdditionalFilesDelAll);
             this.gbAdditionalFiles.Controls.Add(this.btnPublishAdditionalFilesDelSel);
             this.gbAdditionalFiles.Controls.Add(this.btnPublishAdditonalFilesAdd);
             this.gbAdditionalFiles.Controls.Add(this.lbPublishAdditionalFiles);
-            this.gbAdditionalFiles.Location = new System.Drawing.Point(0, 150);
+            this.gbAdditionalFiles.Location = new System.Drawing.Point(0, 132);
             this.gbAdditionalFiles.Name = "gbAdditionalFiles";
-            this.gbAdditionalFiles.Size = new System.Drawing.Size(383, 141);
+            this.gbAdditionalFiles.Size = new System.Drawing.Size(383, 159);
             this.gbAdditionalFiles.TabIndex = 2;
             this.gbAdditionalFiles.TabStop = false;
             this.gbAdditionalFiles.Text = "Additional Files";
@@ -1868,7 +1870,7 @@
             this.gbPublishTimeSettings.Controls.Add(this.label8);
             this.gbPublishTimeSettings.Location = new System.Drawing.Point(0, 0);
             this.gbPublishTimeSettings.Name = "gbPublishTimeSettings";
-            this.gbPublishTimeSettings.Size = new System.Drawing.Size(383, 149);
+            this.gbPublishTimeSettings.Size = new System.Drawing.Size(383, 132);
             this.gbPublishTimeSettings.TabIndex = 0;
             this.gbPublishTimeSettings.TabStop = false;
             this.gbPublishTimeSettings.Text = "Time Settings";
@@ -3315,6 +3317,17 @@
             this.tsmiEmailStudent.Text = "Email Student";
             this.tsmiEmailStudent.Click += new System.EventHandler(this.tsmiEmailStudent_Click);
             // 
+            // chkbxPublishIncludeExaminee
+            // 
+            this.chkbxPublishIncludeExaminee.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkbxPublishIncludeExaminee.AutoSize = true;
+            this.chkbxPublishIncludeExaminee.Location = new System.Drawing.Point(267, 136);
+            this.chkbxPublishIncludeExaminee.Name = "chkbxPublishIncludeExaminee";
+            this.chkbxPublishIncludeExaminee.Size = new System.Drawing.Size(110, 17);
+            this.chkbxPublishIncludeExaminee.TabIndex = 3;
+            this.chkbxPublishIncludeExaminee.Text = "Include Examinee";
+            this.chkbxPublishIncludeExaminee.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3378,6 +3391,7 @@
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPublishWeigthing)).EndInit();
             this.gbAdditionalFiles.ResumeLayout(false);
+            this.gbAdditionalFiles.PerformLayout();
             this.gbPublishTimeSettings.ResumeLayout(false);
             this.gbPublishTimeSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPublishReadingTime)).EndInit();
@@ -3701,5 +3715,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem tsmiOpenRules;
         private System.Windows.Forms.ToolStripMenuItem tsmiHandoutTest;
+        private System.Windows.Forms.CheckBox chkbxPublishIncludeExaminee;
     }
 }
