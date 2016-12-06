@@ -46,11 +46,11 @@ namespace AssessmentManager
             }
         }
 
-        public int FinalMark
+        public decimal FinalMark
         {
             get
             {
-                int num = 0;
+                decimal num = 0;
                 foreach (var q in MarkingQuestions)
                     num += q.TotalAssignedMarks;
                 return num;

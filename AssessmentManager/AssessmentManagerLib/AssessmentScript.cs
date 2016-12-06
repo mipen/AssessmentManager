@@ -12,6 +12,9 @@ namespace AssessmentManager
         private Dictionary<string, Answer> answers = new Dictionary<string, Answer>();
         private TimeData timeData = null;
         private StudentData studentData = null;
+        /// <summary>
+        /// Whether the Assessment has been opened in Examinee or not.
+        /// </summary>
         public bool Started = false;
         private bool published = false;
         public DateTime TimeSaved = CONSTANTS.INVALID_DATE;

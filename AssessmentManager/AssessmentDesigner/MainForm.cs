@@ -43,9 +43,12 @@ namespace AssessmentManager
         private bool suppressDesignerChanges = false;
         private bool markingChangesMade = false;
         private bool suppressMarkingSave = false;
+        private bool suppressMarkAssign = false;
         private Course courseRevertPoint;
         private CourseNode prevNode;
         private AssessmentSession markSession = null;
+
+        private string curSelectedMarkingQuestion = "";
 
         private DateTimePicker dtpPublishTimeStudent;
         private NumericUpDown nudAssessmentTimeStudent;
@@ -92,6 +95,7 @@ namespace AssessmentManager
 
             //Initialise the mark tab
             MarkSession = null;
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -555,6 +559,8 @@ namespace AssessmentManager
             UpdateFormText();
             //Setup publish tab
             SetPublishTab();
+            //Set the pdf save file dialog default path to assessments path
+            pdfSaveFileDialog.InitialDirectory = assessmentFile.DirectoryName;
         }
 
         private void InitialiseFontComboBoxes()
@@ -607,7 +613,10 @@ namespace AssessmentManager
             {
                 try
                 {
-                    node.Remove();
+                    if (node.Parent != null)
+                        node.Parent.Nodes.Remove(node);
+                    else
+                        node.Remove();
                 }
                 catch (Exception ex)
                 {
@@ -615,6 +624,7 @@ namespace AssessmentManager
                     return false;
                 }
                 Util.RebuildAssessmentQuestionList(Assessment, treeViewQuestionList);
+                DesignerChangesMade = true;
                 return true;
             }
             return false;
@@ -726,7 +736,7 @@ namespace AssessmentManager
         /// Save the currently open Assessment to file. Does not display SaveFileDialog, but instead is given the path to save to.
         /// </summary>
         /// <param name="path">The specified path to save the Assessment to.</param>
-        private void SaveToFile(string path, bool addToRecent = true)
+        private void SaveToFile(string path, bool addToRecent = true, bool updateFileInfo = true)
         {
             //Save the file here
             if (HasAssessmentOpen)
@@ -738,7 +748,8 @@ namespace AssessmentManager
                         BinaryFormatter formatter = new BinaryFormatter();
                         formatter.Serialize(s, Assessment);
                     }
-                    assessmentFile = new FileInfo(path);
+                    if (updateFileInfo)
+                        assessmentFile = new FileInfo(path);
                     DesignerChangesMade = false;
                     UpdateFormText();
                     if (addToRecent)
@@ -828,13 +839,27 @@ namespace AssessmentManager
             if (pdfSaveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 AssessmentInformationForm aif = new AssessmentInformationForm(Assessment);
+                string ogName = "", ogAuthor = "";
+                int ogWeighting = 0;
+                if (Assessment.AssessmentInfo != null)
+                {
+                    ogName = Assessment.AssessmentInfo.AssessmentName;
+                    ogAuthor = Assessment.AssessmentInfo.Author;
+                    ogWeighting = Assessment.AssessmentInfo.AssessmentWeighting;
+                }
+                else
+                {
+                    typeof(Assessment).GetField("assessmentInfo", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                              .SetValue(Assessment, new AssessmentInformation());
+                    DesignerChangesMade = true;
+                }
                 if (aif.ShowDialog() == DialogResult.OK)
                 {
-                    if (Assessment.AssessmentInfo == null)
-                        typeof(Assessment).GetField("assessmentInfo", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
-                            .SetValue(Assessment, new AssessmentInformation());
                     AssessmentInformationForm.PopulateAssessmentInformation(Assessment.AssessmentInfo, aif);
-                    DesignerChangesMade = true;
+                    //Check for changes made to the assessment info
+                    if (CheckForInfoChanges(ogName, ogAuthor, ogWeighting, Assessment.AssessmentInfo))
+                        DesignerChangesMade = true;
+
                     SetAssessmentDetails(Assessment);
 
                     AssessmentWriter w = new AssessmentWriter(Assessment, pdfSaveFileDialog.FileName);
@@ -847,6 +872,18 @@ namespace AssessmentManager
                     }
                 }
             }
+        }
+
+        private bool CheckForInfoChanges(string ogName, string ogAuthor, int ogWeighting, AssessmentInformation info)
+        {
+            bool changed = false;
+            if (ogName != info.AssessmentName)
+                changed = true;
+            if (ogAuthor != info.Author)
+                changed = true;
+            if (ogWeighting != info.AssessmentWeighting)
+                changed = true;
+            return changed;
         }
         #endregion
 
@@ -1164,6 +1201,7 @@ namespace AssessmentManager
                     }
                     catch { }
                 }
+                DesignerChangesMade = true;
                 treeViewQuestionList.SelectedNode = node;
                 Util.RebuildAssessmentQuestionList(Assessment, treeViewQuestionList);
             }
@@ -1195,6 +1233,7 @@ namespace AssessmentManager
                     newRootNode.Expand();
                     Util.RebuildAssessmentQuestionList(Assessment, treeViewQuestionList);
                 }
+                DesignerChangesMade = true;
                 treeViewQuestionList.SelectedNode = node;
             }
         }
@@ -1511,10 +1550,10 @@ namespace AssessmentManager
 
         private void tsmiHandoutTest_Click(object sender, EventArgs e)
         {
-            string path = Path.Combine(Application.StartupPath, "test_handout" + PDF_EXT);
+            /*string path = Path.Combine(Application.StartupPath, "test_handout" + PDF_EXT);
             HandoutWriter.MakeTestHandout(path);
             if (File.Exists(path))
-                Process.Start(path);
+                Process.Start(path);*/
         }
 
         #endregion
@@ -1560,6 +1599,14 @@ namespace AssessmentManager
                     //Cancel the change
                     e.Cancel = true;
                 }
+            }
+            if(markingChangesMade)
+            {
+                try
+                {
+                    SaveMarkingSession();
+                }
+                catch { }
             }
             Settings.Instance.Save();
         }
@@ -1616,11 +1663,28 @@ namespace AssessmentManager
                     e.Handled = true;
                 }
             }
-            //Hotkey for next/prev in marking tab
+            //Hotkey for marking tab
             if (tabControlMain.SelectedTab == tabPageMark)
             {
-                if (e.KeyCode == Keys.F4)
+                if (e.KeyCode == Keys.F1)
                 {
+                    //student up
+                    int index = lbMarkStudents.SelectedIndex;
+                    if (index > 0)
+                        lbMarkStudents.SelectedIndex = index - 1;
+                    e.Handled = true;
+                }
+                else if (e.KeyCode == Keys.F2)
+                {
+                    //student down
+                    int index = lbMarkStudents.SelectedIndex;
+                    if (index < lbMarkStudents.Items.Count - 1)
+                        lbMarkStudents.SelectedIndex = index + 1;
+                    e.Handled = true;
+                }
+                else if (e.KeyCode == Keys.F3)
+                {
+                    //question up
                     TreeNode node = tvMarkQuestions.SelectedNode;
                     if (node != null)
                     {
@@ -1629,11 +1693,11 @@ namespace AssessmentManager
                             tvMarkQuestions.SelectedNode = node.PrevVisibleNode;
                         }
                     }
-                    tvMarkQuestions.Focus();
                     e.Handled = true;
                 }
-                else if (e.KeyCode == Keys.F5)
+                else if (e.KeyCode == Keys.F4)
                 {
+                    //question down
                     TreeNode node = tvMarkQuestions.SelectedNode;
                     if (node != null)
                     {
@@ -1642,8 +1706,33 @@ namespace AssessmentManager
                             tvMarkQuestions.SelectedNode = node.NextVisibleNode;
                         }
                     }
-                    tvMarkQuestions.Focus();
                     e.Handled = true;
+                }
+                else if (e.KeyCode == Keys.F6)
+                {
+                    //all marks
+                    btnMarkAllMarks_Click(this, e);
+                }
+                else if (e.KeyCode == Keys.F5)
+                {
+                    //no marks
+                    btnMarkNoMarks_Click(this, e);
+                }
+                else if (e.KeyCode == Keys.F8)
+                {
+                    //add 1 mark
+                    if (nudMarkAssign.Value >= nudMarkAssign.Maximum - 1)
+                        nudMarkAssign.Value = nudMarkAssign.Maximum;
+                    else
+                        nudMarkAssign.Value++;
+                }
+                else if (e.KeyCode == Keys.F7)
+                {
+                    //remove 1 mark
+                    if (nudMarkAssign.Value <= 1)
+                        nudMarkAssign.Value = 0;
+                    else
+                        nudMarkAssign.Value--;
                 }
             }
         }
@@ -1701,11 +1790,11 @@ namespace AssessmentManager
                     {
                         if (row.Cells[0].Value == null && row.Cells[1].Value == null && row.Cells[2].Value == null && row.Cells[3].Value == null)
                             continue;
-
-                        string userName = row.Cells[0].Value?.ToString();
+                        //DGVEDIT::
+                        string studentID = row.Cells[0].Value?.ToString();
                         string lastName = row.Cells[1].Value?.ToString();
                         string firstName = row.Cells[2].Value?.ToString();
-                        string studentID = row.Cells[3].Value?.ToString();
+                        string userName = row.Cells[3].Value?.ToString();
                         Student s = new Student(userName, lastName, firstName, studentID);
                         c.Students.Add(s);
                     }
@@ -1821,18 +1910,33 @@ namespace AssessmentManager
             tsmiMarkAssessment.Visible = session;
         }
 
-        private void GenerateHandout(AssessmentSession session)
+        private void GenerateHandout(AssessmentSession session, string rulesPath)
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = PDF_FILTER;
             sfd.DefaultExt = PDF_FILTER.Remove(0, 1);
+            sfd.InitialDirectory = assessmentFile.DirectoryName;
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                HandoutWriter w = new HandoutWriter(session, sfd.FileName);
+                HandoutWriter w = new HandoutWriter(session, sfd.FileName, rulesPath);
                 if (w.MakePdf())
                 {
                     Process.Start(sfd.FileName);
+                    //Copy the rules files to the session directory
+                    string destPath = session.RulesFile;
+                    if (destPath != rulesPath)
+                    {
+                        try
+                        {
+                            File.Copy(rulesPath, destPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+
+                    }
                 }
             }
         }
@@ -2282,7 +2386,24 @@ namespace AssessmentManager
         {
             AssessmentSessionNode node = tvCourses.SelectedNode as AssessmentSessionNode;
             if (node != null)
-                GenerateHandout(node.Session);
+            {
+                string rulesPath = node.Session.RulesFile;
+                DialogResult res = DialogResult.OK;
+                if (!File.Exists(rulesPath))
+                {
+                    string message = "Cannot find rules file for session. Please locate it or press 'Cancel' to cancel.";
+                    MessageBox.Show(message, "Locate rules file", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    ofd.Filter = TEXT_FILTER;
+                    ofd.DefaultExt = TEXT_EXT;
+                    ofd.InitialDirectory = node.Session.FolderPath;
+                    res = ofd.ShowDialog();
+                    if (res == DialogResult.OK)
+                        rulesPath = ofd.FileName;
+                }
+                if (res == DialogResult.OK)
+                    GenerateHandout(node.Session, rulesPath);
+            }
         }
 
         private void btnCourseClearStudents_Click(object sender, EventArgs e)
@@ -2626,6 +2747,23 @@ namespace AssessmentManager
                 MessageBox.Show(sb.ToString(), title + "Missing files");
                 return false;
             }
+            //Find Examinee and DLL
+            string examineePath = "";
+            string dllPath = "";
+
+            if (chkbxPublishIncludeExaminee.Checked)
+            {
+                examineePath = Path.Combine(Application.StartupPath, EXAMINEE_EXE);
+                dllPath = Path.Combine(Application.StartupPath, SHARED_DLL);
+                if (!File.Exists(examineePath))
+                {
+                    throw new FileNotFoundException($"Cannot find {EXAMINEE_EXE} in {Application.StartupPath}\nPlease make sure it exists in the folder where {ASSESSMENT_DESIGNER_EXE} is located or uncheck 'Include Examinee'.");
+                }
+                else if (!File.Exists(dllPath))
+                {
+                    throw new FileNotFoundException($"Cannot find {SHARED_DLL} in {Application.StartupPath}\nPlease make sure it exists in the folder where {ASSESSMENT_DESIGNER_EXE} is located or uncheck 'Include Examinee'.");
+                }
+            }
             #endregion
 
             #region Build AssessmentSession
@@ -2656,7 +2794,7 @@ namespace AssessmentManager
             session.FolderPath = sessionPath;
             CourseManager.SerialiseSession(session, @sessionFilePath);
             string assessmentPath = Path.Combine(@sessionPath, assessmentFile.Name);
-            SaveToFile(@assessmentPath, false);
+            SaveToFile(@assessmentPath, false, false);
             if (additionalFiles.Count > 0)
             {
                 try
@@ -2699,15 +2837,12 @@ namespace AssessmentManager
                     }
                     if (chkbxPublishIncludeExaminee.Checked)
                     {
-                        string examinee_path = Path.Combine(Application.StartupPath, EXAMINEE_EXE);
-                        string dll_path = Path.Combine(Application.StartupPath, SHARED_DLL);
-                        if (File.Exists(examinee_path) && File.Exists(dll_path))
-                        {
-                            File.Copy(examinee_path, Path.Combine(@destPath, EXAMINEE_EXE));
-                            File.Copy(dll_path, Path.Combine(@destPath, SHARED_DLL));
-                        }
-                        else
-                            throw new FileNotFoundException($"Cannot find either {EXAMINEE_EXE} or {SHARED_DLL} in {Application.StartupPath} \nPlease make sure they exist in the root path of Assessment Designer.exe");
+                        string exp = Path.Combine(@destPath, EXAMINEE_EXE);
+                        string dllp = Path.Combine(@destPath, SHARED_DLL);
+                        if (!File.Exists(exp))
+                            File.Copy(examineePath, exp);
+                        if (!File.Exists(dllp))
+                            File.Copy(dllPath, dllp);
                     }
                 }
                 catch (Exception ex)
@@ -2868,12 +3003,28 @@ namespace AssessmentManager
             {
                 if (TryDeployAssessment(out session))
                 {
-                    //If publish is successful, offer to create a pdf containing all the information handout forms for the students. Let user know that this can be done by selecting assessment
-                    // in course manager tab.
+                    //If publish is successful, offer to create a pdf containing all the information handout forms for the students. Let user know that
+                    //this can be done by selecting assessment in course manager tab.
                     string message = "Assessment successfully published! Would you like to generate handout forms for each student in this assessment? This can be done later in the CourseManager tab by selecting the assessment.";
                     if (MessageBox.Show(message, "Create handout pdf?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        GenerateHandout(session);
+                        //Try find the rules file
+                        string rulesPath = Path.Combine(assessmentFile.DirectoryName, RULES_FILE_NAME);
+                        DialogResult res = DialogResult.OK;
+                        if (!File.Exists(rulesPath))
+                        {
+                            string message2 = $"'rules.txt' not found in {assessmentFile.DirectoryName}\n\nPlease locate it or press 'Cancel' to cancel.";
+                            MessageBox.Show(message2, "Rules not found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            OpenFileDialog ofd = new OpenFileDialog();
+                            ofd.InitialDirectory = assessmentFile.DirectoryName;
+                            ofd.Filter = TEXT_FILTER;
+                            ofd.DefaultExt = TEXT_EXT;
+                            res = ofd.ShowDialog();
+                            if (res == DialogResult.OK)
+                                rulesPath = ofd.FileName;
+                        }
+                        if (res == DialogResult.OK)
+                            GenerateHandout(session, rulesPath);
                     }
                 }
                 else
@@ -2888,6 +3039,15 @@ namespace AssessmentManager
             //Prepare the students. If has already been pressed, confirm to make changes.
             if (HasCourseSelected)
             {
+                if (DesignerChangesMade)
+                {
+                    if (MessageBox.Show("Changes have been made to the assessment. To continue you must save these changes. Would you like to save now?", "Save changes", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                    {
+                        saveToolStripMenuItem_Click(this, new EventArgs());
+                    }
+                    else
+                        return;
+                }
                 if (PublishPrepared)
                 {
                     string message = "This action will overrite the current list of students. Are you sure you wish to continue?";
@@ -2904,6 +3064,7 @@ namespace AssessmentManager
                 {
                     string message = "Please select a valid deployment target.";
                     MessageBox.Show(message, "Invalid deployment target", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    PublishPrepared = false;
                     return;
                 }
                 List<Question> list = Assessment.CheckMissingMarks();
@@ -2918,17 +3079,16 @@ namespace AssessmentManager
                     if (MessageBox.Show("These questions do not have any marks assigned: \n\n" + questions + "\n\n" + "Would you like to continue?",
                         "Unassigned marks", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                     {
+                        PublishPrepared = false;
                         return;
                     }
                 }
-
-                PublishPrepared = true;
 
                 //DGVEDIT:: Fill out the students grid.
                 dgvPublishStudents.Rows.Clear();
                 DateTime date = dtpPublishDate.Value;
                 DateTime time = dtpPublishTime.Value;
-                DateTime d = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, time.Millisecond);
+                DateTime assessmentTime = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, time.Millisecond);
                 //string path = USERNAME_FILE_PATH(@lblDeploymentTarget.Text);
                 string path = USERNAME_FILE_PATH(assessmentFile.DirectoryName, lblDeploymentTarget.Text);
                 if (File.Exists(path))
@@ -2938,6 +3098,7 @@ namespace AssessmentManager
                     if (ReadUsernameFile(path, out dict) && dict != null)
                     {
                         bool flag = false;
+                        List<string> errorList = new List<string>();
                         foreach (var student in SelectedCourse.Students)
                         {
                             DataGridViewRow row = new DataGridViewRow();
@@ -2947,7 +3108,7 @@ namespace AssessmentManager
                             row.Cells[1].Value = student.LastName;
                             row.Cells[2].Value = student.FirstName;
                             row.Cells[3].Value = student.UserName;
-                            row.Cells[4].Value = d;
+                            row.Cells[4].Value = assessmentTime;
                             row.Cells[5].Value = nudPublishAssessmentLength.Value;
                             row.Cells[6].Value = nudPublishReadingTime.Value;
                             // Assign account username and password to each student properly
@@ -2959,6 +3120,7 @@ namespace AssessmentManager
                                 {
                                     flag = true;
                                     row.Cells[7].Value = INVALID;
+                                    errorList.Add($"Student with ID: {student.StudentID} MIT Username: {student.UserName}");
                                 }
                                 else
                                     row.Cells[7].Value = pair.Username;
@@ -2966,14 +3128,32 @@ namespace AssessmentManager
                             }
                             else
                             {
+                                flag = true;
                                 row.Cells[7].Value = INVALID;
                                 row.Cells[8].Value = INVALID;
+                                errorList.Add($"Student with ID: {student.StudentID} MIT Username: {student.UserName}");
                             }
                             dgvPublishStudents.Rows.Add(row);
                         }
                         if (flag)
                         {
-                            MessageBox.Show("The accounts for one or more students could not be found. Please make sure these are entered correctly and exist.", "Account not found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            string msg = "The accounts for one or more students could not be found. Please make sure these are entered correctly and exist.\n Errored students:\n\n";
+                            foreach (var s in errorList)
+                                msg += s + "\n";
+                            msg += "\n\nPress 'OK' to see more information";
+                            if (MessageBox.Show(msg, "Account(s) not found", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+                            {
+                                string msg2 = "Found accounts: \n\n";
+                                foreach (var kvp in dict)
+                                {
+                                    msg2 += $"ID: {kvp.Key} Username: {kvp.Value.Username} Password: {kvp.Value.Password}\n";
+                                }
+                                msg2 += "\nStudents in course:\n\n";
+                                foreach (var s in SelectedCourse.Students)
+                                {
+                                    msg2 += $"ID:{s.StudentID} FirstName:{s.FirstName} LastName:{s.LastName} MIT Username:{s.UserName}\n";
+                                }
+                            }
                             PublishPrepared = false;
                         }
                     }
@@ -2986,6 +3166,7 @@ namespace AssessmentManager
                         "Error - File not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     PublishPrepared = false;
                 }
+                PublishPrepared = true;
             }
             else
             {
@@ -3329,7 +3510,7 @@ namespace AssessmentManager
                         {
                             if (a.SelectedOption == kvp.Value.CorrectOption)
                             {
-                                kvp.Key.AssignedMarks = kvp.Value.Marks;
+                                kvp.Key.AssignedMarks = (decimal)kvp.Value.Marks;
                             }
                             else
                                 kvp.Key.AssignedMarks = 0;
@@ -3338,7 +3519,7 @@ namespace AssessmentManager
                     case AnswerType.Single:
                         {
                             if (kvp.Value.SingleAnswers != null && kvp.Value.SingleAnswers.Contains(a.ShortAnswer))
-                                kvp.Key.AssignedMarks = kvp.Value.Marks;
+                                kvp.Key.AssignedMarks = (decimal)kvp.Value.Marks;
                             else
                                 kvp.Key.AssignedMarks = 0;
                             break;
@@ -3421,11 +3602,11 @@ namespace AssessmentManager
             }
         }
 
-        private void MakeResultsPDF(StudentMarkingData smd)
+        private void MakeResultsPDF(StudentMarkingData smd, bool includeModelAnswers)
         {
             if (pdfSaveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                AssessmentResultWriter arw = new AssessmentResultWriter(smd);
+                AssessmentResultWriter arw = new AssessmentResultWriter(smd, includeModelAnswers);
                 if (arw.MakePDF(pdfSaveFileDialog.FileName))
                 {
                     if (MessageBox.Show("PDF successfully created. Would you like to view it now?", "PDF created", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -3436,9 +3617,9 @@ namespace AssessmentManager
             }
         }
 
-        private void MakeResultsPDF(StudentMarkingData smd, string path)
+        private void MakeResultsPDF(StudentMarkingData smd, string path, bool includeModelAnswers)
         {
-            AssessmentResultWriter arw = new AssessmentResultWriter(smd);
+            AssessmentResultWriter arw = new AssessmentResultWriter(smd, includeModelAnswers);
             arw.MakePDF(path);
         }
 
@@ -3454,6 +3635,22 @@ namespace AssessmentManager
                 }
             }
             catch { }
+        }
+
+        private TreeNode FindQuestionNode(TreeNodeCollection nodes, string name)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                if (node.Text == name)
+                    return node;
+                if (node.Nodes != null && node.Nodes.Count > 0)
+                {
+                    TreeNode node2 = FindQuestionNode(node.Nodes, name);
+                    if (node2 != null)
+                        return node2;
+                }
+            }
+            return null;
         }
 
         #endregion
@@ -3511,8 +3708,18 @@ namespace AssessmentManager
                         smd.FillTreeView(tvMarkQuestions);
                         tvMarkQuestions.ExpandAll();
 
-                        //Select the first question
-                        if (tvMarkQuestions.Nodes.Count > 0)
+                        //Select right question
+                        if (!curSelectedMarkingQuestion.NullOrEmpty())
+                        {
+                            TreeNode node = FindQuestionNode(tvMarkQuestions.Nodes, curSelectedMarkingQuestion);
+                            if (node != null)
+                            {
+                                tvMarkQuestions.SelectedNode = node;
+                            }
+                            else if (tvMarkQuestions.Nodes.Count > 0)
+                                tvMarkQuestions.SelectedNode = tvMarkQuestions.Nodes[0];
+                        }
+                        else if (tvMarkQuestions.Nodes.Count > 0)
                             tvMarkQuestions.SelectedNode = tvMarkQuestions.Nodes[0];
 
                         //Show the time the student was last loaded
@@ -3571,6 +3778,9 @@ namespace AssessmentManager
                 //Display the question stuff
                 rtbMarkQuestionText.Rtf = q.QuestionText;
 
+                //Record the selected question
+                curSelectedMarkingQuestion = node.Text;
+
                 switch (q.AnswerType)
                 {
                     case AnswerType.None:
@@ -3583,6 +3793,7 @@ namespace AssessmentManager
 
                             pnlMarkModelAnswer.Visible = false;
                             pnlMarkModelAnswer.Enabled = false;
+                            nudMarkAssign.Maximum = 0;
                             break;
                         }
                     case AnswerType.Multi:
@@ -3661,7 +3872,9 @@ namespace AssessmentManager
 
                             //Show the marks
                             lblMarksMaximum.Text = q.Marks.ToString("00");
-                            nudMarkAssign.Maximum = q.Marks;
+                            suppressMarkAssign = true;
+                            nudMarkAssign.Maximum = (decimal)q.Marks;
+                            suppressMarkAssign = false;
                             nudMarkAssign.Value = node.MarkingQuestion.AssignedMarks;
 
                             break;
@@ -3673,12 +3886,25 @@ namespace AssessmentManager
 
         private void nudMarkAssign_ValueChanged(object sender, EventArgs e)
         {
-            MarkingQuestionNode node = tvMarkQuestions.SelectedNode as MarkingQuestionNode;
-            if (node != null)
+            if (!suppressMarkAssign)
             {
-                node.MarkingQuestion.AssignedMarks = (int)nudMarkAssign.Value;
-                UpdateStudentResultDisplay();
+                MarkingQuestionNode node = tvMarkQuestions.SelectedNode as MarkingQuestionNode;
+                if (node != null)
+                {
+                    node.MarkingQuestion.AssignedMarks = nudMarkAssign.Value;
+                    UpdateStudentResultDisplay();
+                }
             }
+        }
+
+        private void btnMarkAllMarks_Click(object sender, EventArgs e)
+        {
+            nudMarkAssign.Value = nudMarkAssign.Maximum;
+        }
+
+        private void btnMarkNoMarks_Click(object sender, EventArgs e)
+        {
+            nudMarkAssign.Value = 0;
         }
 
         private void rtbMarkerResponse_TextChanged(object sender, EventArgs e)
@@ -3702,9 +3928,13 @@ namespace AssessmentManager
                     {
                         if (smd.Loaded)
                         {
+                            bool includeModelAnswers = false;
+                            if (MessageBox.Show("Would you like to include Model Answers?", "Include Model Answers", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                includeModelAnswers = true;
+
                             try
                             {
-                                EmailHandler em = new EmailHandler(MarkSession, smd);
+                                EmailHandler em = new EmailHandler(MarkSession, smd, includeModelAnswers);
                                 em.ShowDialog();
                             }
                             catch (Exception ex)
@@ -3719,10 +3949,33 @@ namespace AssessmentManager
             }
         }
 
+        private void btnMarkEmailAll_Click(object sender, EventArgs e)
+        {
+            List<StudentMarkingData> list = lbMarkStudents.Items.Cast<StudentMarkingData>().Where(s => s.Loaded).ToList();
+            if (list != null && list.Count > 0)
+            {
+                bool includeModelAnswers = false;
+                if (MessageBox.Show("Would you like to include Model Answers?", "Include Model Answers", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    includeModelAnswers = true;
+
+                EmailHandler em = new EmailHandler(MarkSession, list, includeModelAnswers);
+                em.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("There are no students available to email. Please make sure that all students are loaded before trying to email them.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
         private void btnMarkStudentPDF_Click(object sender, EventArgs e)
         {
             if (lbMarkStudents.SelectedItem != null)
             {
+
+                bool includeModelAnswers = false;
+                if (MessageBox.Show("Would you like to include Model Answers?", "Include Model Answers", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    includeModelAnswers = true;
+
                 if (lbMarkStudents.SelectedItem is StudentMarkingData)
                 {
                     StudentMarkingData smd = lbMarkStudents.SelectedItem as StudentMarkingData;
@@ -3730,7 +3983,7 @@ namespace AssessmentManager
                     {
                         if (smd.Loaded)
                         {
-                            MakeResultsPDF(smd);
+                            MakeResultsPDF(smd, includeModelAnswers);
                             return;
                         }
                         else
@@ -3744,20 +3997,6 @@ namespace AssessmentManager
             MessageBox.Show("Please select a student and try again");
         }
 
-        private void btnMarkEmailAll_Click(object sender, EventArgs e)
-        {
-            List<StudentMarkingData> list = lbMarkStudents.Items.Cast<StudentMarkingData>().Where(s => s.Loaded).ToList();
-            if (list != null && list.Count > 0)
-            {
-                EmailHandler em = new EmailHandler(MarkSession, list);
-                em.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("There are no students available to email. Please make sure that all students are loaded before trying to email them.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
         private void btnMarkAllPDF_Click(object sender, EventArgs e)
         {
             List<StudentMarkingData> list = (from t in MarkSession.StudentMarkingData
@@ -3769,6 +4008,10 @@ namespace AssessmentManager
                 return;
             }
 
+            bool includeModelAnswers = false;
+            if (MessageBox.Show("Would you like to include Model Answers?", "Include Model Answers", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                includeModelAnswers = true;
+
             if (allStudentMarksPDFFolderBrowser.ShowDialog() == DialogResult.OK)
             {
                 foreach (var smd in list)
@@ -3778,7 +4021,7 @@ namespace AssessmentManager
                         string filePath = Path.Combine(allStudentMarksPDFFolderBrowser.SelectedPath, smd.StudentData.UserName + PDF_EXT);
                         if (File.Exists(filePath))
                             File.Delete(filePath);
-                        MakeResultsPDF(smd, filePath);
+                        MakeResultsPDF(smd, filePath, includeModelAnswers);
                     }
                     catch (Exception ex)
                     {
@@ -3829,6 +4072,29 @@ namespace AssessmentManager
             }
         }
 
+        private void tvMarkQuestions_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
+
+        private void lblMarkingKeyBindings_Click(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Marking tab keyboard shortcuts:");
+            sb.AppendLine("   Student up: F1");
+            sb.AppendLine("   Student down: F2");
+            sb.AppendLine();
+            sb.AppendLine("   Question up: F3");
+            sb.AppendLine("   Question down: F4");
+            sb.AppendLine();
+            sb.AppendLine("   Remove all marks: F6");
+            sb.AppendLine("   Assign all marks: F5");
+            sb.AppendLine();
+            sb.AppendLine("   Remove 1 mark: F8");
+            sb.AppendLine("   Assign 1 mark: F7");
+            MessageBox.Show(sb.ToString(), "Keyboard Shortcuts", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private void cbMarkAssessmentVersion_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (suppressCBEvent)
@@ -3836,7 +4102,6 @@ namespace AssessmentManager
 
             tvMarkQuestions_AfterSelect(sender, new TreeViewEventArgs(tvMarkQuestions.SelectedNode));
         }
-
 
         #endregion
 

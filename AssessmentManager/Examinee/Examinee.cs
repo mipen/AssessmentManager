@@ -19,6 +19,7 @@ namespace AssessmentManager
         private int marksAttempted = 0;
         private int TotalMarksCache = 0;
         private string filePath = null;
+        private const int minutesToDelayMotivationalMessage = 3;
 
         public Examinee(AssessmentScript script, string path)
         {
@@ -159,6 +160,14 @@ namespace AssessmentManager
                             break;
                         }
                 }
+            }
+        }
+
+        private DateTime DelayedMessageStartTime
+        {
+            get
+            {
+                return Script.TimeData.PlannedStartTime.AddMinutes(minutesToDelayMotivationalMessage);
             }
         }
 
@@ -322,21 +331,26 @@ namespace AssessmentManager
                         }
                         lblTimeRemainingTimer.Text = $"{ts.Hours.ToString("00")}:{ts.Minutes.ToString("00")}:{ts.Seconds.ToString("00")}";
 
-                        //Update the motivational display
-                        double marksPercentage = (double)marksAttempted / (double)TotalMarksCache;
-                        double timePercentage = 1 - (ts.TotalMinutes / Script.TimeData.Minutes);
-                        if (marksPercentage >= timePercentage)
+                        //Update the motivational display if it has passed the delayed start time for it
+                        if (DateTime.Now > DelayedMessageStartTime)
                         {
-                            //Give good message
-                            lblMotivational.ForeColor = Color.Green;
-                            lblMotivational.Text = "You are ahead of time";
+                            double marksPercentage = (double)marksAttempted / (double)TotalMarksCache;
+                            double timePercentage = 1 - (ts.TotalMinutes / Script.TimeData.Minutes);
+                            if (marksPercentage >= timePercentage)
+                            {
+                                //Give good message
+                                lblMotivational.ForeColor = Color.Green;
+                                lblMotivational.Text = "You are ahead of time";
+                            }
+                            else
+                            {
+                                //Give bad message
+                                lblMotivational.ForeColor = Color.Red;
+                                lblMotivational.Text = "You are falling behind";
+                            }
                         }
                         else
-                        {
-                            //Give bad message
-                            lblMotivational.ForeColor = Color.Red;
-                            lblMotivational.Text = "You are falling behind";
-                        }
+                            lblMotivational.Text = "";
                         break;
                     }
             }

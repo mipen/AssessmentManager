@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using static AssessmentManager.CONSTANTS;
 
 namespace AssessmentManager
 {
@@ -11,8 +12,6 @@ namespace AssessmentManager
     {
         private static Settings instance;
         private List<string> recentFiles = new List<string>();
-        //private static readonly string FILE_NAME = "settings.xml";
-        private static readonly string FILE_NAME = "settings.settings";
 
         //Email stuff
         private string username = "";
@@ -110,20 +109,18 @@ namespace AssessmentManager
 
         public static void Init()
         {
-            string startupPath = Application.StartupPath;
-            string filePath = Path.Combine(startupPath, FILE_NAME);
-            if (!File.Exists(filePath))
+            //Create the settings file if it doesn't exist
+            if (!File.Exists(SETTINGS_FILE_PATH))
             {
                 instance = new Settings();
             }
             else
             {
-                using (var stream = File.Open(filePath,FileMode.Open))
+                //Otherwise try read the values from the file
+                using (var stream = File.Open(SETTINGS_FILE_PATH, FileMode.Open))
                 {
                     try
                     {
-                        //XmlSerializer x = new XmlSerializer(typeof(Settings));
-                        //instance = (Settings)x.Deserialize(stream);
                         BinaryFormatter bf = new BinaryFormatter();
                         instance = (Settings)bf.Deserialize(stream);
                     }
@@ -147,15 +144,10 @@ namespace AssessmentManager
         public void Save()
         {
             //Save the settings in the instance here
-            string startupPath = Application.StartupPath;
-            string filePath = Path.Combine(startupPath, FILE_NAME);
-
             try
             {
-                using (var stream = File.Open(filePath, FileMode.Create, FileAccess.Write))
+                using (var stream = File.Open(SETTINGS_FILE_PATH, FileMode.Create, FileAccess.Write))
                 {
-                    //XmlSerializer x = new XmlSerializer(typeof(Settings));
-                    //x.Serialize(stream, instance);
                     BinaryFormatter bf = new BinaryFormatter();
                     bf.Serialize(stream, instance);
                 }

@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.IO;
+using System.Windows.Forms;
 
 namespace AssessmentManager
 {
@@ -6,12 +7,12 @@ namespace AssessmentManager
     {
         public static string GetCoursePath(this Course course)
         {
-            return Application.StartupPath + "\\"+ CONSTANTS.COURSES_FOLDER_NAME + "\\" + course.ID;
+            return Path.Combine(CONSTANTS.COURSES_FOLDER_PATH, course.ID);
         }
 
         public static string GetFilePath(this Course course)
         {
-            return course.GetCoursePath() + "\\" + course.ID + CONSTANTS.COURSE_EXT;
+            return Path.Combine(course.GetCoursePath(), course.ID + CONSTANTS.COURSE_EXT);
         }
     }
 }

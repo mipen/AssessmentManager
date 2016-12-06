@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace AssessmentManager
@@ -22,7 +20,15 @@ namespace AssessmentManager
             {
                 form.OpenFromFile(args[0]);
             }
-            Application.Run(form);
+            //Look for the iTextSharp dll, warn that some parts of the program won't work if it isn't found
+            string itsPath = Path.Combine(Application.StartupPath, CONSTANTS.ITEXTSHARP_DLL);
+            if (!File.Exists(itsPath))
+            {
+                if (MessageBox.Show($"{CONSTANTS.ITEXTSHARP_DLL} not found in {Application.StartupPath}. Parts of the program dealing with PDF files will not work correctly without it. Continue?", $"{CONSTANTS.ITEXTSHARP_DLL} not found", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                    Application.Run(form);
+            }
+            else
+                Application.Run(form);
 
         }
     }

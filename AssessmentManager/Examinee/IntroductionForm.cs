@@ -19,6 +19,7 @@ namespace AssessmentManager
         private AssessmentScript script = null;
         private string filePath = null;
         private View CurView = View.Open;
+        private bool autoStart = false;
 
         public IntroductionForm(string[] args)
         {
@@ -134,7 +135,11 @@ namespace AssessmentManager
                         ChangeView(View.Continue);
                 }
                 else
+                {
                     ChangeView(View.Assessment);
+                    if (DateTime.Now < script.TimeData.PlannedStartTime)
+                        autoStart = true;
+                }
             }
             else
             {
@@ -331,7 +336,7 @@ namespace AssessmentManager
                 else
                     lblAuthor.Text = "";
 
-                lblWeighting.Text = ai.AssessmentWeighting < 0 ? $"{ai.AssessmentWeighting}%" : "";
+                lblWeighting.Text = ai.AssessmentWeighting > 0 ? $"{ai.AssessmentWeighting}%" : "";
             }
 
             //Show the course info. This will only be present if the assessment has been published.
@@ -399,11 +404,26 @@ namespace AssessmentManager
                 ts = script.TimeData.TimeUntilBegin;
             lblTimeUntilStartInt.Text = $"{ts.Hours.ToString("00")}:{ts.Minutes.ToString("00")}:{ts.Seconds.ToString("00")}";
 
-            //If assessment has begun, change the display
+            //If assessment has begun, change the display. If was waiting start the assessment
             if (script.TimeData.IsAvailable)
+            {
                 SetPublishedInformation(true);
+                if (autoStart)
+                    StartPublishedAssessment();
+            }
             if (script.TimeData.Finished)
                 ChangeView(View.Finished);
+        }
+
+        private void StartPublishedAssessment()
+        {
+            if (script.TimeData.IsAvailable)
+            {
+                Examinee ex = new Examinee(script, filePath);
+                ex.Show();
+                timer.Enabled = false;
+                Hide();
+            }
         }
 
         #endregion
@@ -458,9 +478,9 @@ namespace AssessmentManager
             if (script.Published)
             {
                 RestartPasswordForm rpf = new RestartPasswordForm();
-                if(rpf.ShowDialog()==DialogResult.OK)
+                if (rpf.ShowDialog() == DialogResult.OK)
                 {
-                    if(rpf.EnteredPassword == script.StudentData.RestartPassword)
+                    if (rpf.EnteredPassword == script.StudentData.RestartPassword)
                     {
                         Examinee ex = new Examinee(script, filePath);
                         ex.Show();
@@ -491,10 +511,7 @@ namespace AssessmentManager
         {
             if (script.TimeData.IsAvailable)
             {
-                Examinee ex = new Examinee(script, filePath);
-                ex.Show();
-                timer.Enabled = false;
-                Hide();
+                StartPublishedAssessment();
             }
             else
             {

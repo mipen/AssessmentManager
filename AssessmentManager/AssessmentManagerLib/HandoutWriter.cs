@@ -2,10 +2,7 @@
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.draw;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AssessmentManager
@@ -13,12 +10,13 @@ namespace AssessmentManager
     public class HandoutWriter
     {
         private AssessmentSession session;
-        private string path;
+        private string outputPath, rulesPath;
 
-        public HandoutWriter(AssessmentSession session, string path)
+        public HandoutWriter(AssessmentSession session, string outputPath, string rulesPath)
         {
             this.session = session;
-            this.path = path;
+            this.outputPath = outputPath;
+            this.rulesPath = rulesPath;
         }
 
         #region Alignments
@@ -48,7 +46,7 @@ namespace AssessmentManager
             Document doc = new Document();
             try
             {
-                FileStream fs = new FileStream(path, FileMode.Create);
+                FileStream fs = new FileStream(outputPath, FileMode.Create);
 
                 PdfWriter.GetInstance(doc, fs);
                 doc.Open();
@@ -115,9 +113,9 @@ namespace AssessmentManager
                     doc.Add(accountPasswordPara);
 
                     //Do rules
-                    if (File.Exists(CONSTANTS.RULES_FILE_PATH))
+                    if (File.Exists(rulesPath))
                     {
-                        string rules = File.ReadAllText(CONSTANTS.RULES_FILE_PATH);
+                        string rules = File.ReadAllText(rulesPath);
                         Paragraph instructionsTitlePara = new Paragraph("Instructions: ", BodyFont_Bold);
                         instructionsTitlePara.SpacingAfter = 5f;
                         doc.Add(instructionsTitlePara);
@@ -144,7 +142,7 @@ namespace AssessmentManager
             return successful;
         }
 
-        public static void MakeTestHandout(string filePath)
+        /*public static void MakeTestHandout(string filePath)
         {
             Document doc = new Document();
             try
@@ -235,7 +233,7 @@ namespace AssessmentManager
             {
                 doc.Close();
             }
-        }
+        }*/
 
         private static PdfPCell GetCell(string text, Font font, int alignment)
         {

@@ -15,7 +15,6 @@ namespace AssessmentManager
         private List<Course> courses = new List<Course>();
         private TreeView tree;
         private static CourseManager instance;
-        private static string coursesDir = "";
 
         public CourseManager()
         {
@@ -36,16 +35,14 @@ namespace AssessmentManager
             CourseManager.instance = instance;
             //Record the tree view to be used
             tree = tv;
-            string p = Application.StartupPath + "\\" + COURSES_FOLDER_NAME;
             //Create 'Courses' folder if doesn't already exist
-            if (!Directory.Exists(p))
+            if (!Directory.Exists(COURSES_FOLDER_PATH))
             {
-                Directory.CreateDirectory(p);
+                Directory.CreateDirectory(COURSES_FOLDER_PATH);
             }
-            coursesDir = p;
 
             //Read all courses and load them into the list.
-            LoadAllCourses(p);
+            LoadAllCourses(COURSES_FOLDER_PATH);
             courses.Sort((Course c1, Course c2) => c1.CourseTitle.CompareTo(c2.CourseTitle));
 
             //Fill the tree view.
@@ -396,7 +393,7 @@ namespace AssessmentManager
             if (!Courses.Where(c => c.ID == ID).Any())
                 throw new ArgumentException($"No course with ID: {ID} registered", "ID");
 
-            string path = Path.Combine(coursesDir, ID);
+            string path = Path.Combine(COURSES_FOLDER_PATH, ID);
             if (Directory.Exists(path))
                 return path;
             else

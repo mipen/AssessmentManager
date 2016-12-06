@@ -73,9 +73,9 @@ namespace AssessmentManager
             //Make sure that there is something in the node collection
             if (nodeCollection.Count > 0)
             {
-                for (int i = 0; i < nodeCollection.Count; i++)
+                foreach(TreeNode n in nodeCollection)
                 {
-                    QuestionNode node = (QuestionNode)nodeCollection[i];
+                    QuestionNode node = (QuestionNode)n;
 
                     node.Question.Name = $"Question {GetQuestionLevelIndex(node)}";
                     node.Text = node.Question.Name;
@@ -84,6 +84,8 @@ namespace AssessmentManager
                     {
                         BuildQuestionListFromNodeCollection(node.Question.SubQuestions, node.Nodes);
                     }
+                    else
+                        node.Question.SubQuestions.Clear();
                 }
             }
         }

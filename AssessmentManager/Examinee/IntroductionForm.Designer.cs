@@ -71,6 +71,7 @@
             this.lblDateTimeDisp = new System.Windows.Forms.Label();
             this.lblDateTime = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             this.pnlInformation.SuspendLayout();
             this.pnlUserInteract.SuspendLayout();
             this.pnlPublished.SuspendLayout();
@@ -485,11 +486,22 @@
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(577, 259);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(116, 12);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Created by Liam Mills 2016";
+            // 
             // IntroductionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(695, 269);
+            this.ClientSize = new System.Drawing.Size(695, 274);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.pnlUserInteract);
             this.Controls.Add(this.pnlInformation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -510,6 +522,7 @@
             this.pnlAssessmentFinished.PerformLayout();
             this.pnlPractise.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -556,5 +569,6 @@
         private System.Windows.Forms.Label lblTimeUntilStart;
         private System.Windows.Forms.Label lblFinishTime;
         private System.Windows.Forms.Label lblStartTime;
+        private System.Windows.Forms.Label label1;
     }
 }

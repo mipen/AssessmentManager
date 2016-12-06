@@ -72,7 +72,7 @@ namespace AssessmentManager
 
         #region SubQuestions
         public List<Question> SubQuestions => subQuestions;
-        public bool HasSubQuestions => subQuestions.Count != 0;
+        public bool HasSubQuestions => subQuestions.Count > 0;
         #endregion
 
         #region Answer
@@ -205,8 +205,6 @@ namespace AssessmentManager
                     int num = Marks;
                     foreach (var q in SubQuestions)
                     {
-                        if (q.AnswerType == AnswerType.None)
-                            continue;
                         num += q.TotalMarks;
                     }
                     return num;

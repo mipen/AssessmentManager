@@ -13,9 +13,11 @@ namespace AssessmentManager
     {
 
         private StudentMarkingData smd = null;
+        private bool includeModelAnswers = false;
 
-        public AssessmentResultWriter(StudentMarkingData smd)
+        public AssessmentResultWriter(StudentMarkingData smd, bool includeModelAnswers)
         {
+            this.includeModelAnswers = includeModelAnswers;
             this.smd = smd;
         }
 
@@ -48,7 +50,7 @@ namespace AssessmentManager
         private const float SubQuestionIndent = 20f;
         private const float SubSubQuestionIndent = 40f;
 
-        public bool MakePDF(string fp)
+        public bool MakePDF(string filePath)
         {
             Document doc = new Document();
             bool successful = true;
@@ -56,7 +58,7 @@ namespace AssessmentManager
 
             try
             {
-                FileStream fs = new FileStream(fp, FileMode.Create);
+                FileStream fs = new FileStream(filePath, FileMode.Create);
 
                 PdfWriter.GetInstance(doc, fs);
                 doc.Open();
@@ -66,7 +68,6 @@ namespace AssessmentManager
                 {
                     string authorText = $"Author: {info.Author}";
                     Paragraph authorPara = new Paragraph(authorText, AuthorFont);
-                    //authorPara.SetAlignment("Left");
                     authorPara.Add(new Chunk(new VerticalPositionMark()));
                     authorPara.Add(new Chunk($"{smd.StudentData.FirstName} {smd.StudentData.LastName} - {smd.StudentData.StudentID}"));
                     doc.Add(authorPara);
@@ -89,12 +90,13 @@ namespace AssessmentManager
                 linePara.SpacingAfter = 15f;
                 doc.Add(linePara);
 
+                //Do each question
                 DoQuestions(smd.MarkingQuestions, doc);
 
                 //Show marks for assessment
                 Paragraph totalMarksPara = new Paragraph("");
                 totalMarksPara.Add(new Chunk(new VerticalPositionMark()));
-                Paragraph totalPhrase = new Paragraph($"Final result: {smd.FinalMark} / {smd.TotalAvailableMarks}", TotalMarksFont);
+                Paragraph totalPhrase = new Paragraph($"Final result: {smd.FinalMark.ToString("0.#")} / {smd.TotalAvailableMarks}", TotalMarksFont);
                 totalPhrase.SetAlignment(Right);
                 totalMarksPara.Add(totalPhrase);
                 totalMarksPara.SpacingBefore = 10f;
@@ -102,7 +104,7 @@ namespace AssessmentManager
 
                 Paragraph percentPara = new Paragraph("");
                 percentPara.Add(new Chunk(new VerticalPositionMark()));
-                Paragraph percentPhrase = new Paragraph($"{(((double)smd.FinalMark / (double)smd.TotalAvailableMarks) * 100).ToString("00.0")}%", TotalMarksFont);
+                Paragraph percentPhrase = new Paragraph($"{((smd.FinalMark / smd.TotalAvailableMarks) * 100).ToString("00.0")}%", TotalMarksFont);
                 percentPhrase.SetAlignment(Right);
                 percentPara.Add(percentPhrase);
                 doc.Add(percentPara);
@@ -115,7 +117,7 @@ namespace AssessmentManager
             }
             finally
             {
-                doc.Close();               
+                doc.Close();
             }
 
             return successful;
@@ -150,7 +152,7 @@ namespace AssessmentManager
             {
                 //Marks
                 mainPara.Add(new Chunk(new VerticalPositionMark()));
-                mainPara.Add(new Chunk($"Marks: {mq.AssignedMarks} / {question.Marks}", MarksHeaderFont));
+                mainPara.Add(new Chunk($"Marks: {mq.AssignedMarks.ToString("0.#")} / {question.Marks}", MarksHeaderFont));
             }
             mainPara.Add("\n");
 
@@ -178,32 +180,40 @@ namespace AssessmentManager
             //Model answer
             if (question.AnswerType != AnswerType.None)
             {
-                mainPara.Add(new Phrase("Model answer: \n", ModelAnswerHeaderFont));
-                if (question.AnswerType == AnswerType.Multi)
+                if (includeModelAnswers && !question.ModelAnswer.NullOrEmpty())
                 {
-                    Paragraph multiAnswerPara = new Paragraph($"The correct option was: ({question.CorrectOption}) {question.GetOptionText(question.CorrectOption)}", QuestionTextFont);
-                    mainPara.Add(multiAnswerPara);
+                    mainPara.Add(new Phrase("Model answer: \n", ModelAnswerHeaderFont));
+                    if (question.AnswerType == AnswerType.Multi)
+                    {
+                        Paragraph multiAnswerPara = new Paragraph($"The correct option was: ({question.CorrectOption}) {question.GetOptionText(question.CorrectOption)}", QuestionTextFont);
+                        mainPara.Add(multiAnswerPara);
+                    }
+                    else
+                    {
+                        Paragraph longAnswerPara = new Paragraph(question.ModelAnswer, QuestionTextFont);
+                        mainPara.Add(longAnswerPara);
+                    }
+                    mainPara.Add("\n");
                 }
-                else
-                {
-                    Paragraph longAnswerPara = new Paragraph(question.ModelAnswer, QuestionTextFont);
-                    mainPara.Add(longAnswerPara);
-                }
-                mainPara.Add("\n");
 
                 //Student response
-                mainPara.Add(new Phrase("Student response: \n", ModelAnswerHeaderFont));
+                mainPara.Add(new Phrase("Student answer: \n", ModelAnswerHeaderFont));
                 Answer answer = smd.Scripts.First().Script.Answers[mq.QuestionName];
-                if (question.AnswerType == AnswerType.Multi)
+                if (answer.Attempted)
                 {
-                    MultiChoiceOption opt = answer.SelectedOption;
-                    mainPara.Add(new Paragraph($"Student chose option ({opt}) {question.GetOptionText(opt)}", QuestionTextFont));
+                    if (question.AnswerType == AnswerType.Multi)
+                    {
+                        MultiChoiceOption opt = answer.SelectedOption;
+                        mainPara.Add(new Paragraph($"Student answered option ({opt}) {question.GetOptionText(opt)}", QuestionTextFont));
+                    }
+                    else
+                    {
+                        string sAnswer = question.AnswerType == AnswerType.Open ? answer.LongAnswer : answer.ShortAnswer;
+                        mainPara.Add(new Paragraph(sAnswer, QuestionTextFont));
+                    }
                 }
                 else
-                {
-                    string sAnswer = question.AnswerType == AnswerType.Open ? answer.LongAnswer : answer.ShortAnswer;
-                    mainPara.Add(new Paragraph(sAnswer, QuestionTextFont));
-                }
+                    mainPara.Add(new Paragraph("Student did not answer", QuestionTextFont));
                 mainPara.Add("\n");
 
                 //Marker response

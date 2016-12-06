@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForQuestionsWithoutMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -168,6 +168,7 @@
             this.lblPublishFileName = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.gbAdditionalFiles = new System.Windows.Forms.GroupBox();
+            this.chkbxPublishIncludeExaminee = new System.Windows.Forms.CheckBox();
             this.btnPublishAdditionalFilesDelAll = new System.Windows.Forms.Button();
             this.btnPublishAdditionalFilesDelSel = new System.Windows.Forms.Button();
             this.btnPublishAdditonalFilesAdd = new System.Windows.Forms.Button();
@@ -186,6 +187,30 @@
             this.tabPageCourses = new System.Windows.Forms.TabPage();
             this.btnCollapse = new System.Windows.Forms.Button();
             this.btnCourseExpand = new System.Windows.Forms.Button();
+            this.pnlCourseView = new System.Windows.Forms.Panel();
+            this.btnCourseClearStudents = new System.Windows.Forms.Button();
+            this.btnCourseOpenFolder = new System.Windows.Forms.Button();
+            this.tbCourseID = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.btnDiscardCourseChanges = new System.Windows.Forms.Button();
+            this.btnApplyCourseChanges = new System.Windows.Forms.Button();
+            this.btnImportStudents = new System.Windows.Forms.Button();
+            this.dgvCourseStudents = new System.Windows.Forms.DataGridView();
+            this.colStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label6 = new System.Windows.Forms.Label();
+            this.cbCourseSemester = new System.Windows.Forms.ComboBox();
+            this.nudCourseYear = new System.Windows.Forms.NumericUpDown();
+            this.tbCourseCode2 = new System.Windows.Forms.TextBox();
+            this.tbCourseCode1 = new System.Windows.Forms.TextBox();
+            this.tbCourseName = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.pnlAssessmentView = new System.Windows.Forms.Panel();
             this.btnAssessmentMark = new System.Windows.Forms.Button();
             this.btnSessionGenHandout = new System.Windows.Forms.Button();
@@ -225,34 +250,11 @@
             this.colSessionReadingTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSessionAccountName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colSessionAccountPassword = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnlCourseView = new System.Windows.Forms.Panel();
-            this.btnCourseClearStudents = new System.Windows.Forms.Button();
-            this.btnCourseOpenFolder = new System.Windows.Forms.Button();
-            this.tbCourseID = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.btnDiscardCourseChanges = new System.Windows.Forms.Button();
-            this.btnApplyCourseChanges = new System.Windows.Forms.Button();
-            this.btnImportStudents = new System.Windows.Forms.Button();
-            this.dgvCourseStudents = new System.Windows.Forms.DataGridView();
-            this.colStudentID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colLastName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colFirstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label6 = new System.Windows.Forms.Label();
-            this.cbCourseSemester = new System.Windows.Forms.ComboBox();
-            this.nudCourseYear = new System.Windows.Forms.NumericUpDown();
-            this.tbCourseCode2 = new System.Windows.Forms.TextBox();
-            this.tbCourseCode1 = new System.Windows.Forms.TextBox();
-            this.tbCourseName = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.tbCourseSearch = new System.Windows.Forms.TextBox();
             this.btnNewCourse = new System.Windows.Forms.Button();
             this.tvCourses = new System.Windows.Forms.TreeView();
             this.tabPageMark = new System.Windows.Forms.TabPage();
+            this.lblMarkingKeyBindings = new System.Windows.Forms.Label();
             this.lblMarkStudentResultInt = new System.Windows.Forms.Label();
             this.lblMarkStudentResult = new System.Windows.Forms.Label();
             this.lblMarkLastLoadedStudentDate = new System.Windows.Forms.Label();
@@ -272,6 +274,8 @@
             this.label35 = new System.Windows.Forms.Label();
             this.rtbMarkModelAnswer = new System.Windows.Forms.RichTextBox();
             this.pnlMarkerResponseContainer = new System.Windows.Forms.Panel();
+            this.btnMarkNoMarks = new System.Windows.Forms.Button();
+            this.btnMarkAllMarks = new System.Windows.Forms.Button();
             this.label38 = new System.Windows.Forms.Label();
             this.nudMarkAssign = new System.Windows.Forms.NumericUpDown();
             this.label39 = new System.Windows.Forms.Label();
@@ -315,7 +319,6 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiMakePDFStudent = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEmailStudent = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkbxPublishIncludeExaminee = new System.Windows.Forms.CheckBox();
             this.menuStripMain.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabPageDesigner.SuspendLayout();
@@ -353,13 +356,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudPublishReadingTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudPublishAssessmentLength)).BeginInit();
             this.tabPageCourses.SuspendLayout();
+            this.pnlCourseView.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCourseStudents)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudCourseYear)).BeginInit();
             this.pnlAssessmentView.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPublishedAssessmentStudents)).BeginInit();
-            this.pnlCourseView.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCourseStudents)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudCourseYear)).BeginInit();
             this.tabPageMark.SuspendLayout();
             this.tlpMarkContainer.SuspendLayout();
             this.pnlMarkQuestionTextContainer.SuspendLayout();
@@ -1224,6 +1227,7 @@
             this.treeViewQuestionList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.treeViewQuestionList.ContextMenuStrip = this.contextMenuStripQuestionList;
+            this.treeViewQuestionList.HideSelection = false;
             this.treeViewQuestionList.Location = new System.Drawing.Point(7, 7);
             this.treeViewQuestionList.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewQuestionList.Name = "treeViewQuestionList";
@@ -1555,8 +1559,8 @@
             // 
             // colPublishStartTime
             // 
-            dataGridViewCellStyle1.Format = "hh:mm:ss tt";
-            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Format = "hh:mm:ss tt";
+            this.colPublishStartTime.DefaultCellStyle = dataGridViewCellStyle3;
             this.colPublishStartTime.HeaderText = "Start Time";
             this.colPublishStartTime.Name = "colPublishStartTime";
             this.colPublishStartTime.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -1813,6 +1817,17 @@
             this.gbAdditionalFiles.TabStop = false;
             this.gbAdditionalFiles.Text = "Additional Files";
             // 
+            // chkbxPublishIncludeExaminee
+            // 
+            this.chkbxPublishIncludeExaminee.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkbxPublishIncludeExaminee.AutoSize = true;
+            this.chkbxPublishIncludeExaminee.Location = new System.Drawing.Point(267, 136);
+            this.chkbxPublishIncludeExaminee.Name = "chkbxPublishIncludeExaminee";
+            this.chkbxPublishIncludeExaminee.Size = new System.Drawing.Size(110, 17);
+            this.chkbxPublishIncludeExaminee.TabIndex = 3;
+            this.chkbxPublishIncludeExaminee.Text = "Include Examinee";
+            this.chkbxPublishIncludeExaminee.UseVisualStyleBackColor = true;
+            // 
             // btnPublishAdditionalFilesDelAll
             // 
             this.btnPublishAdditionalFilesDelAll.Location = new System.Drawing.Point(286, 99);
@@ -2024,6 +2039,267 @@
             this.btnCourseExpand.TabIndex = 4;
             this.btnCourseExpand.UseVisualStyleBackColor = true;
             this.btnCourseExpand.Click += new System.EventHandler(this.btnCourseExpand_Click);
+            // 
+            // pnlCourseView
+            // 
+            this.pnlCourseView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlCourseView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCourseView.Controls.Add(this.btnCourseClearStudents);
+            this.pnlCourseView.Controls.Add(this.btnCourseOpenFolder);
+            this.pnlCourseView.Controls.Add(this.tbCourseID);
+            this.pnlCourseView.Controls.Add(this.label7);
+            this.pnlCourseView.Controls.Add(this.btnDiscardCourseChanges);
+            this.pnlCourseView.Controls.Add(this.btnApplyCourseChanges);
+            this.pnlCourseView.Controls.Add(this.btnImportStudents);
+            this.pnlCourseView.Controls.Add(this.dgvCourseStudents);
+            this.pnlCourseView.Controls.Add(this.label6);
+            this.pnlCourseView.Controls.Add(this.cbCourseSemester);
+            this.pnlCourseView.Controls.Add(this.nudCourseYear);
+            this.pnlCourseView.Controls.Add(this.tbCourseCode2);
+            this.pnlCourseView.Controls.Add(this.tbCourseCode1);
+            this.pnlCourseView.Controls.Add(this.tbCourseName);
+            this.pnlCourseView.Controls.Add(this.label5);
+            this.pnlCourseView.Controls.Add(this.label4);
+            this.pnlCourseView.Controls.Add(this.label3);
+            this.pnlCourseView.Controls.Add(this.label2);
+            this.pnlCourseView.Controls.Add(this.label1);
+            this.pnlCourseView.Location = new System.Drawing.Point(234, 3);
+            this.pnlCourseView.Name = "pnlCourseView";
+            this.pnlCourseView.Size = new System.Drawing.Size(635, 573);
+            this.pnlCourseView.TabIndex = 3;
+            // 
+            // btnCourseClearStudents
+            // 
+            this.btnCourseClearStudents.Location = new System.Drawing.Point(3, 110);
+            this.btnCourseClearStudents.Name = "btnCourseClearStudents";
+            this.btnCourseClearStudents.Size = new System.Drawing.Size(94, 23);
+            this.btnCourseClearStudents.TabIndex = 8;
+            this.btnCourseClearStudents.Text = "Clear Students";
+            this.btnCourseClearStudents.UseVisualStyleBackColor = true;
+            this.btnCourseClearStudents.Click += new System.EventHandler(this.btnCourseClearStudents_Click);
+            // 
+            // btnCourseOpenFolder
+            // 
+            this.btnCourseOpenFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCourseOpenFolder.Location = new System.Drawing.Point(409, 110);
+            this.btnCourseOpenFolder.Name = "btnCourseOpenFolder";
+            this.btnCourseOpenFolder.Size = new System.Drawing.Size(120, 23);
+            this.btnCourseOpenFolder.TabIndex = 6;
+            this.btnCourseOpenFolder.Text = "Open Folder Location";
+            this.btnCourseOpenFolder.UseVisualStyleBackColor = true;
+            this.btnCourseOpenFolder.Click += new System.EventHandler(this.btnCourseOpenFolder_Click);
+            // 
+            // tbCourseID
+            // 
+            this.tbCourseID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbCourseID.Location = new System.Drawing.Point(562, 37);
+            this.tbCourseID.MaxLength = 10;
+            this.tbCourseID.Name = "tbCourseID";
+            this.tbCourseID.ReadOnly = true;
+            this.tbCourseID.Size = new System.Drawing.Size(67, 20);
+            this.tbCourseID.TabIndex = 100;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(535, 40);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(21, 13);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "ID:";
+            // 
+            // btnDiscardCourseChanges
+            // 
+            this.btnDiscardCourseChanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDiscardCourseChanges.Location = new System.Drawing.Point(527, 545);
+            this.btnDiscardCourseChanges.Name = "btnDiscardCourseChanges";
+            this.btnDiscardCourseChanges.Size = new System.Drawing.Size(102, 23);
+            this.btnDiscardCourseChanges.TabIndex = 10;
+            this.btnDiscardCourseChanges.Text = "Discard Changes";
+            this.btnDiscardCourseChanges.UseVisualStyleBackColor = true;
+            this.btnDiscardCourseChanges.Click += new System.EventHandler(this.btnDiscardCourseChanges_Click);
+            // 
+            // btnApplyCourseChanges
+            // 
+            this.btnApplyCourseChanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnApplyCourseChanges.Location = new System.Drawing.Point(3, 545);
+            this.btnApplyCourseChanges.Name = "btnApplyCourseChanges";
+            this.btnApplyCourseChanges.Size = new System.Drawing.Size(102, 23);
+            this.btnApplyCourseChanges.TabIndex = 9;
+            this.btnApplyCourseChanges.Text = "Apply Changes";
+            this.btnApplyCourseChanges.UseVisualStyleBackColor = true;
+            this.btnApplyCourseChanges.Click += new System.EventHandler(this.btnApplyCourseChanges_Click);
+            // 
+            // btnImportStudents
+            // 
+            this.btnImportStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImportStudents.Location = new System.Drawing.Point(535, 110);
+            this.btnImportStudents.Name = "btnImportStudents";
+            this.btnImportStudents.Size = new System.Drawing.Size(94, 23);
+            this.btnImportStudents.TabIndex = 7;
+            this.btnImportStudents.Text = "Import Students";
+            this.btnImportStudents.UseVisualStyleBackColor = true;
+            this.btnImportStudents.Click += new System.EventHandler(this.btnImportStudents_Click);
+            // 
+            // dgvCourseStudents
+            // 
+            this.dgvCourseStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvCourseStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCourseStudents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colStudentID,
+            this.colLastName,
+            this.colFirstName,
+            this.colUserName});
+            this.dgvCourseStudents.Location = new System.Drawing.Point(3, 139);
+            this.dgvCourseStudents.Name = "dgvCourseStudents";
+            this.dgvCourseStudents.Size = new System.Drawing.Size(626, 404);
+            this.dgvCourseStudents.TabIndex = 5;
+            this.dgvCourseStudents.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCourseStudents_CellValueChanged);
+            this.dgvCourseStudents.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvCourseStudents_RowsRemoved);
+            // 
+            // colStudentID
+            // 
+            this.colStudentID.HeaderText = "Student ID";
+            this.colStudentID.Name = "colStudentID";
+            // 
+            // colLastName
+            // 
+            this.colLastName.HeaderText = "Last Name";
+            this.colLastName.Name = "colLastName";
+            // 
+            // colFirstName
+            // 
+            this.colFirstName.HeaderText = "First Name";
+            this.colFirstName.Name = "colFirstName";
+            // 
+            // colUserName
+            // 
+            this.colUserName.HeaderText = "Username";
+            this.colUserName.Name = "colUserName";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(111, 123);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(52, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Students:";
+            // 
+            // cbCourseSemester
+            // 
+            this.cbCourseSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCourseSemester.FormattingEnabled = true;
+            this.cbCourseSemester.Items.AddRange(new object[] {
+            "1",
+            "2"});
+            this.cbCourseSemester.Location = new System.Drawing.Point(222, 66);
+            this.cbCourseSemester.Name = "cbCourseSemester";
+            this.cbCourseSemester.Size = new System.Drawing.Size(39, 21);
+            this.cbCourseSemester.TabIndex = 4;
+            this.cbCourseSemester.SelectedIndexChanged += new System.EventHandler(this.cbCourseSemester_SelectedIndexChanged);
+            // 
+            // nudCourseYear
+            // 
+            this.nudCourseYear.Location = new System.Drawing.Point(93, 67);
+            this.nudCourseYear.Maximum = new decimal(new int[] {
+            3010,
+            0,
+            0,
+            0});
+            this.nudCourseYear.Minimum = new decimal(new int[] {
+            2010,
+            0,
+            0,
+            0});
+            this.nudCourseYear.Name = "nudCourseYear";
+            this.nudCourseYear.Size = new System.Drawing.Size(45, 20);
+            this.nudCourseYear.TabIndex = 3;
+            this.nudCourseYear.Value = new decimal(new int[] {
+            2010,
+            0,
+            0,
+            0});
+            this.nudCourseYear.ValueChanged += new System.EventHandler(this.nudCourseYear_ValueChanged);
+            // 
+            // tbCourseCode2
+            // 
+            this.tbCourseCode2.Location = new System.Drawing.Point(191, 37);
+            this.tbCourseCode2.Name = "tbCourseCode2";
+            this.tbCourseCode2.Size = new System.Drawing.Size(70, 20);
+            this.tbCourseCode2.TabIndex = 2;
+            this.tbCourseCode2.TextChanged += new System.EventHandler(this.tbCourseCode2_TextChanged);
+            this.tbCourseCode2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCourseCode2_KeyPress);
+            // 
+            // tbCourseCode1
+            // 
+            this.tbCourseCode1.Location = new System.Drawing.Point(93, 37);
+            this.tbCourseCode1.Name = "tbCourseCode1";
+            this.tbCourseCode1.Size = new System.Drawing.Size(70, 20);
+            this.tbCourseCode1.TabIndex = 1;
+            this.tbCourseCode1.TextChanged += new System.EventHandler(this.tbCourseCode1_TextChanged);
+            this.tbCourseCode1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCourseCode1_KeyPress);
+            // 
+            // tbCourseName
+            // 
+            this.tbCourseName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbCourseName.Location = new System.Drawing.Point(93, 8);
+            this.tbCourseName.Name = "tbCourseName";
+            this.tbCourseName.Size = new System.Drawing.Size(536, 20);
+            this.tbCourseName.TabIndex = 0;
+            this.tbCourseName.TextChanged += new System.EventHandler(this.tbCourseName_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(169, 32);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(16, 24);
+            this.label5.TabIndex = 4;
+            this.label5.Text = ".";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(162, 69);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(54, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Semester:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(55, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Year:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Course Code:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Course Name:";
             // 
             // pnlAssessmentView
             // 
@@ -2375,8 +2651,8 @@
             // 
             // colSessionStartTime
             // 
-            dataGridViewCellStyle2.Format = "hh:mm:ss tt";
-            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Format = "hh:mm:ss tt";
+            this.colSessionStartTime.DefaultCellStyle = dataGridViewCellStyle4;
             this.colSessionStartTime.HeaderText = "Start Time";
             this.colSessionStartTime.Name = "colSessionStartTime";
             this.colSessionStartTime.ReadOnly = true;
@@ -2405,267 +2681,6 @@
             this.colSessionAccountPassword.Name = "colSessionAccountPassword";
             this.colSessionAccountPassword.ReadOnly = true;
             // 
-            // pnlCourseView
-            // 
-            this.pnlCourseView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlCourseView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlCourseView.Controls.Add(this.btnCourseClearStudents);
-            this.pnlCourseView.Controls.Add(this.btnCourseOpenFolder);
-            this.pnlCourseView.Controls.Add(this.tbCourseID);
-            this.pnlCourseView.Controls.Add(this.label7);
-            this.pnlCourseView.Controls.Add(this.btnDiscardCourseChanges);
-            this.pnlCourseView.Controls.Add(this.btnApplyCourseChanges);
-            this.pnlCourseView.Controls.Add(this.btnImportStudents);
-            this.pnlCourseView.Controls.Add(this.dgvCourseStudents);
-            this.pnlCourseView.Controls.Add(this.label6);
-            this.pnlCourseView.Controls.Add(this.cbCourseSemester);
-            this.pnlCourseView.Controls.Add(this.nudCourseYear);
-            this.pnlCourseView.Controls.Add(this.tbCourseCode2);
-            this.pnlCourseView.Controls.Add(this.tbCourseCode1);
-            this.pnlCourseView.Controls.Add(this.tbCourseName);
-            this.pnlCourseView.Controls.Add(this.label5);
-            this.pnlCourseView.Controls.Add(this.label4);
-            this.pnlCourseView.Controls.Add(this.label3);
-            this.pnlCourseView.Controls.Add(this.label2);
-            this.pnlCourseView.Controls.Add(this.label1);
-            this.pnlCourseView.Location = new System.Drawing.Point(234, 3);
-            this.pnlCourseView.Name = "pnlCourseView";
-            this.pnlCourseView.Size = new System.Drawing.Size(635, 573);
-            this.pnlCourseView.TabIndex = 3;
-            // 
-            // btnCourseClearStudents
-            // 
-            this.btnCourseClearStudents.Location = new System.Drawing.Point(3, 110);
-            this.btnCourseClearStudents.Name = "btnCourseClearStudents";
-            this.btnCourseClearStudents.Size = new System.Drawing.Size(94, 23);
-            this.btnCourseClearStudents.TabIndex = 8;
-            this.btnCourseClearStudents.Text = "Clear Students";
-            this.btnCourseClearStudents.UseVisualStyleBackColor = true;
-            this.btnCourseClearStudents.Click += new System.EventHandler(this.btnCourseClearStudents_Click);
-            // 
-            // btnCourseOpenFolder
-            // 
-            this.btnCourseOpenFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCourseOpenFolder.Location = new System.Drawing.Point(409, 110);
-            this.btnCourseOpenFolder.Name = "btnCourseOpenFolder";
-            this.btnCourseOpenFolder.Size = new System.Drawing.Size(120, 23);
-            this.btnCourseOpenFolder.TabIndex = 6;
-            this.btnCourseOpenFolder.Text = "Open Folder Location";
-            this.btnCourseOpenFolder.UseVisualStyleBackColor = true;
-            this.btnCourseOpenFolder.Click += new System.EventHandler(this.btnCourseOpenFolder_Click);
-            // 
-            // tbCourseID
-            // 
-            this.tbCourseID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbCourseID.Location = new System.Drawing.Point(562, 37);
-            this.tbCourseID.MaxLength = 10;
-            this.tbCourseID.Name = "tbCourseID";
-            this.tbCourseID.ReadOnly = true;
-            this.tbCourseID.Size = new System.Drawing.Size(67, 20);
-            this.tbCourseID.TabIndex = 100;
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(535, 40);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(21, 13);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "ID:";
-            // 
-            // btnDiscardCourseChanges
-            // 
-            this.btnDiscardCourseChanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDiscardCourseChanges.Location = new System.Drawing.Point(527, 545);
-            this.btnDiscardCourseChanges.Name = "btnDiscardCourseChanges";
-            this.btnDiscardCourseChanges.Size = new System.Drawing.Size(102, 23);
-            this.btnDiscardCourseChanges.TabIndex = 10;
-            this.btnDiscardCourseChanges.Text = "Discard Changes";
-            this.btnDiscardCourseChanges.UseVisualStyleBackColor = true;
-            this.btnDiscardCourseChanges.Click += new System.EventHandler(this.btnDiscardCourseChanges_Click);
-            // 
-            // btnApplyCourseChanges
-            // 
-            this.btnApplyCourseChanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnApplyCourseChanges.Location = new System.Drawing.Point(3, 545);
-            this.btnApplyCourseChanges.Name = "btnApplyCourseChanges";
-            this.btnApplyCourseChanges.Size = new System.Drawing.Size(102, 23);
-            this.btnApplyCourseChanges.TabIndex = 9;
-            this.btnApplyCourseChanges.Text = "Apply Changes";
-            this.btnApplyCourseChanges.UseVisualStyleBackColor = true;
-            this.btnApplyCourseChanges.Click += new System.EventHandler(this.btnApplyCourseChanges_Click);
-            // 
-            // btnImportStudents
-            // 
-            this.btnImportStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImportStudents.Location = new System.Drawing.Point(535, 110);
-            this.btnImportStudents.Name = "btnImportStudents";
-            this.btnImportStudents.Size = new System.Drawing.Size(94, 23);
-            this.btnImportStudents.TabIndex = 7;
-            this.btnImportStudents.Text = "Import Students";
-            this.btnImportStudents.UseVisualStyleBackColor = true;
-            this.btnImportStudents.Click += new System.EventHandler(this.btnImportStudents_Click);
-            // 
-            // dgvCourseStudents
-            // 
-            this.dgvCourseStudents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvCourseStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCourseStudents.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colStudentID,
-            this.colLastName,
-            this.colFirstName,
-            this.colUserName});
-            this.dgvCourseStudents.Location = new System.Drawing.Point(3, 139);
-            this.dgvCourseStudents.Name = "dgvCourseStudents";
-            this.dgvCourseStudents.Size = new System.Drawing.Size(626, 404);
-            this.dgvCourseStudents.TabIndex = 5;
-            this.dgvCourseStudents.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCourseStudents_CellValueChanged);
-            this.dgvCourseStudents.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgvCourseStudents_RowsRemoved);
-            // 
-            // colStudentID
-            // 
-            this.colStudentID.HeaderText = "Student ID";
-            this.colStudentID.Name = "colStudentID";
-            // 
-            // colLastName
-            // 
-            this.colLastName.HeaderText = "Last Name";
-            this.colLastName.Name = "colLastName";
-            // 
-            // colFirstName
-            // 
-            this.colFirstName.HeaderText = "First Name";
-            this.colFirstName.Name = "colFirstName";
-            // 
-            // colUserName
-            // 
-            this.colUserName.HeaderText = "Username";
-            this.colUserName.Name = "colUserName";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(111, 123);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(52, 13);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Students:";
-            // 
-            // cbCourseSemester
-            // 
-            this.cbCourseSemester.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCourseSemester.FormattingEnabled = true;
-            this.cbCourseSemester.Items.AddRange(new object[] {
-            "1",
-            "2"});
-            this.cbCourseSemester.Location = new System.Drawing.Point(222, 66);
-            this.cbCourseSemester.Name = "cbCourseSemester";
-            this.cbCourseSemester.Size = new System.Drawing.Size(39, 21);
-            this.cbCourseSemester.TabIndex = 4;
-            this.cbCourseSemester.SelectedIndexChanged += new System.EventHandler(this.cbCourseSemester_SelectedIndexChanged);
-            // 
-            // nudCourseYear
-            // 
-            this.nudCourseYear.Location = new System.Drawing.Point(93, 67);
-            this.nudCourseYear.Maximum = new decimal(new int[] {
-            3010,
-            0,
-            0,
-            0});
-            this.nudCourseYear.Minimum = new decimal(new int[] {
-            2010,
-            0,
-            0,
-            0});
-            this.nudCourseYear.Name = "nudCourseYear";
-            this.nudCourseYear.Size = new System.Drawing.Size(45, 20);
-            this.nudCourseYear.TabIndex = 3;
-            this.nudCourseYear.Value = new decimal(new int[] {
-            2010,
-            0,
-            0,
-            0});
-            this.nudCourseYear.ValueChanged += new System.EventHandler(this.nudCourseYear_ValueChanged);
-            // 
-            // tbCourseCode2
-            // 
-            this.tbCourseCode2.Location = new System.Drawing.Point(191, 37);
-            this.tbCourseCode2.Name = "tbCourseCode2";
-            this.tbCourseCode2.Size = new System.Drawing.Size(70, 20);
-            this.tbCourseCode2.TabIndex = 2;
-            this.tbCourseCode2.TextChanged += new System.EventHandler(this.tbCourseCode2_TextChanged);
-            this.tbCourseCode2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCourseCode2_KeyPress);
-            // 
-            // tbCourseCode1
-            // 
-            this.tbCourseCode1.Location = new System.Drawing.Point(93, 37);
-            this.tbCourseCode1.Name = "tbCourseCode1";
-            this.tbCourseCode1.Size = new System.Drawing.Size(70, 20);
-            this.tbCourseCode1.TabIndex = 1;
-            this.tbCourseCode1.TextChanged += new System.EventHandler(this.tbCourseCode1_TextChanged);
-            this.tbCourseCode1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCourseCode1_KeyPress);
-            // 
-            // tbCourseName
-            // 
-            this.tbCourseName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbCourseName.Location = new System.Drawing.Point(93, 8);
-            this.tbCourseName.Name = "tbCourseName";
-            this.tbCourseName.Size = new System.Drawing.Size(536, 20);
-            this.tbCourseName.TabIndex = 0;
-            this.tbCourseName.TextChanged += new System.EventHandler(this.tbCourseName_TextChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(169, 32);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(16, 24);
-            this.label5.TabIndex = 4;
-            this.label5.Text = ".";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(162, 69);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Semester:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(55, 69);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Year:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 40);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Course Code:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 11);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Course Name:";
-            // 
             // tbCourseSearch
             // 
             this.tbCourseSearch.Location = new System.Drawing.Point(3, 3);
@@ -2689,6 +2704,7 @@
             // 
             this.tvCourses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.tvCourses.HideSelection = false;
             this.tvCourses.Location = new System.Drawing.Point(3, 29);
             this.tvCourses.Name = "tvCourses";
             this.tvCourses.Size = new System.Drawing.Size(225, 508);
@@ -2700,6 +2716,7 @@
             // 
             // tabPageMark
             // 
+            this.tabPageMark.Controls.Add(this.lblMarkingKeyBindings);
             this.tabPageMark.Controls.Add(this.lblMarkStudentResultInt);
             this.tabPageMark.Controls.Add(this.lblMarkStudentResult);
             this.tabPageMark.Controls.Add(this.lblMarkLastLoadedStudentDate);
@@ -2724,6 +2741,20 @@
             this.tabPageMark.TabIndex = 2;
             this.tabPageMark.Text = "Mark";
             this.tabPageMark.UseVisualStyleBackColor = true;
+            // 
+            // lblMarkingKeyBindings
+            // 
+            this.lblMarkingKeyBindings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMarkingKeyBindings.AutoSize = true;
+            this.lblMarkingKeyBindings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblMarkingKeyBindings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMarkingKeyBindings.ForeColor = System.Drawing.Color.Blue;
+            this.lblMarkingKeyBindings.Location = new System.Drawing.Point(577, 559);
+            this.lblMarkingKeyBindings.Name = "lblMarkingKeyBindings";
+            this.lblMarkingKeyBindings.Size = new System.Drawing.Size(100, 13);
+            this.lblMarkingKeyBindings.TabIndex = 19;
+            this.lblMarkingKeyBindings.Text = "Keyboard Shortcuts";
+            this.lblMarkingKeyBindings.Click += new System.EventHandler(this.lblMarkingKeyBindings_Click);
             // 
             // lblMarkStudentResultInt
             // 
@@ -2793,10 +2824,13 @@
             // 
             this.tvMarkQuestions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.tvMarkQuestions.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this.tvMarkQuestions.HideSelection = false;
             this.tvMarkQuestions.Location = new System.Drawing.Point(128, 22);
             this.tvMarkQuestions.Name = "tvMarkQuestions";
             this.tvMarkQuestions.Size = new System.Drawing.Size(138, 498);
             this.tvMarkQuestions.TabIndex = 12;
+            this.tvMarkQuestions.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.tvMarkQuestions_DrawNode);
             this.tvMarkQuestions.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvMarkQuestions_AfterSelect);
             // 
             // btnMarkEmailAll
@@ -2861,10 +2895,10 @@
             this.tlpMarkContainer.Location = new System.Drawing.Point(268, 0);
             this.tlpMarkContainer.Name = "tlpMarkContainer";
             this.tlpMarkContainer.RowCount = 4;
-            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tlpMarkContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tlpMarkContainer.Size = new System.Drawing.Size(604, 520);
             this.tlpMarkContainer.TabIndex = 11;
             // 
@@ -2877,7 +2911,7 @@
             this.pnlMarkQuestionTextContainer.Controls.Add(this.rtbMarkQuestionText);
             this.pnlMarkQuestionTextContainer.Location = new System.Drawing.Point(3, 3);
             this.pnlMarkQuestionTextContainer.Name = "pnlMarkQuestionTextContainer";
-            this.pnlMarkQuestionTextContainer.Size = new System.Drawing.Size(598, 120);
+            this.pnlMarkQuestionTextContainer.Size = new System.Drawing.Size(598, 140);
             this.pnlMarkQuestionTextContainer.TabIndex = 0;
             // 
             // label34
@@ -2897,7 +2931,7 @@
             this.rtbMarkQuestionText.Location = new System.Drawing.Point(0, 19);
             this.rtbMarkQuestionText.Name = "rtbMarkQuestionText";
             this.rtbMarkQuestionText.ReadOnly = true;
-            this.rtbMarkQuestionText.Size = new System.Drawing.Size(598, 101);
+            this.rtbMarkQuestionText.Size = new System.Drawing.Size(598, 121);
             this.rtbMarkQuestionText.TabIndex = 6;
             this.rtbMarkQuestionText.TabStop = false;
             this.rtbMarkQuestionText.Text = "";
@@ -2909,9 +2943,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlMarkModelAnswer.Controls.Add(this.label35);
             this.pnlMarkModelAnswer.Controls.Add(this.rtbMarkModelAnswer);
-            this.pnlMarkModelAnswer.Location = new System.Drawing.Point(3, 255);
+            this.pnlMarkModelAnswer.Location = new System.Drawing.Point(3, 295);
             this.pnlMarkModelAnswer.Name = "pnlMarkModelAnswer";
-            this.pnlMarkModelAnswer.Size = new System.Drawing.Size(598, 94);
+            this.pnlMarkModelAnswer.Size = new System.Drawing.Size(598, 140);
             this.pnlMarkModelAnswer.TabIndex = 1;
             // 
             // label35
@@ -2925,12 +2959,13 @@
             // 
             // rtbMarkModelAnswer
             // 
-            this.rtbMarkModelAnswer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.rtbMarkModelAnswer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbMarkModelAnswer.Location = new System.Drawing.Point(0, 18);
             this.rtbMarkModelAnswer.Name = "rtbMarkModelAnswer";
             this.rtbMarkModelAnswer.ReadOnly = true;
-            this.rtbMarkModelAnswer.Size = new System.Drawing.Size(598, 76);
+            this.rtbMarkModelAnswer.Size = new System.Drawing.Size(598, 122);
             this.rtbMarkModelAnswer.TabIndex = 10;
             this.rtbMarkModelAnswer.TabStop = false;
             this.rtbMarkModelAnswer.Text = "";
@@ -2940,22 +2975,48 @@
             this.pnlMarkerResponseContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlMarkerResponseContainer.Controls.Add(this.btnMarkNoMarks);
+            this.pnlMarkerResponseContainer.Controls.Add(this.btnMarkAllMarks);
             this.pnlMarkerResponseContainer.Controls.Add(this.label38);
             this.pnlMarkerResponseContainer.Controls.Add(this.nudMarkAssign);
             this.pnlMarkerResponseContainer.Controls.Add(this.label39);
             this.pnlMarkerResponseContainer.Controls.Add(this.lblMarksMaximum);
             this.pnlMarkerResponseContainer.Controls.Add(this.rtbMarkerResponse);
             this.pnlMarkerResponseContainer.Controls.Add(this.label37);
-            this.pnlMarkerResponseContainer.Location = new System.Drawing.Point(3, 355);
+            this.pnlMarkerResponseContainer.Location = new System.Drawing.Point(3, 441);
             this.pnlMarkerResponseContainer.Name = "pnlMarkerResponseContainer";
-            this.pnlMarkerResponseContainer.Size = new System.Drawing.Size(598, 162);
+            this.pnlMarkerResponseContainer.Size = new System.Drawing.Size(598, 76);
             this.pnlMarkerResponseContainer.TabIndex = 3;
+            // 
+            // btnMarkNoMarks
+            // 
+            this.btnMarkNoMarks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMarkNoMarks.Location = new System.Drawing.Point(359, 56);
+            this.btnMarkNoMarks.Name = "btnMarkNoMarks";
+            this.btnMarkNoMarks.Size = new System.Drawing.Size(29, 20);
+            this.btnMarkNoMarks.TabIndex = 15;
+            this.btnMarkNoMarks.Text = "<<";
+            this.buttonToolTip.SetToolTip(this.btnMarkNoMarks, "Remove all marks");
+            this.btnMarkNoMarks.UseVisualStyleBackColor = true;
+            this.btnMarkNoMarks.Click += new System.EventHandler(this.btnMarkNoMarks_Click);
+            // 
+            // btnMarkAllMarks
+            // 
+            this.btnMarkAllMarks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMarkAllMarks.Location = new System.Drawing.Point(394, 56);
+            this.btnMarkAllMarks.Name = "btnMarkAllMarks";
+            this.btnMarkAllMarks.Size = new System.Drawing.Size(29, 20);
+            this.btnMarkAllMarks.TabIndex = 14;
+            this.btnMarkAllMarks.Text = ">>";
+            this.buttonToolTip.SetToolTip(this.btnMarkAllMarks, "Add all marks");
+            this.btnMarkAllMarks.UseVisualStyleBackColor = true;
+            this.btnMarkAllMarks.Click += new System.EventHandler(this.btnMarkAllMarks_Click);
             // 
             // label38
             // 
             this.label38.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(429, 146);
+            this.label38.Location = new System.Drawing.Point(429, 60);
             this.label38.Name = "label38";
             this.label38.Size = new System.Drawing.Size(73, 13);
             this.label38.TabIndex = 12;
@@ -2964,7 +3025,8 @@
             // nudMarkAssign
             // 
             this.nudMarkAssign.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.nudMarkAssign.Location = new System.Drawing.Point(508, 141);
+            this.nudMarkAssign.DecimalPlaces = 1;
+            this.nudMarkAssign.Location = new System.Drawing.Point(508, 55);
             this.nudMarkAssign.Name = "nudMarkAssign";
             this.nudMarkAssign.Size = new System.Drawing.Size(40, 20);
             this.nudMarkAssign.TabIndex = 7;
@@ -2974,7 +3036,7 @@
             // 
             this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(554, 145);
+            this.label39.Location = new System.Drawing.Point(554, 59);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(16, 13);
             this.label39.TabIndex = 13;
@@ -2984,7 +3046,7 @@
             // 
             this.lblMarksMaximum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMarksMaximum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMarksMaximum.Location = new System.Drawing.Point(576, 141);
+            this.lblMarksMaximum.Location = new System.Drawing.Point(576, 55);
             this.lblMarksMaximum.Name = "lblMarksMaximum";
             this.lblMarksMaximum.Size = new System.Drawing.Size(21, 20);
             this.lblMarksMaximum.TabIndex = 2;
@@ -2998,7 +3060,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbMarkerResponse.Location = new System.Drawing.Point(0, 16);
             this.rtbMarkerResponse.Name = "rtbMarkerResponse";
-            this.rtbMarkerResponse.Size = new System.Drawing.Size(598, 122);
+            this.rtbMarkerResponse.Size = new System.Drawing.Size(598, 36);
             this.rtbMarkerResponse.TabIndex = 6;
             this.rtbMarkerResponse.Text = "";
             this.rtbMarkerResponse.TextChanged += new System.EventHandler(this.rtbMarkerResponse_TextChanged);
@@ -3019,9 +3081,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlMarkStudentAnswerContainer.Controls.Add(this.rtbMarkStudentAnswer);
             this.pnlMarkStudentAnswerContainer.Controls.Add(this.label36);
-            this.pnlMarkStudentAnswerContainer.Location = new System.Drawing.Point(3, 129);
+            this.pnlMarkStudentAnswerContainer.Location = new System.Drawing.Point(3, 149);
             this.pnlMarkStudentAnswerContainer.Name = "pnlMarkStudentAnswerContainer";
-            this.pnlMarkStudentAnswerContainer.Size = new System.Drawing.Size(598, 120);
+            this.pnlMarkStudentAnswerContainer.Size = new System.Drawing.Size(598, 140);
             this.pnlMarkStudentAnswerContainer.TabIndex = 2;
             // 
             // rtbMarkStudentAnswer
@@ -3032,7 +3094,7 @@
             this.rtbMarkStudentAnswer.Location = new System.Drawing.Point(0, 16);
             this.rtbMarkStudentAnswer.Name = "rtbMarkStudentAnswer";
             this.rtbMarkStudentAnswer.ReadOnly = true;
-            this.rtbMarkStudentAnswer.Size = new System.Drawing.Size(598, 104);
+            this.rtbMarkStudentAnswer.Size = new System.Drawing.Size(598, 124);
             this.rtbMarkStudentAnswer.TabIndex = 1;
             this.rtbMarkStudentAnswer.TabStop = false;
             this.rtbMarkStudentAnswer.Text = "";
@@ -3317,17 +3379,6 @@
             this.tsmiEmailStudent.Text = "Email Student";
             this.tsmiEmailStudent.Click += new System.EventHandler(this.tsmiEmailStudent_Click);
             // 
-            // chkbxPublishIncludeExaminee
-            // 
-            this.chkbxPublishIncludeExaminee.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkbxPublishIncludeExaminee.AutoSize = true;
-            this.chkbxPublishIncludeExaminee.Location = new System.Drawing.Point(267, 136);
-            this.chkbxPublishIncludeExaminee.Name = "chkbxPublishIncludeExaminee";
-            this.chkbxPublishIncludeExaminee.Size = new System.Drawing.Size(110, 17);
-            this.chkbxPublishIncludeExaminee.TabIndex = 3;
-            this.chkbxPublishIncludeExaminee.Text = "Include Examinee";
-            this.chkbxPublishIncludeExaminee.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3398,6 +3449,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudPublishAssessmentLength)).EndInit();
             this.tabPageCourses.ResumeLayout(false);
             this.tabPageCourses.PerformLayout();
+            this.pnlCourseView.ResumeLayout(false);
+            this.pnlCourseView.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCourseStudents)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudCourseYear)).EndInit();
             this.pnlAssessmentView.ResumeLayout(false);
             this.pnlAssessmentView.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -3405,10 +3460,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPublishedAssessmentStudents)).EndInit();
-            this.pnlCourseView.ResumeLayout(false);
-            this.pnlCourseView.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCourseStudents)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudCourseYear)).EndInit();
             this.tabPageMark.ResumeLayout(false);
             this.tabPageMark.PerformLayout();
             this.tlpMarkContainer.ResumeLayout(false);
@@ -3716,5 +3767,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiOpenRules;
         private System.Windows.Forms.ToolStripMenuItem tsmiHandoutTest;
         private System.Windows.Forms.CheckBox chkbxPublishIncludeExaminee;
+        private System.Windows.Forms.Button btnMarkNoMarks;
+        private System.Windows.Forms.Button btnMarkAllMarks;
+        private System.Windows.Forms.Label lblMarkingKeyBindings;
     }
 }

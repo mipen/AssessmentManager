@@ -20,17 +20,19 @@ namespace AssessmentManager
         private int attemptedEmails = 0;
         private int timeOutCount = 0;
         private const int timeOut = 200;
+        private bool includeModelAnswers = false;
         private List<string> erroredEmails = new List<string>();
         private const string label0 = "Sending email ... Please wait";
         private const string label1 = "Sending email ... Please wait .";
         private const string label2 = "Sending email ... Please wait ..";
         private const string label3 = "Sending email ... Please wait ...";
 
-        public EmailHandler(AssessmentSession session, List<StudentMarkingData> smd)
+        public EmailHandler(AssessmentSession session, List<StudentMarkingData> smd, bool includeModelAnswers)
         {
             InitializeComponent();
             this.session = session;
             this.smd = smd;
+            this.includeModelAnswers = includeModelAnswers;
 
             if (smd == null || smd.Count == 0)
             {
@@ -40,7 +42,7 @@ namespace AssessmentManager
             SentCount = 0;
         }
 
-        public EmailHandler(AssessmentSession session, StudentMarkingData smd) : this(session, new List<StudentMarkingData> { smd })
+        public EmailHandler(AssessmentSession session, StudentMarkingData smd, bool includeModelAnswers) : this(session, new List<StudentMarkingData> { smd }, includeModelAnswers)
         {
         }
 
@@ -179,6 +181,7 @@ namespace AssessmentManager
             if (Username.NullOrEmpty() || Password.NullOrEmpty() || Smtp.NullOrEmpty())
             {
                 MessageBox.Show("Cannot send email - please make sure you have entered your Username, Password and smtp server correctly.", "Invalid Username, password or smtp server", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                timer.Enabled = false;
                 Close();
                 return;
             }
@@ -205,7 +208,7 @@ namespace AssessmentManager
                             filePath = Path.Combine(CONSTANTS.TEMP_PDF_PATH, s.StudentData.UserName + $"({num})" + CONSTANTS.PDF_EXT);
                         } while (File.Exists(filePath));
                     }
-                    AssessmentResultWriter arw = new AssessmentResultWriter(s);
+                    AssessmentResultWriter arw = new AssessmentResultWriter(s, includeModelAnswers);
                     arw.MakePDF(filePath);
 
                     NetworkCredential login = new NetworkCredential(Username, Password);
@@ -297,7 +300,7 @@ namespace AssessmentManager
             if (timeOutCount > timeOut)
             {
                 timer.Enabled = false;
-                MessageBox.Show("Operation timed out - please make sure that the details you have entered are correct and that you are connected to the internet", "Timed Out", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Operation timed out - please make sure that the details you have entered are correct and that you are connected to the internet.", "Timed Out", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
             }
         }

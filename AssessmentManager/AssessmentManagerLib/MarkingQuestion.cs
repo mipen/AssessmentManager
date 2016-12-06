@@ -9,7 +9,7 @@ namespace AssessmentManager
         private string questionName = "";
         private List<MarkingQuestion> subMarkingQuestions = new List<MarkingQuestion>();
         private string markerResponse = "";
-        private int assignedMarks = 0;
+        private decimal assignedMarks = 0;
 
         public MarkingQuestion(string questionName)
         {
@@ -38,7 +38,7 @@ namespace AssessmentManager
             }
         }
 
-        public int AssignedMarks
+        public decimal AssignedMarks
         {
             get
             {
@@ -50,11 +50,11 @@ namespace AssessmentManager
             }
         }
 
-        public int TotalAssignedMarks
+        public decimal TotalAssignedMarks
         {
             get
             {
-                int num = AssignedMarks;
+                decimal num = AssignedMarks;
                 if(HasSubQuestions)
                 {
                     foreach (var q in SubMarkingQuestions)

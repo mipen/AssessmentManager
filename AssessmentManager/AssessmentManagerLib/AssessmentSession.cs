@@ -23,6 +23,9 @@ namespace AssessmentManager
         private List<StudentMarkingData> studentMarkingData = new List<StudentMarkingData>();
         public bool MarkingStarted = false;
 
+        /// <summary>
+        /// Gives the Directory path that the assessment session data is stored in.
+        /// </summary>
         public string FolderPath = "";
 
         public AssessmentSession(string courseID, string deploymentTarget, AssessmentInformation assessmentInfo, string assessmentFileName, DateTime startTime, int assessmentLength, int readingTime, string restartPassword, List<StudentData> studentData, List<string> additionalFiles, DateTime deploymentTime, Assessment assessment)
@@ -155,6 +158,17 @@ namespace AssessmentManager
             get
             {
                 return assessment;
+            }
+        }
+
+        /// <summary>
+        /// Gives the full path for the related rules file. This file is not guaranteed to exist.
+        /// </summary>
+        public string RulesFile
+        {
+            get
+            {
+                return System.IO.Path.Combine(FolderPath, CONSTANTS.RULES_FILE_NAME);
             }
         }
 
