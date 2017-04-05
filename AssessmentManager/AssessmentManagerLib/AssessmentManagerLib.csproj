@@ -55,6 +55,7 @@
     <Compile Include="AssessmentScript.cs" />
     <Compile Include="AssessmentSession.cs" />
     <Compile Include="AssessmentSessionNode.cs" />
+    <Compile Include="AssessmentSessionResultsWriter.cs" />
     <Compile Include="AssessmentWriter.cs" />
     <Compile Include="BorderlessMove.cs" />
     <Compile Include="BorderlessResize.cs" />

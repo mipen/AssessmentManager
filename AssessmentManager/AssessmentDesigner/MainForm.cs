@@ -2445,6 +2445,35 @@ namespace AssessmentManager
             tabControlMain.SelectedTab = tabPageMark;
         }
 
+        private void btnPrintAllResults_Click(object sender, EventArgs e)
+        {
+            AssessmentSessionNode node = tvCourses.SelectedNode as AssessmentSessionNode;
+            if (node != null)
+            {
+                if (node.Session.MarkingStarted)
+                {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = PDF_FILTER;
+                    sfd.DefaultExt = PDF_FILTER.Remove(0, 1);
+                    if (assessmentFile != null)
+                        sfd.InitialDirectory = assessmentFile.DirectoryName;
+                    else
+                        sfd.InitialDirectory = node.Session.FolderPath;
+
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        AssessmentSessionResultsWriter wr = new AssessmentSessionResultsWriter(node.Session, sfd.FileName);
+                        if(wr.MakePdf())
+                        {
+                            Process.Start(sfd.FileName);
+                        }
+                    }
+                }
+                else
+                    MessageBox.Show("This session has not yet been marked.", "Session not marked", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
         #endregion
 
         #endregion

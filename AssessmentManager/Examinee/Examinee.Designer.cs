@@ -71,8 +71,6 @@
             this.lblQuestionNumber = new System.Windows.Forms.Label();
             this.panelAnswerContainer = new System.Windows.Forms.Panel();
             this.labelAnswerText = new System.Windows.Forms.Label();
-            this.panelAnswerLongContainer = new System.Windows.Forms.Panel();
-            this.rtbAnswerLong = new System.Windows.Forms.RichTextBox();
             this.tlpMultiAnswerContainer = new System.Windows.Forms.TableLayoutPanel();
             this.tlpOptionD = new System.Windows.Forms.TableLayoutPanel();
             this.labelOptionD = new System.Windows.Forms.Label();
@@ -86,6 +84,8 @@
             this.tlpOptionA = new System.Windows.Forms.TableLayoutPanel();
             this.rbOptionA = new System.Windows.Forms.RadioButton();
             this.labelOptionA = new System.Windows.Forms.Label();
+            this.panelAnswerLongContainer = new System.Windows.Forms.Panel();
+            this.rtbAnswerLong = new System.Windows.Forms.RichTextBox();
             this.panelAnswerShortContainer = new System.Windows.Forms.Panel();
             this.textBoxAnswerShort = new System.Windows.Forms.TextBox();
             this.toolTipButtons = new System.Windows.Forms.ToolTip(this.components);
@@ -103,12 +103,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbMagnifyingGlass)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarMagnification)).BeginInit();
             this.panelAnswerContainer.SuspendLayout();
-            this.panelAnswerLongContainer.SuspendLayout();
             this.tlpMultiAnswerContainer.SuspendLayout();
             this.tlpOptionD.SuspendLayout();
             this.tlpOptionC.SuspendLayout();
             this.tlpOptionB.SuspendLayout();
             this.tlpOptionA.SuspendLayout();
+            this.panelAnswerLongContainer.SuspendLayout();
             this.panelAnswerShortContainer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -595,27 +595,6 @@
             this.labelAnswerText.TabIndex = 0;
             this.labelAnswerText.Text = "Answer";
             // 
-            // panelAnswerLongContainer
-            // 
-            this.panelAnswerLongContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelAnswerLongContainer.Controls.Add(this.rtbAnswerLong);
-            this.panelAnswerLongContainer.Location = new System.Drawing.Point(0, 16);
-            this.panelAnswerLongContainer.Name = "panelAnswerLongContainer";
-            this.panelAnswerLongContainer.Size = new System.Drawing.Size(555, 147);
-            this.panelAnswerLongContainer.TabIndex = 0;
-            // 
-            // rtbAnswerLong
-            // 
-            this.rtbAnswerLong.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbAnswerLong.Location = new System.Drawing.Point(0, 0);
-            this.rtbAnswerLong.Name = "rtbAnswerLong";
-            this.rtbAnswerLong.Size = new System.Drawing.Size(555, 147);
-            this.rtbAnswerLong.TabIndex = 0;
-            this.rtbAnswerLong.Text = "";
-            this.rtbAnswerLong.TextChanged += new System.EventHandler(this.rtbAnswerLong_TextChanged);
-            // 
             // tlpMultiAnswerContainer
             // 
             this.tlpMultiAnswerContainer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -788,6 +767,27 @@
             this.labelOptionA.TabIndex = 1;
             this.labelOptionA.Text = "label1";
             // 
+            // panelAnswerLongContainer
+            // 
+            this.panelAnswerLongContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelAnswerLongContainer.Controls.Add(this.rtbAnswerLong);
+            this.panelAnswerLongContainer.Location = new System.Drawing.Point(0, 16);
+            this.panelAnswerLongContainer.Name = "panelAnswerLongContainer";
+            this.panelAnswerLongContainer.Size = new System.Drawing.Size(555, 147);
+            this.panelAnswerLongContainer.TabIndex = 0;
+            // 
+            // rtbAnswerLong
+            // 
+            this.rtbAnswerLong.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbAnswerLong.Location = new System.Drawing.Point(0, 0);
+            this.rtbAnswerLong.Name = "rtbAnswerLong";
+            this.rtbAnswerLong.Size = new System.Drawing.Size(555, 147);
+            this.rtbAnswerLong.TabIndex = 0;
+            this.rtbAnswerLong.Text = "";
+            this.rtbAnswerLong.TextChanged += new System.EventHandler(this.rtbAnswerLong_TextChanged);
+            // 
             // panelAnswerShortContainer
             // 
             this.panelAnswerShortContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -851,7 +851,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarMagnification)).EndInit();
             this.panelAnswerContainer.ResumeLayout(false);
             this.panelAnswerContainer.PerformLayout();
-            this.panelAnswerLongContainer.ResumeLayout(false);
             this.tlpMultiAnswerContainer.ResumeLayout(false);
             this.tlpOptionD.ResumeLayout(false);
             this.tlpOptionD.PerformLayout();
@@ -861,6 +860,7 @@
             this.tlpOptionB.PerformLayout();
             this.tlpOptionA.ResumeLayout(false);
             this.tlpOptionA.PerformLayout();
+            this.panelAnswerLongContainer.ResumeLayout(false);
             this.panelAnswerShortContainer.ResumeLayout(false);
             this.panelAnswerShortContainer.PerformLayout();
             this.ResumeLayout(false);

@@ -145,6 +145,7 @@ namespace AssessmentManager
                             buttonSubmitAssessment.Enabled = true;
                             curStage = Stage.Running;
                             lblTimeRemaining.Text = "Time remaining:";
+                            lblMotivational.Text = "";
                             break;
                         }
                     case Stage.Completed:
@@ -332,25 +333,25 @@ namespace AssessmentManager
                         lblTimeRemainingTimer.Text = $"{ts.Hours.ToString("00")}:{ts.Minutes.ToString("00")}:{ts.Seconds.ToString("00")}";
 
                         //Update the motivational display if it has passed the delayed start time for it
-                        if (DateTime.Now > DelayedMessageStartTime)
-                        {
-                            double marksPercentage = (double)marksAttempted / (double)TotalMarksCache;
-                            double timePercentage = 1 - (ts.TotalMinutes / Script.TimeData.Minutes);
-                            if (marksPercentage >= timePercentage)
-                            {
-                                //Give good message
-                                lblMotivational.ForeColor = Color.Green;
-                                lblMotivational.Text = "You are ahead of time";
-                            }
-                            else
-                            {
-                                //Give bad message
-                                lblMotivational.ForeColor = Color.Red;
-                                lblMotivational.Text = "You are falling behind";
-                            }
-                        }
-                        else
-                            lblMotivational.Text = "";
+                        //if (DateTime.Now > DelayedMessageStartTime)
+                        //{
+                        //    double marksPercentage = (double)marksAttempted / (double)TotalMarksCache;
+                        //    double timePercentage = 1 - (ts.TotalMinutes / Script.TimeData.Minutes);
+                        //    if (marksPercentage >= timePercentage)
+                        //    {
+                        //        //Give good message
+                        //        lblMotivational.ForeColor = Color.Green;
+                        //        lblMotivational.Text = "You are ahead of time";
+                        //    }
+                        //    else
+                        //    {
+                        //        //Give bad message
+                        //        lblMotivational.ForeColor = Color.Red;
+                        //        lblMotivational.Text = "You are falling behind";
+                        //    }
+                        //}
+                        //else
+                        //    lblMotivational.Text = "";
                         break;
                     }
             }

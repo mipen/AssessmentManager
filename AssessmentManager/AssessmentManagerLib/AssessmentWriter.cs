@@ -126,7 +126,7 @@ namespace AssessmentManager
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Error creating pdf", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "Error creating PDF", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 successful = false;
             }
             finally
