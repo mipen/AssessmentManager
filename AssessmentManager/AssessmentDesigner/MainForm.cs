@@ -20,7 +20,7 @@ namespace AssessmentManager
     public partial class MainForm : Form
     {
         private Assessment assessment;
-        private FileInfo assessmentFile;
+        private static FileInfo assessmentFile;
         private ColorDialog colorDialog = new ColorDialog();
         private SaveFileDialog xmlSaveFileDialog = new SaveFileDialog();
         private SaveFileDialog mainSaveFileDialog = new SaveFileDialog();
@@ -143,6 +143,8 @@ namespace AssessmentManager
         {
             get { return Assessment != null; }
         }
+
+        public static FileInfo AssessmentFile => assessmentFile;
 
         #region Designer
 
@@ -559,8 +561,11 @@ namespace AssessmentManager
             UpdateFormText();
             //Setup publish tab
             SetPublishTab();
-            //Set the pdf save file dialog default path to assessments path
+            //Set the save file dialog default path to assessments path
             pdfSaveFileDialog.InitialDirectory = assessmentFile.DirectoryName;
+            xmlSaveFileDialog.InitialDirectory = assessmentFile.DirectoryName;
+            addFilesDialog.InitialDirectory = assessmentFile.DirectoryName;
+            allStudentMarksPDFFolderBrowser.SelectedPath = assessmentFile.DirectoryName;
         }
 
         private void InitialiseFontComboBoxes()
@@ -1600,7 +1605,7 @@ namespace AssessmentManager
                     e.Cancel = true;
                 }
             }
-            if(markingChangesMade)
+            if (markingChangesMade)
             {
                 try
                 {
@@ -1915,7 +1920,10 @@ namespace AssessmentManager
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = PDF_FILTER;
             sfd.DefaultExt = PDF_FILTER.Remove(0, 1);
-            sfd.InitialDirectory = assessmentFile.DirectoryName;
+            if (assessmentFile != null)
+                sfd.InitialDirectory = assessmentFile.DirectoryName;
+            else
+                sfd.InitialDirectory = session.FolderPath;
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {

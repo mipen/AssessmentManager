@@ -162,6 +162,21 @@ namespace AssessmentManager
             mainPara.Add(questionTextPara);
             mainPara.Add("\n");
 
+            //Question image
+            if (question.Image != null)
+            {
+                try
+                {
+                    Image i = Image.GetInstance(question.Image, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    i.ScaleToFit(doc.PageSize.Width - 70f, i.Height);
+                    mainPara.Add(i);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occured adding image from {question.Name}\n\n {ex.Message}", "Error adding image", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
             //Multi Choice options if applicable
             if (question.AnswerType == AnswerType.Multi)
             {

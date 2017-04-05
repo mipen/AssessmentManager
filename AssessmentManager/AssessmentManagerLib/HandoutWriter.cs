@@ -54,13 +54,16 @@ namespace AssessmentManager
                 foreach (var s in session.StudentData)
                 {
                     //Do student name
-                    PdfPTable table = new PdfPTable(3);
-                    table.WidthPercentage = 100f;
-                    table.AddCell(GetCell(s.StudentID, TopFont, PdfPCell.ALIGN_LEFT));
-                    table.AddCell(GetCell("", TopFont, PdfPCell.ALIGN_CENTER));
-                    table.AddCell(GetCell($"{s.FirstName} {s.LastName}", TopFont, PdfPCell.ALIGN_RIGHT));
-                    table.SpacingAfter = 5f;
-                    doc.Add(table);
+                    //PdfPTable table = new PdfPTable(3);
+                    //table.WidthPercentage = 100f;
+                    //table.AddCell(GetCell(s.StudentID, TopFont, PdfPCell.ALIGN_LEFT));
+                    //table.AddCell(GetCell("", TopFont, PdfPCell.ALIGN_CENTER));
+                    //table.AddCell(GetCell($"{s.FirstName} {s.LastName}", TopFont, PdfPCell.ALIGN_RIGHT));
+                    //table.SpacingAfter = 5f;
+                    //doc.Add(table);
+                    Paragraph namePara = new Paragraph($"{s.FirstName} {s.LastName}", TopFont);
+                    namePara.SpacingAfter = 5f;
+                    doc.Add(namePara);
 
                     //Do title
                     Paragraph titlePara = new Paragraph("Manukau Institute of Technology", TitleFont);

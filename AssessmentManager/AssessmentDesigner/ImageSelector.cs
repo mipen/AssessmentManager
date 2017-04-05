@@ -19,7 +19,7 @@ namespace AssessmentManager
             Text = text + " Image";
         }
 
-        public ImageSelector (string text, Bitmap image) : this(text)
+        public ImageSelector(string text, Bitmap image) : this(text)
         {
             Image = image;
         }
@@ -70,7 +70,8 @@ namespace AssessmentManager
         private void btnSelectImage_Click(object sender, EventArgs e)
         {
             OpenFileDialog o = new OpenFileDialog();
-            o.InitialDirectory = !Path.NullOrEmpty() && Directory.Exists(Path) ? Path : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            o.InitialDirectory = !Path.NullOrEmpty() && Directory.Exists(Path) ? Path : MainForm.AssessmentFile != null ? MainForm.AssessmentFile.DirectoryName : 
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             o.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp; *.png)|*.jpg; *.jpeg; *.gif; *.bmp; *.png";
             if (o.ShowDialog() == DialogResult.OK)
             {

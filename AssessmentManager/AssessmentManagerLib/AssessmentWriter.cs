@@ -195,6 +195,21 @@ namespace AssessmentManager
             mainPara.Add(questionTextPara);
             mainPara.Add("\n");
 
+            //Question image
+            if (q.Image != null)
+            {
+                try
+                {
+                    Image i = Image.GetInstance(q.Image, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    i.ScaleToFit(doc.PageSize.Width - 70f, i.Height);
+                    mainPara.Add(i);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occured adding image from {q.Name}\n\n {ex.Message}", "Error adding image", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
             //Multi choice options (if applicable)
             if (q.AnswerType == AnswerType.Multi)
             {
@@ -218,9 +233,16 @@ namespace AssessmentManager
                 {
                     answerPara = new Paragraph($"Correct option is: ({q.CorrectOption})", QuestionTextFont);
                 }
-                else if (q.AnswerType == AnswerType.Open || q.AnswerType == AnswerType.Single)
+                else if (q.AnswerType == AnswerType.Open)
                 {
                     answerPara = new Paragraph(q.ModelAnswer, QuestionTextFont);
+                }
+                else if (q.AnswerType == AnswerType.Single)
+                {
+                    string mAnswer = "";
+                    foreach (var s in q.SingleAnswers)
+                        mAnswer += s + "\n";
+                    answerPara = new Paragraph(mAnswer, QuestionTextFont);
                 }
 
                 if (answerPara != null)

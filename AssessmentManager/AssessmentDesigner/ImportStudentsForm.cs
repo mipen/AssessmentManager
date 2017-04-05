@@ -82,6 +82,8 @@ namespace AssessmentManager
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = CONSTANTS.SPREADSHEET_FILTER;
             ofd.DefaultExt = CONSTANTS.SPREADSHEET_FILTER.Remove(0, 1);
+            if (MainForm.AssessmentFile != null)
+                ofd.InitialDirectory = MainForm.AssessmentFile.DirectoryName;
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
             if (ofd.ShowDialog() == DialogResult.OK)
